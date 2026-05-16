@@ -60,6 +60,39 @@ function HeroVideo() {
   );
 }
 
+function HeroMarquee() {
+  const doubled = [...carpets, ...carpets];
+  return (
+    <div className="w-full overflow-hidden">
+      <div className="hero-marquee-track gap-3" style={{ width: "max-content" }}>
+        {doubled.map((carpet, i) => (
+          <Link
+            key={`${carpet.id}-${i}`}
+            href={`/carpet/${carpet.id}`}
+            className="flex-shrink-0 block"
+            style={{ width: "44vw" }}
+          >
+            <div
+              className="overflow-hidden"
+              style={{
+                aspectRatio: "4/3",
+                outline: "1px solid rgba(245,239,230,0.12)",
+              }}
+            >
+              <img
+                src={`/carpets/${carpet.folderNum}/1.webp`}
+                alt={carpet.name}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HeroCardStrip() {
   return (
     <div className="relative z-10 w-full">
@@ -156,7 +189,7 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section
-        className="relative w-full overflow-hidden flex flex-col justify-center md:justify-between min-h-[82svh] md:min-h-[100dvh]"
+        className="relative w-full overflow-hidden flex flex-col justify-between min-h-[100dvh]"
         style={{ background: "#141210" }}
       >
         <HeroVideo />
@@ -182,7 +215,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: "easeOut", delay: 0.25 }}
-          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 md:pt-44 text-center md:text-left"
+          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-28 md:pt-44 text-center md:text-left"
         >
           <p
             className="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase"
@@ -240,6 +273,11 @@ export default function Home() {
             </a>
           </div>
         </motion.div>
+
+        {/* Mobile marquee strip */}
+        <div className="relative z-10 w-full pb-8 block md:hidden">
+          <HeroMarquee />
+        </div>
 
         {/* Bottom card strip — desktop only */}
         <motion.div

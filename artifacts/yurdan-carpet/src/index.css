@@ -69,3 +69,18 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes hero-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.hero-marquee-track {
+  display: flex;
+  will-change: transform;
+  animation: hero-marquee 28s linear infinite;
+}
+
+.hero-marquee-track:hover {
+  animation-play-state: paused;
+}
