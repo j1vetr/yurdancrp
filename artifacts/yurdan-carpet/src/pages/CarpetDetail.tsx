@@ -39,12 +39,14 @@ function Lightbox({
       className="fixed inset-0 z-[200] flex items-center justify-center"
       style={{ background: "rgba(10,9,8,0.96)" }}
       onClick={onClose}
+      data-testid="lightbox-overlay"
     >
       {/* Close */}
       <button
         className="absolute top-5 right-5 flex items-center gap-2 z-10"
         style={{ color: "rgba(245,239,230,0.55)", fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 500, letterSpacing: "0.1em" }}
         onClick={onClose}
+        data-testid="lightbox-close"
       >
         <span className="uppercase tracking-[0.15em]">Close</span>
         <span style={{ fontSize: "20px", lineHeight: 1 }}>×</span>
@@ -58,21 +60,24 @@ function Lightbox({
         {String(current + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
       </div>
 
-      {/* Prev / Next */}
+      {/* Prev */}
       {current > 0 && (
         <button
           className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
           style={{ width: "48px", height: "48px", color: "rgba(245,239,230,0.6)" }}
           onClick={e => { e.stopPropagation(); setCurrent(c => c - 1); }}
+          data-testid="lightbox-prev"
         >
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
       )}
+      {/* Next */}
       {current < images.length - 1 && (
         <button
           className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
           style={{ width: "48px", height: "48px", color: "rgba(245,239,230,0.6)" }}
           onClick={e => { e.stopPropagation(); setCurrent(c => c + 1); }}
+          data-testid="lightbox-next"
         >
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </button>
@@ -90,6 +95,7 @@ function Lightbox({
           transition={{ duration: 0.3 }}
           className="max-h-[90vh] max-w-[90vw] object-contain"
           onClick={e => e.stopPropagation()}
+          data-testid="lightbox-image"
         />
       </AnimatePresence>
 
@@ -353,7 +359,7 @@ export default function CarpetDetail() {
                 Photography
               </p>
               <div className="grid grid-cols-3 gap-1.5 md:gap-2">
-                {imageIndices.slice(1).map((n, i) => (
+                {imageIndices.slice(1).map((n) => (
                   <button
                     key={n}
                     onClick={() => openLightbox(n - 1)}
