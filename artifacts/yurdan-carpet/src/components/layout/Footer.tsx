@@ -1,63 +1,49 @@
 import { Link } from "wouter";
 import logoLight from "@assets/Çalışma_Yüzeyi_10@3x_1778942870048.png";
-import medallion from "@assets/Çalışma_Yüzeyi_17@3x_1778942870049.png";
 
 export function Footer() {
   return (
-    <footer className="deco-pattern" style={{ background: "#0A0A0A", borderTop: "1px solid rgba(212,175,55,0.3)" }}>
-      {/* Top ornament */}
-      <div className="flex justify-center pt-16 pb-8">
-        <div className="flex items-center gap-6">
-          <div className="gold-rule w-24" />
-          <img src={medallion} alt="Yurdan Medallion" className="h-10 w-10 opacity-70" style={{ filter: "sepia(1) saturate(2) hue-rotate(-10deg) brightness(0.9)" }} />
-          <div className="gold-rule w-24" />
-        </div>
-      </div>
-
-      <div className="max-w-[1280px] mx-auto px-6 md:px-12 pb-16">
-        <div className="flex flex-col items-center text-center mb-16">
-          <h2 className="font-serif text-2xl md:text-3xl tracking-[0.15em] uppercase mb-4" style={{ color: "#D4AF37" }}>
-            A Private Archive
-          </h2>
-          <p className="deco-label mb-2">of Textile Art &amp; Heritage</p>
-          <div className="gold-rule w-32 my-6" />
-          <p className="text-sm leading-relaxed max-w-md mb-10" style={{ color: "rgba(255,255,240,0.5)", fontFamily: "'Poiret One', serif", letterSpacing: "0.05em" }}>
-            Each piece in the Yurdan collection represents thousands of hours of human devotion. Available strictly upon private inquiry.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="mailto:info@yurdancarpet.com"
-              className="px-8 py-3 text-[10px] tracking-[0.2em] uppercase font-serif transition-all duration-300 hover:bg-[#D4AF37] hover:text-[#0A0A0A]"
-              style={{ border: "1px solid #D4AF37", color: "#D4AF37" }}
-              data-testid="link-footer-email"
-            >
-              Contact Curators
-            </a>
-            <a
-              href="https://wa.me/905551234567"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 text-[10px] tracking-[0.2em] uppercase font-serif transition-all duration-300 hover:bg-[#FFFFF0]/10"
-              style={{ border: "1px solid rgba(255,255,240,0.2)", color: "rgba(255,255,240,0.6)" }}
-              data-testid="link-footer-whatsapp"
-            >
-              WhatsApp Inquiry
-            </a>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="pt-8" style={{ borderTop: "1px solid rgba(212,175,55,0.2)" }}>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <img src={logoLight} alt="Yurdan Carpet" className="h-6 object-contain opacity-40" />
-            <div className="flex gap-8">
-              <Link href="/collection" className="text-[10px] tracking-[0.15em] uppercase transition-colors hover:text-[#D4AF37]" style={{ color: "rgba(255,255,240,0.4)", fontFamily: "'Cinzel', serif" }} data-testid="link-footer-collection">Collection</Link>
-              <Link href="/about" className="text-[10px] tracking-[0.15em] uppercase transition-colors hover:text-[#D4AF37]" style={{ color: "rgba(255,255,240,0.4)", fontFamily: "'Cinzel', serif" }} data-testid="link-footer-about">About</Link>
-            </div>
-            <p className="text-[10px] tracking-[0.1em]" style={{ color: "rgba(255,255,240,0.3)", fontFamily: "'Cinzel', serif" }}>
-              &copy; {new Date().getFullYear()} Yurdan Carpet
+    <footer style={{ background: "#141210", color: "#F5EFE6" }}>
+      <div className="max-w-[1360px] mx-auto px-6 md:px-10 py-20 md:py-24">
+        <div className="flex flex-col md:flex-row justify-between gap-16 mb-20">
+          <div className="max-w-xs">
+            <img
+              src={logoLight}
+              alt="Yurdan Carpet"
+              className="h-9 object-contain mb-8"
+              style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
+            />
+            <p className="text-sm leading-relaxed" style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}>
+              A private archive of the world's finest handmade carpets. Each piece available by private inquiry only.
             </p>
           </div>
+
+          <div className="flex flex-col sm:flex-row gap-16">
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-5" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>Navigate</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/collection" className="text-sm transition-colors duration-200 hover:text-white" style={{ color: "rgba(245,239,230,0.5)", fontFamily: "'Inter', sans-serif" }} data-testid="link-footer-collection">Collection</Link>
+                <Link href="/about" className="text-sm transition-colors duration-200 hover:text-white" style={{ color: "rgba(245,239,230,0.5)", fontFamily: "'Inter', sans-serif" }} data-testid="link-footer-about">About</Link>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-5" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>Inquiries</p>
+              <div className="flex flex-col gap-3">
+                <a href="mailto:info@yurdancarpet.com" className="text-sm transition-colors duration-200 hover:text-white" style={{ color: "rgba(245,239,230,0.5)", fontFamily: "'Inter', sans-serif" }} data-testid="link-footer-email">info@yurdancarpet.com</a>
+                <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" className="text-sm transition-colors duration-200 hover:text-white" style={{ color: "rgba(245,239,230,0.5)", fontFamily: "'Inter', sans-serif" }} data-testid="link-footer-whatsapp">WhatsApp</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3" style={{ borderTop: "1px solid rgba(245,239,230,0.1)" }}>
+          <p className="text-xs" style={{ color: "rgba(245,239,230,0.3)", fontFamily: "'Inter', sans-serif" }}>
+            &copy; {new Date().getFullYear()} Yurdan Carpet. All rights reserved.
+          </p>
+          <p className="text-xs" style={{ color: "rgba(245,239,230,0.2)", fontFamily: "'Inter', sans-serif" }}>
+            No prices are displayed publicly. Acquisition by private inquiry only.
+          </p>
         </div>
       </div>
     </footer>

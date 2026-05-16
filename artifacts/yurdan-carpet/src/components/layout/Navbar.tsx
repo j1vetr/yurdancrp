@@ -8,89 +8,115 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 60);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const isHome = location === "/";
+  const isDark = isHome && !scrolled;
 
   return (
     <nav
-      className={`fixed top-0 w-full z-[100] transition-all duration-500 ${
-        scrolled
-          ? "py-3 border-b border-[#D4AF37]/30"
-          : "py-6 border-b border-transparent"
-      }`}
+      className="fixed top-0 w-full z-[100] transition-all duration-400"
       style={{
+        padding: scrolled ? "12px 0" : "20px 0",
         background: scrolled
-          ? "rgba(10,10,10,0.96)"
+          ? "rgba(250,250,248,0.96)"
           : isHome
           ? "transparent"
-          : "rgba(10,10,10,0.96)",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
+          : "rgba(250,250,248,0.96)",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
+        borderBottom: scrolled ? "1px solid #E4DDD4" : "1px solid transparent",
       }}
       data-testid="navbar"
     >
-      <div className="max-w-[1280px] mx-auto px-6 md:px-12 flex items-center justify-between">
-        <div className="w-1/3 flex items-center gap-8">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-10 flex items-center justify-between">
+        <div className="flex items-center gap-8 w-1/3">
           <Link
             href="/collection"
-            className="text-[10px] tracking-[0.2em] font-serif text-[#D4AF37] hover:text-[#F5E27A] transition-colors duration-300 uppercase hidden md:block"
+            className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
+            style={{ color: isDark ? "rgba(245,239,230,0.7)" : "#7A726A", fontFamily: "'Inter', sans-serif" }}
+            onMouseEnter={e => (e.currentTarget.style.color = isDark ? "#F5EFE6" : "#1C1916")}
+            onMouseLeave={e => (e.currentTarget.style.color = isDark ? "rgba(245,239,230,0.7)" : "#7A726A")}
             data-testid="link-collection-nav"
           >
             Collection
           </Link>
           <Link
             href="/about"
-            className="text-[10px] tracking-[0.2em] font-serif text-[#D4AF37] hover:text-[#F5E27A] transition-colors duration-300 uppercase hidden md:block"
+            className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
+            style={{ color: isDark ? "rgba(245,239,230,0.7)" : "#7A726A", fontFamily: "'Inter', sans-serif" }}
+            onMouseEnter={e => (e.currentTarget.style.color = isDark ? "#F5EFE6" : "#1C1916")}
+            onMouseLeave={e => (e.currentTarget.style.color = isDark ? "rgba(245,239,230,0.7)" : "#7A726A")}
             data-testid="link-about-nav"
           >
             About
           </Link>
         </div>
 
-        <div className="w-1/3 flex justify-center">
+        <div className="flex justify-center w-1/3">
           <Link href="/" data-testid="link-home-logo">
             <img
               src={logoLight}
               alt="Yurdan Carpet"
-              className="h-16 md:h-20 object-contain"
+              className="object-contain transition-all duration-300"
+              style={{
+                height: scrolled ? "40px" : "52px",
+                filter: isDark ? "brightness(0) invert(1)" : "brightness(0)",
+              }}
             />
           </Link>
         </div>
 
-        <div className="w-1/3 flex justify-end items-center gap-6">
+        <div className="flex justify-end items-center gap-6 w-1/3">
           <a
             href="mailto:info@yurdancarpet.com"
-            className="hidden md:block text-[10px] tracking-[0.2em] font-serif text-[#FFFFF0]/60 hover:text-[#D4AF37] transition-colors duration-300 uppercase"
+            className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
+            style={{ color: isDark ? "rgba(245,239,230,0.7)" : "#7A726A", fontFamily: "'Inter', sans-serif" }}
+            onMouseEnter={e => (e.currentTarget.style.color = isDark ? "#F5EFE6" : "#1C1916")}
+            onMouseLeave={e => (e.currentTarget.style.color = isDark ? "rgba(245,239,230,0.7)" : "#7A726A")}
             data-testid="link-contact-nav"
           >
             Contact
           </a>
-
-          {/* Mobile menu button */}
           <button
             className="md:hidden flex flex-col gap-[5px] p-1"
             onClick={() => setMenuOpen(!menuOpen)}
             data-testid="button-mobile-menu"
             aria-label="Toggle menu"
           >
-            <span className={`block w-6 h-px bg-[#D4AF37] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`}></span>
-            <span className={`block w-6 h-px bg-[#D4AF37] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}></span>
-            <span className={`block w-6 h-px bg-[#D4AF37] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`}></span>
+            {[0, 1, 2].map(i => (
+              <span
+                key={i}
+                className="block w-5 transition-all duration-300"
+                style={{
+                  height: "1px",
+                  background: isDark ? "#F5EFE6" : "#1C1916",
+                  transform: menuOpen
+                    ? i === 0 ? "rotate(45deg) translate(4px, 4px)"
+                    : i === 2 ? "rotate(-45deg) translate(4px, -4px)"
+                    : "none"
+                    : "none",
+                  opacity: menuOpen && i === 1 ? 0 : 1,
+                }}
+              />
+            ))}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-[#D4AF37]/20 mt-3 py-6 px-6 flex flex-col gap-6" style={{ background: "rgba(10,10,10,0.98)" }}>
-          <Link href="/collection" onClick={() => setMenuOpen(false)} className="text-[11px] tracking-[0.2em] font-serif text-[#D4AF37] uppercase" data-testid="link-collection-mobile">Collection</Link>
-          <Link href="/about" onClick={() => setMenuOpen(false)} className="text-[11px] tracking-[0.2em] font-serif text-[#D4AF37] uppercase" data-testid="link-about-mobile">About</Link>
-          <a href="mailto:info@yurdancarpet.com" className="text-[11px] tracking-[0.2em] font-serif text-[#FFFFF0]/60 uppercase" data-testid="link-contact-mobile">Contact</a>
+        <div
+          className="md:hidden py-6 px-6 flex flex-col gap-5 mt-2"
+          style={{
+            background: "rgba(250,250,248,0.98)",
+            borderTop: "1px solid #E4DDD4",
+          }}
+        >
+          <Link href="/collection" onClick={() => setMenuOpen(false)} className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }} data-testid="link-collection-mobile">Collection</Link>
+          <Link href="/about" onClick={() => setMenuOpen(false)} className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }} data-testid="link-about-mobile">About</Link>
+          <a href="mailto:info@yurdancarpet.com" className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif" }} data-testid="link-contact-mobile">Contact</a>
         </div>
       )}
     </nav>
