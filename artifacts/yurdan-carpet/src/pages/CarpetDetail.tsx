@@ -121,6 +121,39 @@ function Lightbox({
   );
 }
 
+const COLOR_MAP: Record<string, string> = {
+  "Deep Crimson": "#8B1A2A",
+  "Ivory": "#F5EFE0",
+  "Antique Gold": "#C9A84C",
+  "Midnight Blue": "#1A2349",
+  "Saffron": "#E8921A",
+  "Saffron Yellow": "#E8921A",
+  "Navy": "#1B2B5E",
+  "Gold": "#C9A84C",
+  "Golden Yellow": "#D4A43A",
+  "Antique White": "#F0E8D5",
+  "Antique Beige": "#D4C4A8",
+  "Burgundy": "#6B1429",
+  "Copper": "#B86A3A",
+  "Anthracite": "#3A3A3A",
+  "Deep Emerald": "#1A5C3A",
+  "Crimson": "#8B1A2A",
+  "Cream": "#F5EFE0",
+  "Amber": "#C47A1A",
+  "Agate Red": "#8C3025",
+  "Beige": "#D9C9B0",
+  "Rose": "#C4788A",
+  "Silver Grey": "#B8B4B0",
+  "Terracotta": "#C4613A",
+  "Forest Green": "#2A5C2A",
+  "White": "#F8F6F2",
+  "Warm Brown": "#7A4E2A",
+  "Khaki": "#A89060",
+  "Faded Gold": "#C4A872",
+  "Tea": "#C4A882",
+  "Faded Rose": "#C49088",
+};
+
 export default function CarpetDetail() {
   const { id } = useParams();
   const carpet = carpets.find(c => c.id === id);
@@ -440,21 +473,35 @@ export default function CarpetDetail() {
                 style={{ borderBottom: "1px solid #E4DDD4" }}
               >
                 <p
-                  className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-4"
+                  className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-5"
                   style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
                 >
                   Colour Palette
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-col gap-3">
                   {carpet.colors.map(color => (
-                    <span
+                    <div
                       key={color}
-                      className="text-xs px-3 py-1.5"
-                      style={{ background: "#F0EAE2", color: "#7A726A", fontFamily: "'Inter', sans-serif" }}
+                      className="flex items-center gap-3"
                       data-testid={`tag-color-${color.toLowerCase().replace(/\s/g, "-")}`}
                     >
-                      {color}
-                    </span>
+                      <div
+                        style={{
+                          width: "22px",
+                          height: "22px",
+                          borderRadius: "50%",
+                          background: COLOR_MAP[color] ?? "#C8B8A8",
+                          border: "1px solid rgba(0,0,0,0.08)",
+                          flexShrink: 0,
+                        }}
+                      />
+                      <span
+                        className="text-xs"
+                        style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {color}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -594,30 +641,30 @@ export default function CarpetDetail() {
         </Link>
       </div>
 
-      {/* Mobile sticky bottom bar */}
+      {/* Mobile sticky bottom bar — stacked full-width */}
       <div
-        className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex gap-2 px-4 py-3"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex flex-col gap-2 px-4 pt-3 pb-4"
         style={{ background: "#FAFAF8", borderTop: "1px solid #E4DDD4", boxShadow: "0 -4px 20px rgba(20,18,16,0.08)" }}
       >
         <a
           href={waHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 flex items-center justify-center gap-2 py-3.5 text-[11px] font-semibold tracking-[0.08em] uppercase"
+          className="w-full flex items-center justify-center gap-2 py-3.5 text-[11px] font-semibold tracking-[0.08em] uppercase"
           style={{ background: "#25D366", color: "#fff", fontFamily: "'Inter', sans-serif" }}
           data-testid="link-whatsapp-inquiry-mobile"
         >
           <WhatsAppIcon size={15} />
-          WhatsApp
+          Inquire on WhatsApp
         </a>
         <a
           href={emailHref}
-          className="flex-1 flex items-center justify-center gap-2 py-3.5 text-[11px] font-medium tracking-[0.08em] uppercase"
+          className="w-full flex items-center justify-center gap-2 py-3.5 text-[11px] font-medium tracking-[0.08em] uppercase"
           style={{ border: "1px solid #1C1916", color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
           data-testid="link-email-inquiry-mobile"
         >
           <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-          Email
+          Email Inquiry
         </a>
       </div>
 
