@@ -409,62 +409,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Text + CTA */}
-        <div className="px-6 md:px-10 py-16 md:py-20">
-          <div className="max-w-[1360px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <h2
-                className="leading-[1.15]"
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontWeight: 300,
-                  fontSize: "clamp(2rem, 4vw, 3.4rem)",
-                  color: "#F5EFE6",
-                }}
-              >
-                Every piece finds its
-                <br />
-                <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.45)" }}>right context.</span>
-              </h2>
-            </motion.div>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-            >
-              <a
-                href="mailto:info@yurdancarpet.com"
-                className="px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
-                style={{ background: "#F5EFE6", color: "#141210", fontFamily: "'Inter', sans-serif" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "#FFFFFF")}
-                onMouseLeave={e => (e.currentTarget.style.background = "#F5EFE6")}
-                data-testid="link-contact-curators-cta"
-              >
-                Contact Us
-              </a>
-              <a
-                href="https://wa.me/905551234567"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
-                style={{ border: "1px solid rgba(245,239,230,0.2)", color: "rgba(245,239,230,0.65)", fontFamily: "'Inter', sans-serif" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#F5EFE6")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(245,239,230,0.65)")}
-              >
-                WhatsApp
-              </a>
-            </motion.div>
-          </div>
-        </div>
       </section>
     </div>
   );
