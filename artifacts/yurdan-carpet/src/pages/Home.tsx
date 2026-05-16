@@ -73,7 +73,7 @@ function HeroMarquee() {
             style={{ width: "44vw" }}
           >
             <div
-              className="overflow-hidden"
+              className="overflow-hidden mb-2"
               style={{
                 aspectRatio: "4/3",
                 outline: "1px solid rgba(245,239,230,0.12)",
@@ -86,6 +86,12 @@ function HeroMarquee() {
                 loading="lazy"
               />
             </div>
+            <p
+              className="truncate text-[9px] font-medium tracking-[0.12em] uppercase"
+              style={{ color: "rgba(245,239,230,0.5)", fontFamily: "'Inter', sans-serif" }}
+            >
+              {carpet.name}
+            </p>
           </Link>
         ))}
       </div>
@@ -189,7 +195,7 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section
-        className="relative w-full overflow-hidden flex flex-col justify-between min-h-[100dvh]"
+        className="relative w-full overflow-hidden flex flex-col min-h-[100dvh]"
         style={{ background: "#141210" }}
       >
         <HeroVideo />
@@ -197,7 +203,7 @@ export default function Home() {
         {/* Base dark tint — always-on overlay for video legibility */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "rgba(14,12,10,0.52)" }}
+          style={{ background: "rgba(14,12,10,0.68)" }}
         />
         {/* Strong bottom-to-top gradient */}
         <div
@@ -210,12 +216,13 @@ export default function Home() {
           style={{ background: "linear-gradient(to bottom, rgba(14,12,10,0.65) 0%, transparent 22%)" }}
         />
 
-        {/* Upper content */}
+        {/* Upper content — flex-1 centers it between navbar and marquee */}
+        <div className="relative z-10 flex-1 flex flex-col justify-center w-full pt-20 md:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: "easeOut", delay: 0.25 }}
-          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-28 md:pt-44 text-center md:text-left"
+          className="w-full max-w-[1360px] mx-auto px-6 md:px-10 md:pt-32 text-center md:text-left"
         >
           <p
             className="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase"
@@ -273,9 +280,10 @@ export default function Home() {
             </a>
           </div>
         </motion.div>
+        </div>
 
         {/* Mobile marquee strip */}
-        <div className="relative z-10 w-full pb-8 block md:hidden">
+        <div className="relative z-10 w-full pb-10 block md:hidden">
           <HeroMarquee />
         </div>
 
