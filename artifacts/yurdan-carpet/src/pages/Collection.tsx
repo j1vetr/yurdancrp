@@ -7,10 +7,10 @@ export default function Collection() {
     <div className="w-full min-h-screen" style={{ background: "#FAFAF8" }}>
 
       {/* ── HEADER ── */}
-      <div className="relative overflow-hidden" style={{ minHeight: "320px", background: "#141210" }}>
+      <div className="relative overflow-hidden" style={{ minHeight: "240px", background: "#141210" }}>
         {/* Background video */}
         <video
-          src="/hero-clip-2.mp4"
+          src="/hero-clip-1.mp4"
           autoPlay
           muted
           loop
@@ -24,7 +24,7 @@ export default function Collection() {
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(14,12,10,0.95) 100%)" }} />
 
         {/* Text */}
-        <div className="relative z-10 max-w-[1360px] mx-auto px-6 md:px-10" style={{ paddingTop: "120px", paddingBottom: "56px" }}>
+        <div className="relative z-10 max-w-[1360px] mx-auto px-6 md:px-10" style={{ paddingTop: "100px", paddingBottom: "36px" }}>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
