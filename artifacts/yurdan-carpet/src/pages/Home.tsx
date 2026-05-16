@@ -93,7 +93,7 @@ function HeroCardStrip() {
             <div
               className="overflow-hidden mb-2"
               style={{
-                aspectRatio: "3/4",
+                aspectRatio: "4/3",
                 background: "rgba(20,18,16,0.6)",
                 outline: "1px solid rgba(245,239,230,0.1)",
               }}
@@ -162,7 +162,7 @@ export default function Home() {
       {/* ── HERO ── */}
       <section
         className="relative w-full overflow-hidden flex flex-col justify-between"
-        style={{ height: "100dvh", minHeight: "600px", background: "#141210" }}
+        style={{ minHeight: "100dvh", background: "#141210" }}
       >
         <HeroVideo />
 
