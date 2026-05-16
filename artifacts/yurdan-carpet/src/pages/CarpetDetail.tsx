@@ -319,42 +319,13 @@ export default function CarpetDetail() {
       <div className="max-w-[1360px] mx-auto px-6 md:px-10">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 py-14 md:py-20">
 
-          {/* Left: story + curatorial + photo grid */}
+          {/* Left: photo grid only */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1 }}
             className="w-full lg:w-[58%] order-2 lg:order-1"
           >
-            {/* Story */}
-            <p
-              className="text-base leading-[2] mb-14"
-              style={{ color: "#5A5450", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
-              data-testid="text-carpet-story"
-            >
-              {carpet.story}
-            </p>
-
-            {/* Curatorial note */}
-            <div
-              className="mb-14 p-8 md:p-10"
-              style={{ background: "#F0EAE2", borderLeft: "2px solid #9B7B56" }}
-            >
-              <p
-                className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-4"
-                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
-              >
-                Curatorial Notes
-              </p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "#6A625A", fontFamily: "'Inter', sans-serif", fontWeight: 300, lineHeight: "1.9" }}
-                data-testid="text-carpet-details"
-              >
-                {carpet.details}
-              </p>
-            </div>
-
             {/* Photography grid */}
             {imageIndices.length > 1 && (
               <div>
@@ -541,6 +512,67 @@ export default function CarpetDetail() {
 
             </div>
           </motion.div>
+        </div>
+      </div>
+
+      {/* ── STORY + CURATORIAL — full-width editorial section ── */}
+      <div
+        className="max-w-[1360px] mx-auto px-6 md:px-10 pb-20"
+        style={{ borderTop: "1px solid #E8E1D8" }}
+      >
+        <div className="pt-16 md:pt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+          {/* Story */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.75 }}
+            className="lg:col-span-7"
+          >
+            <p
+              className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-6"
+              style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+            >
+              The Piece
+            </p>
+            <p
+              className="text-base leading-[2]"
+              style={{ color: "#5A5450", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
+              data-testid="text-carpet-story"
+            >
+              {carpet.story}
+            </p>
+          </motion.div>
+
+          {/* Curatorial note */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.75, delay: 0.1 }}
+            className="lg:col-span-5"
+          >
+            <div
+              className="p-8 md:p-10 h-full"
+              style={{ background: "#F0EAE2", borderLeft: "2px solid #9B7B56" }}
+            >
+              <p
+                className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-5"
+                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+              >
+                Curatorial Notes
+              </p>
+              <p
+                className="text-sm"
+                style={{ color: "#6A625A", fontFamily: "'Inter', sans-serif", fontWeight: 300, lineHeight: "1.9" }}
+                data-testid="text-carpet-details"
+              >
+                {carpet.details}
+              </p>
+            </div>
+          </motion.div>
+
         </div>
       </div>
 

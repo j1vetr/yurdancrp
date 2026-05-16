@@ -58,14 +58,14 @@ export function Footer() {
               >
                 About
               </Link>
-              <Link
-                href="/contact"
+              <a
+                href="mailto:info@yurdancarpet.com"
                 className="text-sm transition-colors duration-200 hover:text-white w-fit"
                 style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
                 data-testid="link-footer-contact"
               >
                 Contact
-              </Link>
+              </a>
             </nav>
           </div>
 
