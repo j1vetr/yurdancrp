@@ -57,7 +57,7 @@ export function Navbar() {
             <img
               src={logoLight}
               alt="Yurdan Carpet"
-              className="h-8 md:h-10 object-contain"
+              className="h-16 md:h-20 object-contain"
             />
           </Link>
         </div>
