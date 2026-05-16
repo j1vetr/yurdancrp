@@ -1,0 +1,37 @@
+Create an ultra-premium, luxury carpet gallery website for a brand called “Yurdan Carpet”.
+
+This is not a simple e-commerce website. It should feel like a high-end art gallery, a collectible textile archive, and a luxury interior design experience combined.
+
+The website will showcase handmade / premium carpets. Each carpet has its own folder inside a ZIP file. Every folder contains 8 photos of the carpet and a README.txt file with the carpet type, details, features, origin, material, style, and story notes. Use these files to create a unique product page for each carpet.
+
+There will be no visible prices anywhere on the website. Instead, every carpet detail page should encourage private inquiry through WhatsApp and email. The feeling should be exclusive, personal, and premium — like requesting a private viewing or receiving a curated offer.
+
+The most important part is storytelling. Each carpet should have its own emotional and artistic story, based on the README.txt information. Do not present carpets like ordinary products. Present them like rare pieces with character, heritage, craftsmanship, texture, history, and interior design value.
+
+The design must be visually stunning, elegant, minimal, and premium. It should not look like a generic furniture or carpet store. It should feel international, artistic, luxurious, and timeless.
+
+Use the logo and brand assets provided in the uploaded files. Also follow the brand colors, typography direction, and visual mood from the provided .md file.
+
+The homepage should create a strong first impression with a cinematic luxury feeling. It should introduce Yurdan Carpet as a curated carpet collection brand, highlight craftsmanship, storytelling, texture, heritage, and private collection experience.
+
+The carpet listing page should feel like a gallery or collection archive, not a product grid. Each carpet card should be elegant, image-focused, and premium. The user should immediately feel that every carpet is unique.
+
+Each carpet detail page should include:
+- A refined visual gallery using all 8 carpet photos
+- A strong title and carpet identity
+- A poetic but elegant carpet story
+- Key details from the README file
+- Material, style, origin, craftsmanship, color palette, and design notes if available
+- A premium inquiry area with WhatsApp and email contact options
+- No price information
+
+The mobile experience must be exceptional. The site should feel just as premium on mobile as it does on desktop. Images, spacing, typography, buttons, and story sections must be carefully designed for mobile users.
+
+The overall feeling should be:
+luxury, quiet elegance, handcrafted, artistic, collectible, timeless, warm, gallery-like, editorial, premium interior design.
+
+Avoid cheap-looking sales language. Avoid crowded layouts. Avoid generic template design. Avoid excessive icons or unnecessary sections. Keep everything refined, elegant, visual, and memorable.
+
+Make the website feel like a brand that sells rare carpets to luxury homes, architects, collectors, boutique hotels, and interior designers.
+
+The final result should look like an award-level premium website, not a standard online store.

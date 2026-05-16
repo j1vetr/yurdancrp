@@ -1,0 +1,80 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "4v_1IkNwgXi3MFG-FcBtW"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/hero.png"
+type = "image"
+title = "cinematic luxury carpet gallery hero"
+
+[[generated]]
+id = "Z5UiyktM58t_aTtX240YC"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/persian-medallion-1.png"
+type = "image"
+title = "Persian medallion carpet detail"
+
+[[generated]]
+id = "BF7luPd35fP34qo21qHNb"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/persian-medallion-2.png"
+type = "image"
+title = "Persian medallion carpet full"
+
+[[generated]]
+id = "EVA3tno6-C7m3RlbYWzAe"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/anatolian-dawn-1.png"
+type = "image"
+title = "Anatolian dawn carpet detail"
+
+[[generated]]
+id = "sxsUtmvd3vkPKon19Za_W"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/anatolian-dawn-2.png"
+type = "image"
+title = "Anatolian dawn carpet full"
+
+[[generated]]
+id = "MI3KUvz7UqHHhODEtHHkF"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/silk-garden-1.png"
+type = "image"
+title = "Silk garden carpet detail"
+
+[[generated]]
+id = "_VdUdT7j6PCud5Ii_P8Mo"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/silk-garden-2.png"
+type = "image"
+title = "Silk garden carpet full"
+
+[[generated]]
+id = "o_bHVUFBC0scg-drnl3zD"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/caucasian-dragon-1.png"
+type = "image"
+title = "Caucasian dragon carpet detail"
+
+[[generated]]
+id = "HYSI72btwmGQ89S7uRGfO"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/caucasian-dragon-2.png"
+type = "image"
+title = "Caucasian dragon carpet full"
+
+[[generated]]
+id = "PwyLElpDGkB-RLcXjL2rw"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/moroccan-atlas-1.png"
+type = "image"
+title = "Moroccan atlas carpet detail"
+
+[[generated]]
+id = "3WuLtINAJ8Rv6qiTczguW"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/isfahan-garden-1.png"
+type = "image"
+title = "Isfahan garden carpet detail"
+
+[[generated]]
+id = "sFPfCp9p5KleaTzkCO-aG"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/isfahan-garden-2.png"
+type = "image"
+title = "Isfahan garden carpet full"
+
+[[generated]]
+id = "bVMQFPg3wLgWrhQzk-nPw"
+uri = "file://artifacts/yurdan-carpet/src/assets/images/moroccan-atlas-2.png"
+type = "image"
+title = "Moroccan atlas carpet full"
