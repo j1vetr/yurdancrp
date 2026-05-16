@@ -6,17 +6,12 @@ import { carpets } from "@/data/carpets";
 const HERO_CLIPS = ["/hero-clip-1.mp4", "/hero-clip-2.mp4"];
 
 function HeroVideo() {
-  const [active, setActive] = useState(0);
   const [opacity, setOpacity] = useState([1, 0]);
   const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)];
   const transitioning = useRef(false);
 
   useEffect(() => {
-    // Start preloading second clip immediately
-    if (videoRefs[1].current) {
-      videoRefs[1].current.load();
-    }
-    // Attempt autoplay
+    if (videoRefs[1].current) videoRefs[1].current.load();
     videoRefs[0].current?.play().catch(() => {});
   }, []);
 
@@ -24,31 +19,24 @@ function HeroVideo() {
     if (transitioning.current) return;
     transitioning.current = true;
     const next = (endedIdx + 1) % HERO_CLIPS.length;
-
-    // Start the next video
     if (videoRefs[next].current) {
       videoRefs[next].current.currentTime = 0;
       videoRefs[next].current.play().catch(() => {});
     }
-
-    // Crossfade: fade next in, fade current out
     const newOpacity = [0, 0] as [number, number];
     newOpacity[next] = 1;
     newOpacity[endedIdx] = 0;
     setOpacity(newOpacity);
-    setActive(next);
-
-    setTimeout(() => { transitioning.current = false; }, 1000);
+    setTimeout(() => { transitioning.current = false; }, 1100);
   };
 
   return (
     <div className="absolute inset-0">
-      {/* Fallback — visible while video loads */}
       <img
-        src={`/carpets/${carpets[5].folderNum}/1.png`}
+        src={`/carpets/${carpets[5].folderNum}/1.webp`}
         alt=""
         className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.5 }}
+        style={{ opacity: 0.6 }}
       />
       {HERO_CLIPS.map((src, i) => (
         <video
@@ -58,16 +46,80 @@ function HeroVideo() {
           muted
           playsInline
           preload={i === 0 ? "auto" : "metadata"}
-          poster={i === 0 ? `/carpets/${carpets[5].folderNum}/1.png` : undefined}
+          poster={i === 0 ? `/carpets/${carpets[5].folderNum}/1.webp` : undefined}
           onEnded={() => handleEnded(i)}
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: opacity[i],
-            transition: "opacity 1s ease",
+            transition: "opacity 1.1s ease",
             willChange: "opacity",
           }}
         />
       ))}
+    </div>
+  );
+}
+
+function HeroCardStrip() {
+  return (
+    <div className="relative z-10 w-full">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-10 mb-4">
+        <p
+          className="text-[9px] font-semibold tracking-[0.22em] uppercase"
+          style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+        >
+          The Collection
+        </p>
+      </div>
+      <div
+        className="flex gap-3 md:gap-4 overflow-x-auto"
+        style={{
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          paddingLeft: "clamp(24px, 2.5vw, 40px)",
+          paddingRight: "clamp(24px, 2.5vw, 40px)",
+          paddingBottom: "4px",
+        }}
+      >
+        {carpets.map((carpet) => (
+          <Link
+            key={carpet.id}
+            href={`/carpet/${carpet.id}`}
+            className="flex-shrink-0 group block"
+            style={{ scrollSnapAlign: "start", width: "clamp(130px, 16vw, 200px)" }}
+          >
+            <div
+              className="overflow-hidden mb-2"
+              style={{
+                aspectRatio: "3/4",
+                background: "rgba(20,18,16,0.6)",
+                outline: "1px solid rgba(245,239,230,0.1)",
+              }}
+            >
+              <img
+                src={`/carpets/${carpet.folderNum}/1.webp`}
+                alt={carpet.name}
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <p
+              className="text-[8px] font-medium tracking-[0.14em] uppercase mb-0.5 truncate"
+              style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+            >
+              {carpet.origin}
+            </p>
+            <p
+              className="leading-tight truncate"
+              style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "0.85rem", color: "rgba(245,239,230,0.85)" }}
+            >
+              {carpet.name}
+            </p>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
@@ -83,9 +135,9 @@ function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
       <Link href={`/carpet/${carpet.id}`} className="block group" data-testid={`link-carpet-${carpet.id}`}>
         <div className="overflow-hidden mb-4" style={{ aspectRatio: "4/3" }}>
           <img
-            src={`/carpets/${carpet.folderNum}/1.png`}
+            src={`/carpets/${carpet.folderNum}/1.webp`}
             alt={carpet.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-104"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         </div>
         <p className="text-[10px] font-medium tracking-[0.12em] uppercase mb-1.5" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>{carpet.origin}</p>
@@ -109,49 +161,53 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section
-        className="relative w-full overflow-hidden flex items-end"
-        style={{ minHeight: "100dvh", background: "#141210" }}
+        className="relative w-full overflow-hidden flex flex-col justify-between"
+        style={{ height: "100dvh", minHeight: "600px", background: "#141210" }}
       >
         <HeroVideo />
 
-        {/* Gradient overlays */}
+        {/* Strong bottom-to-top gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(20,18,16,0.93) 0%, rgba(20,18,16,0.25) 45%, rgba(20,18,16,0.1) 100%)" }}
+          style={{ background: "linear-gradient(to top, rgba(14,12,10,0.98) 0%, rgba(14,12,10,0.78) 30%, rgba(14,12,10,0.2) 58%, rgba(14,12,10,0.38) 100%)" }}
         />
+        {/* Top gradient for navbar */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, rgba(20,18,16,0.5) 0%, transparent 20%)" }}
+          style={{ background: "linear-gradient(to bottom, rgba(14,12,10,0.6) 0%, transparent 20%)" }}
         />
 
-        {/* Content */}
+        {/* Upper content */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pb-16 md:pb-24"
+          transition={{ duration: 1.3, ease: "easeOut", delay: 0.25 }}
+          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-36 md:pt-44"
         >
           <p
-            className="mb-5 text-[10px] font-medium tracking-[0.18em] uppercase"
+            className="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase"
             style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
           >
             Private Collection
           </p>
           <h1
-            className="mb-6 leading-[1.05]"
+            className="mb-7 leading-[1.02]"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontWeight: 300,
-              fontSize: "clamp(3rem, 7vw, 6rem)",
+              fontSize: "clamp(2.8rem, 6.5vw, 6rem)",
               color: "#F5EFE6",
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.015em",
+              textShadow: "0 2px 40px rgba(14,12,10,0.8)",
             }}
           >
             Handwoven masterworks
             <br />
-            <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.6)" }}>from the finest traditions</span>
+            <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.55)", textShadow: "0 2px 30px rgba(14,12,10,0.9)" }}>
+              from the finest traditions
+            </span>
           </h1>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mt-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
             <Link
               href="/collection"
               className="inline-flex items-center gap-3 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
@@ -175,10 +231,20 @@ export default function Home() {
           </div>
         </motion.div>
 
+        {/* Bottom card strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: "easeOut", delay: 0.7 }}
+          className="relative z-10 w-full pb-8 md:pb-10"
+        >
+          <HeroCardStrip />
+        </motion.div>
+
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 right-8 md:right-10 flex flex-col items-center gap-2 z-10">
-          <div className="w-px h-12" style={{ background: "linear-gradient(to bottom, transparent, rgba(245,239,230,0.3))" }} />
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.55rem", fontWeight: 500, letterSpacing: "0.2em", color: "rgba(245,239,230,0.3)", writingMode: "vertical-rl" }}>SCROLL</p>
+        <div className="absolute bottom-8 right-8 md:right-10 flex flex-col items-center gap-2 z-10 pointer-events-none">
+          <div className="w-px h-10" style={{ background: "linear-gradient(to bottom, transparent, rgba(245,239,230,0.25))" }} />
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.5rem", fontWeight: 500, letterSpacing: "0.22em", color: "rgba(245,239,230,0.25)", writingMode: "vertical-rl" }}>SCROLL</p>
         </div>
       </section>
 

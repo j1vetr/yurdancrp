@@ -53,7 +53,7 @@ export default function About() {
       {/* ── IMAGE BAND ── */}
       <div className="w-full overflow-hidden" style={{ height: "50vh" }}>
         <img
-          src={`/carpets/${6}/3.png`}
+          src={`/carpets/${6}/3.webp`}
           alt="Carpet detail"
           className="w-full h-full object-cover"
           style={{ filter: "saturate(0.7) brightness(0.85)" }}

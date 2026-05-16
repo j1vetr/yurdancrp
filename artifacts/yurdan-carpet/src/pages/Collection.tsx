@@ -45,7 +45,7 @@ export default function Collection() {
               <Link href={`/carpet/${carpet.id}`} className="block group" data-testid={`link-carpet-image-${carpet.id}`}>
                 <div className="overflow-hidden mb-4" style={{ aspectRatio: "4/3", background: "#F0EAE2" }}>
                   <img
-                    src={`/carpets/${carpet.folderNum}/1.png`}
+                    src={`/carpets/${carpet.folderNum}/1.webp`}
                     alt={carpet.name}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />

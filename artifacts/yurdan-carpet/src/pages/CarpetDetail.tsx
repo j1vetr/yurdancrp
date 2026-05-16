@@ -87,7 +87,7 @@ function Lightbox({
       <AnimatePresence mode="wait">
         <motion.img
           key={current}
-          src={`/carpets/${folderNum}/${images[current]}.png`}
+          src={`/carpets/${folderNum}/${images[current]}.webp`}
           alt={`Photo ${current + 1}`}
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -199,7 +199,7 @@ export default function CarpetDetail() {
                 onClick={() => openLightbox(n - 1)}
               >
                 <img
-                  src={`/carpets/${carpet.folderNum}/${n}.png`}
+                  src={`/carpets/${carpet.folderNum}/${n}.webp`}
                   alt={`${carpet.name} photo ${n}`}
                   className="w-full h-full object-cover"
                   data-testid={n === 1 ? "img-carpet-main" : undefined}
@@ -244,7 +244,7 @@ export default function CarpetDetail() {
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeImg}
-                src={`/carpets/${carpet.folderNum}/${imageIndices[activeImg]}.png`}
+                src={`/carpets/${carpet.folderNum}/${imageIndices[activeImg]}.webp`}
                 alt={`${carpet.name} — photo ${activeImg + 1}`}
                 className="w-full h-full object-cover"
                 initial={{ opacity: 0 }}
@@ -287,7 +287,7 @@ export default function CarpetDetail() {
                 }}
                 data-testid={`thumb-img-${n}`}
               >
-                <img src={`/carpets/${carpet.folderNum}/${n}.png`} alt={`Photo ${n}`} className="w-full h-full object-cover" />
+                <img src={`/carpets/${carpet.folderNum}/${n}.webp`} alt={`Photo ${n}`} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
@@ -367,7 +367,7 @@ export default function CarpetDetail() {
                     data-testid={`grid-img-${n}`}
                   >
                     <img
-                      src={`/carpets/${carpet.folderNum}/${n}.png`}
+                      src={`/carpets/${carpet.folderNum}/${n}.webp`}
                       alt={`${carpet.name} photo ${n}`}
                       className="w-full object-cover transition-all duration-400 group-hover:brightness-75"
                       style={{ aspectRatio: "1" }}
