@@ -32,7 +32,7 @@ export default function Collection() {
 
       {/* ── PRODUCT GRID ── */}
       <div className="max-w-[1360px] mx-auto px-6 md:px-10 py-16 md:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-12 md:gap-y-16">
           {carpets.map((carpet, i) => (
             <motion.div
               key={carpet.id}
@@ -80,7 +80,13 @@ export default function Collection() {
                   >
                     {carpet.material}
                   </span>
-                  <span className="text-xs" style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif" }}>
+                  <span
+                    className="inline-block px-2 py-1 text-[10px] font-medium tracking-[0.08em] uppercase"
+                    style={{ background: "#EDE8E2", color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {carpet.style}
+                  </span>
+                  <span className="w-full text-xs mt-0.5" style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif" }}>
                     {carpet.dimensions}
                   </span>
                 </div>
