@@ -270,10 +270,10 @@ export default function CarpetDetail() {
             </div>
 
             {/* Desktop: vertical thumbnails + main image */}
-            <div className="hidden lg:flex gap-3 items-end">
+            <div className="hidden lg:flex gap-3 items-stretch">
 
-              {/* Vertical thumbnail strip — aligned to bottom of main image */}
-              <div className="flex flex-col gap-2 flex-shrink-0 justify-end" style={{ width: "68px" }}>
+              {/* Vertical thumbnail strip — distributed evenly top to bottom */}
+              <div className="flex flex-col flex-shrink-0 justify-between" style={{ width: "68px" }}>
                 {imageIndices.map((n, i) => (
                   <button
                     key={n}
@@ -301,7 +301,7 @@ export default function CarpetDetail() {
               <div className="flex-1 relative">
                 <div
                   className="relative overflow-hidden cursor-zoom-in w-full"
-                  style={{ background: "#F2EDE7", aspectRatio: "4/5" }}
+                  style={{ background: "#F2EDE7", aspectRatio: "16/17" }}
                   onClick={() => openLightbox(activeImg)}
                 >
                   <AnimatePresence mode="wait">
