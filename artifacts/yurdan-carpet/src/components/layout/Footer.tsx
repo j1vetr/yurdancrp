@@ -152,7 +152,7 @@ export function Footer() {
             className="text-xs"
             style={{ color: "rgba(245,239,230,0.18)", fontFamily: "'Inter', sans-serif" }}
           >
-            No prices are displayed publicly. Acquisition by private inquiry only.
+            No prices displayed publicly. Private inquiry only.
           </p>
         </div>
 
