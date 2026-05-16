@@ -203,7 +203,7 @@ export default function Home() {
         {/* Base dark tint — always-on overlay for video legibility */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "rgba(14,12,10,0.68)" }}
+          style={{ background: "rgba(14,12,10,0.78)" }}
         />
         {/* Strong bottom-to-top gradient */}
         <div
