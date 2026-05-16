@@ -156,8 +156,8 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section
-        className="relative w-full overflow-hidden flex flex-col justify-center md:justify-between"
-        style={{ minHeight: "100dvh", background: "#141210" }}
+        className="relative w-full overflow-hidden flex flex-col justify-center md:justify-between min-h-[82svh] md:min-h-[100dvh]"
+        style={{ background: "#141210" }}
       >
         <HeroVideo />
 
