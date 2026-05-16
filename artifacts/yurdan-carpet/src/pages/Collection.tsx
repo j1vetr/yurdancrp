@@ -7,7 +7,7 @@ export default function Collection() {
     <div className="w-full min-h-screen" style={{ background: "#FAFAF8" }}>
 
       {/* ── HEADER ── */}
-      <div className="relative overflow-hidden" style={{ minHeight: "240px", background: "#141210" }}>
+      <div className="relative overflow-hidden flex items-center" style={{ minHeight: "240px", background: "#141210" }}>
         {/* Background video */}
         <video
           src="/hero-clip-1.mp4"
@@ -23,8 +23,8 @@ export default function Collection() {
         {/* Bottom fade */}
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(14,12,10,0.95) 100%)" }} />
 
-        {/* Text */}
-        <div className="relative z-10 max-w-[1360px] mx-auto px-6 md:px-10" style={{ paddingTop: "100px", paddingBottom: "36px" }}>
+        {/* Text — centered vertically by flex items-center on parent */}
+        <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10" style={{ paddingTop: "72px" }}>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -68,7 +68,6 @@ export default function Collection() {
                 className="block group"
                 data-testid={`link-carpet-${carpet.id}`}
               >
-                {/* Image */}
                 <div
                   className="overflow-hidden mb-3"
                   style={{ aspectRatio: "4/3", background: "#EDE8E2" }}
@@ -79,8 +78,6 @@ export default function Collection() {
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 </div>
-
-                {/* Info */}
                 <p
                   className="text-[9px] font-medium tracking-[0.14em] uppercase mb-1"
                   style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
