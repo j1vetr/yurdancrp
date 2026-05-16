@@ -1,7 +1,76 @@
 import { Link } from "wouter";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { carpets } from "@/data/carpets";
+
+const HERO_CLIPS = ["/hero-clip-1.mp4", "/hero-clip-2.mp4"];
+
+function HeroVideo() {
+  const [active, setActive] = useState(0);
+  const [opacity, setOpacity] = useState([1, 0]);
+  const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)];
+  const transitioning = useRef(false);
+
+  useEffect(() => {
+    // Start preloading second clip immediately
+    if (videoRefs[1].current) {
+      videoRefs[1].current.load();
+    }
+    // Attempt autoplay
+    videoRefs[0].current?.play().catch(() => {});
+  }, []);
+
+  const handleEnded = (endedIdx: number) => {
+    if (transitioning.current) return;
+    transitioning.current = true;
+    const next = (endedIdx + 1) % HERO_CLIPS.length;
+
+    // Start the next video
+    if (videoRefs[next].current) {
+      videoRefs[next].current.currentTime = 0;
+      videoRefs[next].current.play().catch(() => {});
+    }
+
+    // Crossfade: fade next in, fade current out
+    const newOpacity = [0, 0] as [number, number];
+    newOpacity[next] = 1;
+    newOpacity[endedIdx] = 0;
+    setOpacity(newOpacity);
+    setActive(next);
+
+    setTimeout(() => { transitioning.current = false; }, 1000);
+  };
+
+  return (
+    <div className="absolute inset-0">
+      {/* Fallback — visible while video loads */}
+      <img
+        src={`/carpets/${carpets[5].folderNum}/1.png`}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.5 }}
+      />
+      {HERO_CLIPS.map((src, i) => (
+        <video
+          key={i}
+          ref={videoRefs[i]}
+          src={src}
+          muted
+          playsInline
+          preload={i === 0 ? "auto" : "metadata"}
+          poster={i === 0 ? `/carpets/${carpets[5].folderNum}/1.png` : undefined}
+          onEnded={() => handleEnded(i)}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            opacity: opacity[i],
+            transition: "opacity 1s ease",
+            willChange: "opacity",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
   return (
@@ -34,36 +103,32 @@ function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
 
 export default function Home() {
   const featuredCarpets = carpets.slice(0, 3);
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
     <div className="w-full min-h-screen" style={{ background: "#FAFAF8" }}>
 
       {/* ── HERO ── */}
       <section
-        ref={heroRef}
         className="relative w-full overflow-hidden flex items-end"
         style={{ minHeight: "100dvh", background: "#141210" }}
       >
-        <motion.div className="absolute inset-0" style={{ y }}>
-          <img
-            src={`/carpets/${carpets[5].folderNum}/1.png`}
-            alt="Yurdan Carpet"
-            className="w-full h-full object-cover"
-            style={{ opacity: 0.55 }}
-          />
-        </motion.div>
+        <HeroVideo />
+
+        {/* Gradient overlays */}
         <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(20,18,16,0.92) 0%, rgba(20,18,16,0.3) 50%, rgba(20,18,16,0.15) 100%)" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to top, rgba(20,18,16,0.93) 0%, rgba(20,18,16,0.25) 45%, rgba(20,18,16,0.1) 100%)" }}
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, rgba(20,18,16,0.5) 0%, transparent 20%)" }}
         />
 
+        {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
           className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pb-16 md:pb-24"
         >
           <p
@@ -84,19 +149,15 @@ export default function Home() {
           >
             Handwoven masterworks
             <br />
-            <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.65)" }}>from the finest traditions</span>
+            <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.6)" }}>from the finest traditions</span>
           </h1>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mt-8">
             <Link
               href="/collection"
               className="inline-flex items-center gap-3 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
               style={{ background: "#F5EFE6", color: "#141210", fontFamily: "'Inter', sans-serif" }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = "#FFFFFF";
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = "#F5EFE6";
-              }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#FFFFFF"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "#F5EFE6"; }}
               data-testid="link-enter-gallery"
             >
               View Collection
@@ -114,7 +175,8 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <div className="absolute bottom-8 right-8 md:right-10 flex flex-col items-center gap-2">
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-8 md:right-10 flex flex-col items-center gap-2 z-10">
           <div className="w-px h-12" style={{ background: "linear-gradient(to bottom, transparent, rgba(245,239,230,0.3))" }} />
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.55rem", fontWeight: 500, letterSpacing: "0.2em", color: "rgba(245,239,230,0.3)", writingMode: "vertical-rl" }}>SCROLL</p>
         </div>
