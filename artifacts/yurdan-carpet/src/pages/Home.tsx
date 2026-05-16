@@ -72,7 +72,7 @@ function HeroCardStrip() {
         </p>
       </div>
       <div
-        className="flex gap-3 md:gap-4 overflow-x-auto"
+        className="no-scrollbar flex gap-3 md:gap-4 overflow-x-auto"
         style={{
           scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch",
