@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Poiret+One&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -29,48 +29,41 @@
 }
 
 :root {
-  --background: 40 10% 98%; /* stone-50 */
-  --foreground: 20 14% 10%; /* almost black */
-  
-  --border: 40 10% 90%;
-  --input: 40 10% 90%;
-  --ring: 20 14% 10%;
-  
-  --primary: 20 14% 10%;
-  --primary-foreground: 40 10% 98%;
-  
-  --secondary: 40 10% 92%;
-  --secondary-foreground: 20 14% 10%;
-  
-  --muted: 40 10% 94%;
-  --muted-foreground: 40 10% 40%;
-  
-  --accent: 40 10% 90%;
-  --accent-foreground: 20 14% 10%;
-  
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-serif: 'Cormorant Garamond', serif;
-}
+  /* Art Deco Palette */
+  --color-black: #0A0A0A;
+  --color-gold: #D4AF37;
+  --color-navy: #1B2838;
+  --color-ivory: #FFFFF0;
+  --color-silver: #C0C0C0;
+  --color-champagne: #F7E7CE;
 
-.dark {
-  --background: 20 14% 10%;
-  --foreground: 40 10% 98%;
-  
-  --border: 20 14% 20%;
-  --input: 20 14% 20%;
-  --ring: 40 10% 98%;
-  
-  --primary: 40 10% 98%;
-  --primary-foreground: 20 14% 10%;
-  
-  --secondary: 20 14% 16%;
-  --secondary-foreground: 40 10% 98%;
-  
-  --muted: 20 14% 14%;
-  --muted-foreground: 40 10% 60%;
-  
-  --accent: 20 14% 18%;
-  --accent-foreground: 40 10% 98%;
+  /* Jet Black background */
+  --background: 0 0% 4%;
+  --foreground: 60 100% 97%;
+
+  /* Gold borders & rings */
+  --border: 46 63% 52%;
+  --input: 210 38% 12%;
+  --ring: 46 63% 52%;
+
+  /* Gold as primary */
+  --primary: 46 63% 52%;
+  --primary-foreground: 0 0% 4%;
+
+  /* Deep Navy as secondary */
+  --secondary: 210 38% 16%;
+  --secondary-foreground: 60 100% 97%;
+
+  /* Dark muted tones */
+  --muted: 210 38% 9%;
+  --muted-foreground: 33 30% 62%;
+
+  /* Accent: deeper gold */
+  --accent: 46 40% 22%;
+  --accent-foreground: 60 100% 97%;
+
+  --app-font-sans: 'Poiret One', serif;
+  --app-font-serif: 'Cinzel', serif;
 }
 
 @layer base {
@@ -79,8 +72,108 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    background-color: #0A0A0A;
+    color: #FFFFF0;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-light tracking-tight;
+    @apply font-serif tracking-widest;
   }
+}
+
+/* Art Deco Gold Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    #D4AF37 0%,
+    #F5E27A 30%,
+    #D4AF37 50%,
+    #B8960C 70%,
+    #D4AF37 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Art Deco geometric divider */
+.deco-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.deco-divider::before,
+.deco-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+
+/* Gold border utility */
+.border-gold {
+  border: 1px solid #D4AF37;
+}
+.border-gold-2 {
+  border: 2px solid #D4AF37;
+}
+
+/* Art Deco geometric pattern overlay */
+.deco-pattern {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(212, 175, 55, 0.04) 20px,
+      rgba(212, 175, 55, 0.04) 21px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(212, 175, 55, 0.04) 20px,
+      rgba(212, 175, 55, 0.04) 21px
+    );
+}
+
+/* Sunburst decorative element */
+.deco-sunburst {
+  position: relative;
+}
+.deco-sunburst::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* Letter spacing for Art Deco labels */
+.deco-label {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: #D4AF37;
+}
+
+/* Gold horizontal rule */
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #D4AF37 20%, #F5E27A 50%, #D4AF37 80%, transparent 100%);
+  border: none;
+  margin: 0;
+}
+
+/* Double border Art Deco frame */
+.deco-frame {
+  outline: 1px solid rgba(212, 175, 55, 0.4);
+  outline-offset: 6px;
 }
