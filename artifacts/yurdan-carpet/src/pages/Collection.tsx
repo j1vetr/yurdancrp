@@ -2,10 +2,6 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { carpets } from "@/data/carpets";
 
-const getCarpetImage = (id: string, index: number) => {
-  return new URL(`../assets/images/${id}-${index}.png`, import.meta.url).href;
-};
-
 function DecoDivider() {
   return (
     <div className="flex items-center gap-4 my-1">
@@ -30,24 +26,25 @@ export default function Collection() {
           transition={{ duration: 0.9, ease: "easeOut" }}
           className="max-w-2xl mb-28"
         >
-          <p className="deco-label mb-6" style={{ color: "#D4AF37" }}>Private Collection</p>
+          <p className="deco-label mb-6" style={{ color: "#D4AF37" }}>Özel Koleksiyon</p>
           <h1
             className="font-serif uppercase mb-6 leading-tight"
             style={{ fontSize: "clamp(2rem, 5vw, 4rem)", letterSpacing: "0.12em", color: "#FFFFF0" }}
           >
-            The Archive
+            Arşiv
           </h1>
           <div className="gold-rule w-32 mb-8" />
           <p
             className="leading-relaxed"
             style={{ fontFamily: "'Poiret One', serif", fontSize: "1.05rem", letterSpacing: "0.06em", color: "rgba(255,255,240,0.5)" }}
           >
-            A curated selection of masterworks. Each piece represents an unrepeatable moment in textile history.
+            Seçilmiş şaheserlerin küratörlü koleksiyonu.
+            Her parça, tekstil tarihinde tekrarlanamaz bir anı temsil eder.
           </p>
         </motion.div>
 
         {/* Gallery Walk */}
-        <div className="flex flex-col gap-40 md:gap-56">
+        <div className="flex flex-col gap-40 md:gap-52">
           {carpets.map((carpet, index) => (
             <motion.div
               key={carpet.id}
@@ -61,23 +58,20 @@ export default function Collection() {
               {/* Image */}
               <div className="w-full md:w-3/5">
                 <Link href={`/carpet/${carpet.id}`} className="block overflow-hidden group relative" data-testid={`link-carpet-image-${carpet.id}`}>
-                  <div className="relative">
-                    <img
-                      src={getCarpetImage(carpet.id, 2)}
-                      alt={carpet.name}
-                      className="w-full aspect-[4/3] object-cover transition-transform duration-1000 ease-out group-hover:scale-103"
-                    />
-                    {/* Gold corner accents on hover */}
-                    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute top-4 left-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
-                      <div className="absolute top-4 left-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
-                      <div className="absolute top-4 right-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
-                      <div className="absolute top-4 right-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
-                      <div className="absolute bottom-4 left-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
-                      <div className="absolute bottom-4 left-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
-                      <div className="absolute bottom-4 right-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
-                      <div className="absolute bottom-4 right-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
-                    </div>
+                  <img
+                    src={`/carpets/${carpet.folderNum}/1.png`}
+                    alt={carpet.name}
+                    className="w-full aspect-[4/3] object-cover transition-transform duration-1000 ease-out group-hover:scale-103"
+                  />
+                  <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute top-4 left-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
+                    <div className="absolute top-4 left-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
+                    <div className="absolute top-4 right-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
+                    <div className="absolute top-4 right-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
+                    <div className="absolute bottom-4 left-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
+                    <div className="absolute bottom-4 left-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
+                    <div className="absolute bottom-4 right-4 w-8 h-[1px]" style={{ background: "#D4AF37" }} />
+                    <div className="absolute bottom-4 right-4 w-[1px] h-8" style={{ background: "#D4AF37" }} />
                   </div>
                 </Link>
               </div>
@@ -109,9 +103,10 @@ export default function Collection() {
 
                 <div className="mt-8 space-y-3 mb-10 w-full">
                   {[
-                    { label: "Material", value: carpet.material },
-                    { label: "Dimensions", value: carpet.dimensions },
-                    { label: "Style", value: carpet.style },
+                    { label: "Malzeme", value: carpet.material },
+                    { label: "Boyut", value: carpet.dimensions },
+                    { label: "Alan", value: carpet.totalArea },
+                    { label: "Stil", value: carpet.style },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex justify-between items-baseline gap-4">
                       <span className="deco-label flex-shrink-0" style={{ color: "rgba(212,175,55,0.6)" }}>{label}</span>
@@ -131,7 +126,7 @@ export default function Collection() {
                   style={{ color: "#D4AF37", borderBottom: "1px solid rgba(212,175,55,0.4)" }}
                   data-testid={`link-view-details-${carpet.id}`}
                 >
-                  View Details &amp; Inquiry
+                  Detaylar &amp; Talep
                 </Link>
               </div>
             </motion.div>
@@ -147,18 +142,18 @@ export default function Collection() {
           className="text-center mt-48 pt-20"
           style={{ borderTop: "1px solid rgba(212,175,55,0.2)" }}
         >
-          <p className="deco-label mb-6" style={{ color: "#D4AF37" }}>Private Inquiry</p>
+          <p className="deco-label mb-6" style={{ color: "#D4AF37" }}>Özel Talep</p>
           <h3
             className="font-serif uppercase mb-8"
             style={{ fontSize: "clamp(1.2rem, 2vw, 1.8rem)", letterSpacing: "0.15em", color: "#FFFFF0" }}
           >
-            None of these pieces carry a public price.
+            Hiçbir parçanın kamuya açık fiyatı yoktur.
           </h3>
           <p
             className="max-w-lg mx-auto mb-10 leading-relaxed"
             style={{ fontFamily: "'Poiret One', serif", fontSize: "0.95rem", letterSpacing: "0.05em", color: "rgba(255,255,240,0.45)" }}
           >
-            Our curators work directly with clients to ensure each piece finds its proper context.
+            Küratörlerimiz, her parçanın doğru bağlamı bulması için müşterilerle doğrudan çalışır.
           </p>
           <a
             href="mailto:info@yurdancarpet.com"
@@ -166,7 +161,7 @@ export default function Collection() {
             style={{ border: "1px solid #D4AF37", color: "#D4AF37" }}
             data-testid="link-collection-contact"
           >
-            Contact Curators
+            Küratörlerle İletişim
           </a>
         </motion.div>
       </div>
