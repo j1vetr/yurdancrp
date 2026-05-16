@@ -126,12 +126,7 @@ function HeroCardStrip() {
 
 function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-    >
+    <div>
       <Link href={`/carpet/${carpet.id}`} className="block group" data-testid={`link-carpet-${carpet.id}`}>
         <div className="overflow-hidden mb-4" style={{ aspectRatio: "4/3" }}>
           <img
@@ -149,7 +144,7 @@ function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
         </h3>
         <p className="text-xs" style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif" }}>{carpet.material} · {carpet.dimensions}</p>
       </Link>
-    </motion.div>
+    </div>
   );
 }
 
@@ -161,7 +156,7 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section
-        className="relative w-full overflow-hidden flex flex-col justify-between"
+        className="relative w-full overflow-hidden flex flex-col justify-center md:justify-between"
         style={{ minHeight: "100dvh", background: "#141210" }}
       >
         <HeroVideo />
@@ -187,7 +182,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: "easeOut", delay: 0.25 }}
-          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-28 md:pt-44"
+          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 md:pt-44 text-center md:text-left"
         >
           <p
             className="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase"
@@ -211,7 +206,7 @@ export default function Home() {
             Masterworks
           </h1>
           <p
-            className="mb-8 md:mb-7 text-sm md:text-base leading-relaxed"
+            className="mb-8 md:mb-7 text-sm md:text-base leading-relaxed mx-auto md:mx-0"
             style={{
               color: "rgba(245,239,230,0.62)",
               fontFamily: "'Inter', sans-serif",
@@ -222,7 +217,7 @@ export default function Home() {
           >
             Discover a legacy of timeless artistry and craft from the world's finest traditions.
           </p>
-          <div className="flex flex-row flex-wrap items-center gap-3">
+          <div className="flex flex-row flex-wrap items-center justify-center md:justify-start gap-3">
             <Link
               href="/collection"
               className="inline-flex items-center px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
@@ -264,7 +259,7 @@ export default function Home() {
       </section>
 
       {/* ── STATEMENT ── */}
-      <section className="py-24 md:py-32 px-6 md:px-10" style={{ background: "#FAFAF8" }}>
+      <section className="hidden md:block py-24 md:py-32 px-6 md:px-10" style={{ background: "#FAFAF8" }}>
         <div className="max-w-[1360px] mx-auto">
           <div className="max-w-2xl">
             <motion.div
@@ -299,14 +294,14 @@ export default function Home() {
       </section>
 
       {/* ── DIVIDER ── */}
-      <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+      <div className="hidden md:block max-w-[1360px] mx-auto px-6 md:px-10">
         <div style={{ height: "1px", background: "#E4DDD4" }} />
       </div>
 
       {/* ── SELECTED WORKS ── */}
-      <section className="py-20 md:py-28 px-6 md:px-10" style={{ background: "#FAFAF8" }}>
+      <section className="py-10 md:py-28 px-6 md:px-10" style={{ background: "#FAFAF8" }}>
         <div className="max-w-[1360px] mx-auto">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex justify-between items-end mb-6 md:mb-12">
             <div>
               <p className="text-[10px] font-medium tracking-[0.18em] uppercase mb-3" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>Selected Works</p>
               <h2
