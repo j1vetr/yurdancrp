@@ -270,18 +270,18 @@ export default function CarpetDetail() {
             </div>
 
             {/* Desktop: vertical thumbnails + main image */}
-            <div className="hidden lg:flex gap-3">
+            <div className="hidden lg:flex gap-3 items-end">
 
-              {/* Vertical thumbnail strip */}
-              <div className="flex flex-col gap-2 flex-shrink-0" style={{ width: "72px" }}>
+              {/* Vertical thumbnail strip — aligned to bottom of main image */}
+              <div className="flex flex-col gap-2 flex-shrink-0 justify-end" style={{ width: "68px" }}>
                 {imageIndices.map((n, i) => (
                   <button
                     key={n}
                     onClick={() => setActiveImg(i)}
                     className="overflow-hidden flex-shrink-0 transition-all duration-200"
                     style={{
-                      width: "72px",
-                      height: "72px",
+                      width: "68px",
+                      height: "68px",
                       outline: i === activeImg ? "1.5px solid #9B7B56" : "1px solid #E0D8CF",
                       outlineOffset: i === activeImg ? "2px" : "0",
                       background: "#F2EDE7",
@@ -301,7 +301,7 @@ export default function CarpetDetail() {
               <div className="flex-1 relative">
                 <div
                   className="relative overflow-hidden cursor-zoom-in w-full"
-                  style={{ background: "#F2EDE7", aspectRatio: "3/4" }}
+                  style={{ background: "#F2EDE7", aspectRatio: "4/5" }}
                   onClick={() => openLightbox(activeImg)}
                 >
                   <AnimatePresence mode="wait">
@@ -491,59 +491,107 @@ export default function CarpetDetail() {
       </div>
 
       {/* ── EDITORIAL SECTION ── */}
-      <div style={{ borderTop: "1px solid #E4DDD4", background: "#F5F0EA" }}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
-            {/* Story */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.7 }}
-            >
+      {/* Story — full width, light */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.8 }}
+        style={{ borderTop: "1px solid #E4DDD4" }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-24">
+          <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-20">
+
+            {/* Label column */}
+            <div className="flex-shrink-0 md:w-[200px]">
+              <div className="flex items-center gap-4 md:pt-2">
+                <div style={{ width: "32px", height: "1px", background: "#9B7B56" }} />
+                <p
+                  className="text-[10px] font-semibold tracking-[0.22em] uppercase"
+                  style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+                >
+                  The Piece
+                </p>
+              </div>
+            </div>
+
+            {/* Story text */}
+            <div className="flex-1">
               <p
-                className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-6"
-                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+                className="leading-[1.4] mb-6"
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 300,
+                  fontSize: "clamp(1.45rem, 2.2vw, 1.85rem)",
+                  color: "#1C1916",
+                  fontStyle: "italic",
+                }}
               >
-                The Piece
+                "{carpet.tagline}"
               </p>
               <p
-                className="leading-[2] text-[15px]"
-                style={{ color: "#5A5450", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
+                className="leading-[2] text-[14.5px]"
+                style={{ color: "#6A625A", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                 data-testid="text-carpet-story"
               >
                 {carpet.story}
               </p>
-            </motion.div>
-
-            {/* Curatorial notes */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
-              <p
-                className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-6"
-                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
-              >
-                Curatorial Notes
-              </p>
-              <div style={{ borderLeft: "2px solid #C9A84C", paddingLeft: "1.5rem" }}>
-                <p
-                  className="text-[14px] leading-[2]"
-                  style={{ color: "#6A625A", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
-                  data-testid="text-carpet-details"
-                >
-                  {carpet.details}
-                </p>
-              </div>
-            </motion.div>
-
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Curatorial notes — dark band */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.9 }}
+        style={{ background: "#141210" }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-24">
+          <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-20">
+
+            {/* Label */}
+            <div className="flex-shrink-0 md:w-[200px]">
+              <div className="flex items-center gap-4 md:pt-1">
+                <div style={{ width: "32px", height: "1px", background: "#9B7B56" }} />
+                <p
+                  className="text-[10px] font-semibold tracking-[0.22em] uppercase"
+                  style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+                >
+                  Curatorial Notes
+                </p>
+              </div>
+            </div>
+
+            {/* Notes + mood */}
+            <div className="flex-1">
+              <p
+                className="text-[14.5px] leading-[2] mb-10"
+                style={{ color: "rgba(245,239,230,0.65)", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
+                data-testid="text-carpet-details"
+              >
+                {carpet.details}
+              </p>
+
+              {/* Mood tag */}
+              {carpet.mood && (
+                <div className="flex items-center gap-4">
+                  <div style={{ width: "32px", height: "1px", background: "rgba(155,123,86,0.5)" }} />
+                  <p
+                    className="text-[11px] tracking-[0.18em] uppercase italic"
+                    style={{ color: "#9B7B56", fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "0.95rem" }}
+                  >
+                    {carpet.mood}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* ── BACK LINK ── */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-12" style={{ borderTop: "1px solid #E4DDD4" }}>
