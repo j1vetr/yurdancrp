@@ -304,45 +304,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── STATEMENT ── */}
-      <section className="hidden md:block py-24 md:py-32 px-6 md:px-10" style={{ background: "#FAFAF8" }}>
-        <div className="max-w-[1360px] mx-auto">
-          <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8 }}
-            >
-              <p className="text-[10px] font-medium tracking-[0.18em] uppercase mb-6" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>
-                The Archive
-              </p>
-              <h2
-                className="mb-6 leading-[1.2]"
-                style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: "#1C1916" }}
-              >
-                Not a store. A private archive of textile masterworks.
-              </h2>
-              <p className="text-base leading-relaxed mb-8" style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif", maxWidth: "520px" }}>
-                Each piece represents thousands of hours of human craft. Silk, wool, and antique — curated for architects, collectors, and discerning homes. No prices are displayed publicly.
-              </p>
-              <Link
-                href="/about"
-                className="inline-block text-[11px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
-                style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif", borderBottom: "1px solid #1C1916", paddingBottom: "2px" }}
-                data-testid="link-about-statement"
-              >
-                Our Philosophy
-              </Link>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── DIVIDER ── */}
-      <div className="hidden md:block max-w-[1360px] mx-auto px-6 md:px-10">
-        <div style={{ height: "1px", background: "#E4DDD4" }} />
-      </div>
 
       {/* ── SELECTED WORKS ── */}
       <section className="py-10 md:py-28 px-6 md:px-10" style={{ background: "#FAFAF8" }}>
