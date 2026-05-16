@@ -419,12 +419,6 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="max-w-xl"
             >
-              <p
-                className="text-[10px] font-medium tracking-[0.22em] uppercase mb-5"
-                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
-              >
-                Private Acquisition
-              </p>
               <h2
                 className="leading-[1.15]"
                 style={{
