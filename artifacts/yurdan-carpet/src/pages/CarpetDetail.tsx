@@ -478,6 +478,40 @@ export default function CarpetDetail() {
                 </p>
               </div>
 
+              {/* Specifications (sidebar) */}
+              <div className="pb-7 mb-7" style={{ borderBottom: "1px solid #E4DDD4" }}>
+                <p
+                  className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-4"
+                  style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+                >
+                  Specifications
+                </p>
+                <dl className="space-y-2.5">
+                  {[
+                    { label: "Dimensions", value: carpet.dimensions },
+                    { label: "Total Area", value: carpet.totalArea },
+                    { label: "Material", value: carpet.material },
+                    { label: "Style", value: carpet.style },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex justify-between items-baseline gap-3">
+                      <dt
+                        className="text-[11px] flex-shrink-0"
+                        style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {label}
+                      </dt>
+                      <div style={{ flex: 1, height: "1px", background: "#EDE7DF", alignSelf: "center" }} />
+                      <dd
+                        className="text-[11px] text-right"
+                        style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
               {/* Colour palette */}
               <div className="pb-7 mb-7" style={{ borderBottom: "1px solid #E4DDD4" }}>
                 <p
