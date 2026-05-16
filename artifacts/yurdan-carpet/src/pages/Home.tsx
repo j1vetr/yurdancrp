@@ -384,48 +384,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA DARK BAND ── */}
-      <section className="py-24 md:py-32 px-6 md:px-10" style={{ background: "#141210" }}>
-        <div className="max-w-[1360px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="max-w-xl"
-          >
-            <p className="text-[10px] font-medium tracking-[0.18em] uppercase mb-5" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>Private Acquisition</p>
-            <h2
-              className="leading-[1.15]"
-              style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4vw, 3.4rem)", color: "#F5EFE6" }}
+      {/* ── SHOWROOM ── */}
+      <section style={{ background: "#141210" }}>
+
+        {/* Image strip — 3 cols desktop, single image mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          {([
+            { src: "/brand/showroom-1.webp", cls: "block" },
+            { src: "/brand/showroom-2.webp", cls: "hidden md:block" },
+            { src: "/brand/showroom-3.webp", cls: "hidden md:block" },
+          ] as { src: string; cls: string }[]).map(({ src, cls }, i) => (
+            <div
+              key={i}
+              className={`overflow-hidden ${cls}`}
+              style={{ aspectRatio: "16/9" }}
             >
-              Every piece finds its
-              <br />
-              <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.5)" }}>right context.</span>
-            </h2>
-          </motion.div>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href="mailto:info@yurdancarpet.com"
-              className="px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
-              style={{ background: "#F5EFE6", color: "#141210", fontFamily: "'Inter', sans-serif" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "#FFFFFF")}
-              onMouseLeave={e => (e.currentTarget.style.background = "#F5EFE6")}
-              data-testid="link-contact-curators-cta"
+              <img
+                src={src}
+                alt="Yurdan Carpet Showroom"
+                className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Text + CTA */}
+        <div className="px-6 md:px-10 py-16 md:py-20">
+          <div className="max-w-[1360px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-xl"
             >
-              Contact Curators
-            </a>
-            <a
-              href="https://wa.me/905551234567"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
-              style={{ border: "1px solid rgba(245,239,230,0.2)", color: "rgba(245,239,230,0.6)", fontFamily: "'Inter', sans-serif" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#F5EFE6")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(245,239,230,0.6)")}
+              <p
+                className="text-[10px] font-medium tracking-[0.22em] uppercase mb-5"
+                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+              >
+                Private Acquisition
+              </p>
+              <h2
+                className="leading-[1.15]"
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 300,
+                  fontSize: "clamp(2rem, 4vw, 3.4rem)",
+                  color: "#F5EFE6",
+                }}
+              >
+                Every piece finds its
+                <br />
+                <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.45)" }}>right context.</span>
+              </h2>
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
             >
-              WhatsApp
-            </a>
+              <a
+                href="mailto:info@yurdancarpet.com"
+                className="px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
+                style={{ background: "#F5EFE6", color: "#141210", fontFamily: "'Inter', sans-serif" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#FFFFFF")}
+                onMouseLeave={e => (e.currentTarget.style.background = "#F5EFE6")}
+                data-testid="link-contact-curators-cta"
+              >
+                Contact Us
+              </a>
+              <a
+                href="https://wa.me/905551234567"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
+                style={{ border: "1px solid rgba(245,239,230,0.2)", color: "rgba(245,239,230,0.65)", fontFamily: "'Inter', sans-serif" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#F5EFE6")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(245,239,230,0.65)")}
+              >
+                WhatsApp
+              </a>
+            </motion.div>
           </div>
         </div>
       </section>
