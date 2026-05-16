@@ -207,7 +207,7 @@ export default function CarpetDetail() {
   const emailHref = `mailto:info@yurdancarpet.com?subject=Inquiry - ${carpet.name}`;
 
   return (
-    <div className="w-full min-h-[100dvh]" style={{ background: "#FAFAF8" }}>
+    <div className="w-full min-h-[100dvh] pb-[120px] md:pb-0" style={{ background: "#FAFAF8" }}>
 
       {/* ── HERO GALLERY ── */}
       <div style={{ background: "#0E0C0A" }}>
@@ -352,13 +352,66 @@ export default function CarpetDetail() {
       <div className="max-w-[1360px] mx-auto px-6 md:px-10">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 py-14 md:py-20">
 
-          {/* Left: photo grid only */}
+          {/* Left: specs + story + photography */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1 }}
             className="w-full lg:w-[58%] order-2 lg:order-1"
           >
+            {/* Specifications */}
+            <div className="mb-12 pb-12" style={{ borderBottom: "1px solid #E8E1D8" }}>
+              <p
+                className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-5"
+                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+              >
+                Specifications
+              </p>
+              <dl className="space-y-3.5">
+                {[
+                  { label: "Dimensions", value: carpet.dimensions },
+                  { label: "Total Area", value: carpet.totalArea },
+                  { label: "Material", value: carpet.material },
+                  { label: "Style", value: carpet.style },
+                  { label: "Origin", value: carpet.origin },
+                ].map(({ label, value }) => (
+                  <div key={label} className="flex justify-between items-baseline gap-4">
+                    <dt
+                      className="text-xs font-medium flex-shrink-0"
+                      style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.04em" }}
+                    >
+                      {label}
+                    </dt>
+                    <div style={{ flex: 1, height: "1px", background: "#EDE7DF", alignSelf: "center" }} />
+                    <dd
+                      className="text-sm text-right"
+                      style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
+                      data-testid={`spec-${label.toLowerCase().replace(" ", "-")}`}
+                    >
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            {/* Story */}
+            <div className="mb-12 pb-12" style={{ borderBottom: "1px solid #E8E1D8" }}>
+              <p
+                className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-6"
+                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+              >
+                The Piece
+              </p>
+              <p
+                className="text-base leading-[2]"
+                style={{ color: "#5A5450", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
+                data-testid="text-carpet-story"
+              >
+                {carpet.story}
+              </p>
+            </div>
+
             {/* Photography grid */}
             {imageIndices.length > 1 && (
               <div>
@@ -394,7 +447,7 @@ export default function CarpetDetail() {
             )}
           </motion.div>
 
-          {/* Right: sticky sidebar */}
+          {/* Right: sticky inquiry sidebar */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -403,11 +456,8 @@ export default function CarpetDetail() {
           >
             <div className="lg:sticky lg:top-28">
 
-              {/* Carpet name (desktop sidebar) */}
-              <div
-                className="hidden lg:block pb-7 mb-7"
-                style={{ borderBottom: "1px solid #E4DDD4" }}
-              >
+              {/* Carpet name */}
+              <div className="pb-7 mb-7" style={{ borderBottom: "1px solid #E4DDD4" }}>
                 <p
                   className="text-[10px] font-medium tracking-[0.22em] uppercase mb-3"
                   style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
@@ -428,50 +478,8 @@ export default function CarpetDetail() {
                 </p>
               </div>
 
-              {/* Specifications */}
-              <div
-                className="pb-7 mb-7"
-                style={{ borderBottom: "1px solid #E4DDD4" }}
-              >
-                <p
-                  className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-5"
-                  style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
-                >
-                  Specifications
-                </p>
-                <dl className="space-y-3.5">
-                  {[
-                    { label: "Dimensions", value: carpet.dimensions },
-                    { label: "Total Area", value: carpet.totalArea },
-                    { label: "Material", value: carpet.material },
-                    { label: "Style", value: carpet.style },
-                    { label: "Origin", value: carpet.origin },
-                  ].map(({ label, value }) => (
-                    <div key={label} className="flex justify-between items-baseline gap-4">
-                      <dt
-                        className="text-xs font-medium flex-shrink-0"
-                        style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.04em" }}
-                      >
-                        {label}
-                      </dt>
-                      <div style={{ flex: 1, height: "1px", background: "#EDE7DF", alignSelf: "center" }} />
-                      <dd
-                        className="text-sm text-right"
-                        style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
-                        data-testid={`spec-${label.toLowerCase().replace(" ", "-")}`}
-                      >
-                        {value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-
               {/* Colour palette */}
-              <div
-                className="pb-7 mb-7"
-                style={{ borderBottom: "1px solid #E4DDD4" }}
-              >
+              <div className="pb-7 mb-7" style={{ borderBottom: "1px solid #E4DDD4" }}>
                 <p
                   className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-5"
                   style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
@@ -495,10 +503,7 @@ export default function CarpetDetail() {
                           flexShrink: 0,
                         }}
                       />
-                      <span
-                        className="text-xs"
-                        style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif" }}
-                      >
+                      <span className="text-xs" style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif" }}>
                         {color}
                       </span>
                     </div>
@@ -562,66 +567,36 @@ export default function CarpetDetail() {
         </div>
       </div>
 
-      {/* ── STORY + CURATORIAL — full-width editorial section ── */}
-      <div
+      {/* ── CURATORIAL — full-width editorial section ── */}
+      <motion.div
         className="max-w-[1360px] mx-auto px-6 md:px-10 pb-20"
         style={{ borderTop: "1px solid #E8E1D8" }}
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.75 }}
       >
-        <div className="pt-16 md:pt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-
-          {/* Story */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.75 }}
-            className="lg:col-span-7"
+        <div className="pt-16 md:pt-20 max-w-3xl">
+          <p
+            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-5"
+            style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+          >
+            Curatorial Notes
+          </p>
+          <div
+            className="p-8 md:p-10"
+            style={{ background: "#F0EAE2", borderLeft: "2px solid #9B7B56" }}
           >
             <p
-              className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-6"
-              style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+              className="text-sm"
+              style={{ color: "#6A625A", fontFamily: "'Inter', sans-serif", fontWeight: 300, lineHeight: "1.9" }}
+              data-testid="text-carpet-details"
             >
-              The Piece
+              {carpet.details}
             </p>
-            <p
-              className="text-base leading-[2]"
-              style={{ color: "#5A5450", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
-              data-testid="text-carpet-story"
-            >
-              {carpet.story}
-            </p>
-          </motion.div>
-
-          {/* Curatorial note */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.75, delay: 0.1 }}
-            className="lg:col-span-5"
-          >
-            <div
-              className="p-8 md:p-10 h-full"
-              style={{ background: "#F0EAE2", borderLeft: "2px solid #9B7B56" }}
-            >
-              <p
-                className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-5"
-                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
-              >
-                Curatorial Notes
-              </p>
-              <p
-                className="text-sm"
-                style={{ color: "#6A625A", fontFamily: "'Inter', sans-serif", fontWeight: 300, lineHeight: "1.9" }}
-                data-testid="text-carpet-details"
-              >
-                {carpet.details}
-              </p>
-            </div>
-          </motion.div>
-
+          </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Back to collection */}
       <div
