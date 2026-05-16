@@ -359,42 +359,6 @@ export default function CarpetDetail() {
             transition={{ duration: 0.75, delay: 0.1 }}
             className="w-full lg:w-[58%] order-2 lg:order-1"
           >
-            {/* Specifications */}
-            <div className="mb-12 pb-12" style={{ borderBottom: "1px solid #E8E1D8" }}>
-              <p
-                className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-5"
-                style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
-              >
-                Specifications
-              </p>
-              <dl className="space-y-3.5">
-                {[
-                  { label: "Dimensions", value: carpet.dimensions },
-                  { label: "Total Area", value: carpet.totalArea },
-                  { label: "Material", value: carpet.material },
-                  { label: "Style", value: carpet.style },
-                  { label: "Origin", value: carpet.origin },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex justify-between items-baseline gap-4">
-                    <dt
-                      className="text-xs font-medium flex-shrink-0"
-                      style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.04em" }}
-                    >
-                      {label}
-                    </dt>
-                    <div style={{ flex: 1, height: "1px", background: "#EDE7DF", alignSelf: "center" }} />
-                    <dd
-                      className="text-sm text-right"
-                      style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
-                      data-testid={`spec-${label.toLowerCase().replace(" ", "-")}`}
-                    >
-                      {value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
             {/* Story */}
             <div className="mb-12 pb-12" style={{ borderBottom: "1px solid #E8E1D8" }}>
               <p
@@ -504,6 +468,7 @@ export default function CarpetDetail() {
                       <dd
                         className="text-[11px] text-right"
                         style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
+                        data-testid={`spec-${label.toLowerCase().replace(" ", "-")}`}
                       >
                         {value}
                       </dd>
