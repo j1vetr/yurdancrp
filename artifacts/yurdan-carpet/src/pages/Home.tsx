@@ -154,7 +154,7 @@ function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
 }
 
 export default function Home() {
-  const featuredCarpets = carpets.slice(0, 3);
+  const featuredCarpets = carpets.slice(0, 6);
 
   return (
     <div className="w-full min-h-screen" style={{ background: "#FAFAF8" }}>
@@ -166,15 +166,20 @@ export default function Home() {
       >
         <HeroVideo />
 
+        {/* Base dark tint — always-on overlay for video legibility */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "rgba(14,12,10,0.52)" }}
+        />
         {/* Strong bottom-to-top gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(14,12,10,0.98) 0%, rgba(14,12,10,0.78) 30%, rgba(14,12,10,0.2) 58%, rgba(14,12,10,0.38) 100%)" }}
+          style={{ background: "linear-gradient(to top, rgba(14,12,10,1.0) 0%, rgba(14,12,10,0.88) 28%, rgba(14,12,10,0.0) 60%)" }}
         />
         {/* Top gradient for navbar */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, rgba(14,12,10,0.6) 0%, transparent 20%)" }}
+          style={{ background: "linear-gradient(to bottom, rgba(14,12,10,0.65) 0%, transparent 22%)" }}
         />
 
         {/* Upper content */}
@@ -182,7 +187,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: "easeOut", delay: 0.25 }}
-          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-36 md:pt-44"
+          className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-28 md:pt-44"
         >
           <p
             className="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase"
@@ -191,26 +196,36 @@ export default function Home() {
             Private Collection
           </p>
           <h1
-            className="mb-7 leading-[1.02]"
+            className="mb-4 leading-[1.0]"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 300,
-              fontSize: "clamp(2.8rem, 6.5vw, 6rem)",
+              fontWeight: 400,
+              fontSize: "clamp(3.6rem, 10vw, 6rem)",
               color: "#F5EFE6",
-              letterSpacing: "-0.015em",
-              textShadow: "0 2px 40px rgba(14,12,10,0.8)",
+              letterSpacing: "-0.02em",
+              textShadow: "0 2px 40px rgba(14,12,10,0.6)",
             }}
           >
-            Handwoven masterworks
+            Handwoven
             <br />
-            <span style={{ fontStyle: "italic", color: "rgba(245,239,230,0.55)", textShadow: "0 2px 30px rgba(14,12,10,0.9)" }}>
-              from the finest traditions
-            </span>
+            Masterworks
           </h1>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <p
+            className="mb-8 md:mb-7 text-sm md:text-base leading-relaxed"
+            style={{
+              color: "rgba(245,239,230,0.62)",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 300,
+              maxWidth: "360px",
+              textShadow: "0 1px 12px rgba(14,12,10,0.8)",
+            }}
+          >
+            Discover a legacy of timeless artistry and craft from the world's finest traditions.
+          </p>
+          <div className="flex flex-row flex-wrap items-center gap-3">
             <Link
               href="/collection"
-              className="inline-flex items-center gap-3 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
+              className="inline-flex items-center px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
               style={{ background: "#F5EFE6", color: "#141210", fontFamily: "'Inter', sans-serif" }}
               onMouseEnter={e => { e.currentTarget.style.background = "#FFFFFF"; }}
               onMouseLeave={e => { e.currentTarget.style.background = "#F5EFE6"; }}
@@ -220,10 +235,10 @@ export default function Home() {
             </Link>
             <a
               href="mailto:info@yurdancarpet.com"
-              className="text-[11px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
-              style={{ color: "rgba(245,239,230,0.5)", fontFamily: "'Inter', sans-serif", borderBottom: "1px solid rgba(245,239,230,0.2)", paddingBottom: "2px" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "rgba(245,239,230,0.85)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(245,239,230,0.5)")}
+              className="inline-flex items-center px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
+              style={{ border: "1px solid rgba(245,239,230,0.45)", color: "rgba(245,239,230,0.85)", fontFamily: "'Inter', sans-serif" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(245,239,230,0.9)"; e.currentTarget.style.color = "#F5EFE6"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(245,239,230,0.45)"; e.currentTarget.style.color = "rgba(245,239,230,0.85)"; }}
               data-testid="link-contact-hero"
             >
               Private Inquiry
@@ -231,12 +246,12 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Bottom card strip */}
+        {/* Bottom card strip — desktop only */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: "easeOut", delay: 0.7 }}
-          className="relative z-10 w-full pb-8 md:pb-10"
+          className="relative z-10 w-full pb-8 md:pb-10 hidden md:block"
         >
           <HeroCardStrip />
         </motion.div>
@@ -310,7 +325,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-10">
             {featuredCarpets.map(carpet => (
               <CarpetCard key={carpet.id} carpet={carpet} />
             ))}
