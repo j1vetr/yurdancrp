@@ -62,7 +62,7 @@ export function Navbar() {
               alt="Yurdan Carpet"
               className="object-contain transition-all duration-300"
               style={{
-                height: scrolled ? "40px" : "52px",
+                height: scrolled ? "58px" : "64px",
                 filter: isDark ? "brightness(0) invert(1)" : "brightness(0)",
               }}
             />

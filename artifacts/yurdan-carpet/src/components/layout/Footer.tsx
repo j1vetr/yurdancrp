@@ -141,18 +141,12 @@ export function Footer() {
         <div style={{ height: "1px", background: "rgba(245,239,230,0.08)" }} />
 
         {/* Bottom bar */}
-        <div className="pt-7 pb-2 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
+        <div className="pt-7 pb-2 flex justify-center items-center">
           <p
             className="text-xs"
             style={{ color: "rgba(245,239,230,0.25)", fontFamily: "'Inter', sans-serif" }}
           >
-            &copy; {new Date().getFullYear()} Yurdan Carpet. All rights reserved.
-          </p>
-          <p
-            className="text-xs"
-            style={{ color: "rgba(245,239,230,0.18)", fontFamily: "'Inter', sans-serif" }}
-          >
-            No prices displayed publicly. Private inquiry only.
+            &copy; {new Date().getFullYear()} Yurdan Carpet. All Rights Reserved.
           </p>
         </div>
 
