@@ -222,53 +222,67 @@ function ShowroomSlider() {
   }, []);
 
   return (
-    <section className="relative w-full" style={{ background: "#141210" }}>
-      <img
-        src={SHOWROOM_IMAGES[active]}
-        alt="Yurdan Carpet Showroom"
-        className="w-full block h-auto"
-        style={{ opacity: visible ? 1 : 0, transition: "opacity 0.18s ease" }}
-      />
-
-      {/* Left arrow */}
-      <button
-        onClick={prev}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-opacity duration-200 hover:opacity-100"
-        style={{ width: "44px", height: "44px", background: "rgba(20,18,16,0.45)", opacity: 0.75 }}
-        aria-label="Previous"
-      >
-        <svg width="16" height="16" fill="none" stroke="#F5EFE6" strokeWidth="1.5" viewBox="0 0 24 24">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-      </button>
-
-      {/* Right arrow */}
-      <button
-        onClick={next}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-opacity duration-200 hover:opacity-100"
-        style={{ width: "44px", height: "44px", background: "rgba(20,18,16,0.45)", opacity: 0.75 }}
-        aria-label="Next"
-      >
-        <svg width="16" height="16" fill="none" stroke="#F5EFE6" strokeWidth="1.5" viewBox="0 0 24 24">
-          <path d="M9 18l6-6-6-6" />
-        </svg>
-      </button>
-
-      {/* Dot indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {SHOWROOM_IMAGES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => go(i)}
-            style={{
-              width: i === active ? "20px" : "6px",
-              height: "6px",
-              borderRadius: "3px",
-              background: i === active ? "#F5EFE6" : "rgba(245,239,230,0.35)",
-              transition: "all 0.25s",
-            }}
-          />
+    <section style={{ background: "#141210" }}>
+      {/* Desktop: 3 images side by side */}
+      <div className="hidden md:flex w-full">
+        {SHOWROOM_IMAGES.map((src, i) => (
+          <div key={i} className="flex-1 overflow-hidden">
+            <img
+              src={src}
+              alt={`Yurdan Carpet Showroom ${i + 1}`}
+              className="w-full h-full object-cover block"
+              style={{ aspectRatio: "4/3" }}
+            />
+          </div>
         ))}
+      </div>
+
+      {/* Mobile: slider */}
+      <div className="relative w-full md:hidden">
+        <img
+          src={SHOWROOM_IMAGES[active]}
+          alt="Yurdan Carpet Showroom"
+          className="w-full block h-auto"
+          style={{ aspectRatio: "4/3", objectFit: "cover", opacity: visible ? 1 : 0, transition: "opacity 0.18s ease" }}
+        />
+
+        <button
+          onClick={prev}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+          style={{ width: "44px", height: "44px", background: "rgba(20,18,16,0.45)", opacity: 0.75 }}
+          aria-label="Previous"
+        >
+          <svg width="16" height="16" fill="none" stroke="#F5EFE6" strokeWidth="1.5" viewBox="0 0 24 24">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+
+        <button
+          onClick={next}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+          style={{ width: "44px", height: "44px", background: "rgba(20,18,16,0.45)", opacity: 0.75 }}
+          aria-label="Next"
+        >
+          <svg width="16" height="16" fill="none" stroke="#F5EFE6" strokeWidth="1.5" viewBox="0 0 24 24">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+          {SHOWROOM_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => go(i)}
+              style={{
+                width: i === active ? "20px" : "6px",
+                height: "6px",
+                borderRadius: "3px",
+                background: i === active ? "#F5EFE6" : "rgba(245,239,230,0.35)",
+                transition: "all 0.25s",
+              }}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
