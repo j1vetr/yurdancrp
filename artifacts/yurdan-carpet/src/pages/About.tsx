@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const pillars = [
   {
@@ -29,6 +30,7 @@ const galleryImages = [
 ];
 
 export default function About() {
+  usePageMeta({ title: "About | Yurdan Carpet", description: "Yurdan Carpet is a private archive of the world's finest handmade carpets, sourced with absolute discretion for collectors and luxury homes." });
   const waHref = "https://wa.me/905336781644?text=" + encodeURIComponent("Hello, I'd like to learn more about Yurdan Carpet.");
   const mapsHref = "https://maps.google.com/?q=Divan+Yolu+Cd.+No:16,+34110+Fatih,+Istanbul";
 

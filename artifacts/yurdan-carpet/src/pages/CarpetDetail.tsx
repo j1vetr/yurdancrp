@@ -2,6 +2,7 @@ import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { carpets } from "@/data/carpets";
 import { useEffect, useRef, useState, useCallback } from "react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 function WhatsAppIcon({ size = 17 }: { size?: number }) {
   return (
@@ -154,6 +155,13 @@ const COLOR_MAP: Record<string, string> = {
 export default function CarpetDetail() {
   const { id } = useParams();
   const carpet = carpets.find(c => c.id === id);
+
+  usePageMeta({
+    title: carpet ? `${carpet.name} | Yurdan Carpet` : "Yurdan Carpet",
+    description: carpet ? carpet.tagline : undefined,
+    image: carpet ? `/carpets/${carpet.folderNum}/1.webp` : undefined,
+  });
+
   const [activeImg, setActiveImg] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxStart, setLightboxStart] = useState(0);

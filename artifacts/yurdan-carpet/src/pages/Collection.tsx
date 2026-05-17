@@ -1,8 +1,10 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { carpets } from "@/data/carpets";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function Collection() {
+  usePageMeta({ title: "Collection | Yurdan Carpet", description: "Browse the full Yurdan Carpet archive — silk, wool and antique handwoven pieces available by private inquiry." });
   return (
     <div className="w-full min-h-screen" style={{ background: "#FAFAF8" }}>
 

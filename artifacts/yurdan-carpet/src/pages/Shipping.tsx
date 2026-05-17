@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 import { geoEqualEarth, geoPath, geoGraticule, GeoPermissibleObjects } from "d3-geo";
 import { feature, mesh } from "topojson-client";
 import type { Topology } from "topojson-specification";
@@ -271,6 +272,7 @@ function GlobeCircle() {
 
 /* ─── PAGE ───────────────────────────────────────────────── */
 export default function Shipping() {
+  usePageMeta({ title: "Shipping & Delivery | Yurdan Carpet", description: "Worldwide delivery from our atelier in Türkiye. Secure packaging, real-time tracking, and personal assistance for every order." });
   const features = [
     { icon: "/shipping-icon-worldwide-t.png",  title: "Worldwide Shipping",  desc: "We deliver to over 120 countries with trusted international partners." },
     { icon: "/shipping-icon-packaging-t.png",  title: "Secure Packaging",    desc: "Every rug is carefully wrapped and protected for a safe journey." },

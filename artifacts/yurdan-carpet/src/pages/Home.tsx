@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { carpets } from "@/data/carpets";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const HERO_CLIPS = ["/hero-clip-1.mp4", "/hero-clip-2.mp4"];
 
@@ -288,6 +289,7 @@ function ShowroomSlider() {
 }
 
 export default function Home() {
+  usePageMeta({ title: "Yurdan Carpet | Handwoven Luxury Carpets" });
   const featuredCarpets = carpets.slice(0, 6);
 
   return (
