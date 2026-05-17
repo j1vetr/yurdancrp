@@ -227,44 +227,62 @@ export default function CarpetDetail() {
           {/* ── LEFT: GALLERY ── */}
           <div className="w-full lg:w-[58%]">
 
-            {/* Mobile: swipe carousel */}
-            <div className="lg:hidden relative">
+            {/* Mobile: main image + thumbnail strip */}
+            <div className="lg:hidden">
+              {/* Main image */}
               <div
-                ref={carouselRef}
-                className="flex overflow-x-auto no-scrollbar"
-                style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-                onScroll={handleCarouselScroll}
+                className="w-full relative overflow-hidden"
+                style={{ aspectRatio: "3/4", background: "#F2EDE7" }}
+                onClick={() => openLightbox(activeImg)}
               >
-                {imageIndices.map(n => (
-                  <div
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeImg}
+                    src={`/carpets/${carpet.folderNum}/${imageIndices[activeImg]}.webp`}
+                    alt={`${carpet.name} – view ${activeImg + 1}`}
+                    className="w-full h-full object-contain"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    data-testid="img-carpet-main"
+                  />
+                </AnimatePresence>
+                {/* Counter */}
+                <div
+                  className="absolute bottom-3 right-3"
+                  style={{ color: "rgba(28,25,22,0.4)", fontFamily: "'Inter', sans-serif", fontSize: "10px", letterSpacing: "0.12em" }}
+                >
+                  {String(activeImg + 1).padStart(2, "0")} / {String(carpet.imageCount).padStart(2, "0")}
+                </div>
+              </div>
+
+              {/* Thumbnail strip */}
+              <div
+                className="flex gap-2 overflow-x-auto no-scrollbar mt-2 pb-1"
+                style={{ scrollSnapType: "x mandatory" }}
+              >
+                {imageIndices.map((n, i) => (
+                  <button
                     key={n}
-                    className="flex-shrink-0 w-full"
-                    style={{ scrollSnapAlign: "start", aspectRatio: "4/3" }}
-                    onClick={() => openLightbox(n - 1)}
+                    onClick={() => setActiveImg(i)}
+                    className="flex-shrink-0 overflow-hidden transition-all duration-200"
+                    style={{
+                      width: "64px",
+                      height: "64px",
+                      scrollSnapAlign: "start",
+                      background: "#F2EDE7",
+                      outline: i === activeImg ? "1.5px solid #9B7B56" : "1px solid #E0D8CF",
+                      outlineOffset: i === activeImg ? "2px" : "0",
+                    }}
+                    data-testid={`thumb-img-${n}`}
                   >
                     <img
                       src={`/carpets/${carpet.folderNum}/${n}.webp`}
-                      alt={`${carpet.name} photo ${n}`}
+                      alt={`View ${n}`}
                       className="w-full h-full object-contain"
-                      style={{ background: "#F2EDE7" }}
-                      data-testid={n === 1 ? "img-carpet-main" : undefined}
                     />
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-center gap-1.5 mt-3">
-                {imageIndices.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => scrollToImage(i)}
-                    style={{
-                      width: i === activeImg ? "20px" : "6px",
-                      height: "6px",
-                      borderRadius: "3px",
-                      background: i === activeImg ? "#9B7B56" : "#D5CDC4",
-                      transition: "all 0.25s",
-                    }}
-                  />
+                  </button>
                 ))}
               </div>
             </div>
