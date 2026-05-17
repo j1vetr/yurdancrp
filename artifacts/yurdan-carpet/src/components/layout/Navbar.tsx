@@ -57,10 +57,21 @@ export function Navbar() {
 
         <div className="flex justify-center w-1/3">
           <Link href="/" data-testid="link-home-logo">
+            {/* Mobile logo */}
             <img
               src={logoLight}
               alt="Yurdan Carpet"
-              className="object-contain transition-all duration-300"
+              className="md:hidden object-contain transition-all duration-300"
+              style={{
+                height: scrolled ? "70px" : "78px",
+                filter: isDark ? "brightness(0) invert(1)" : "brightness(0)",
+              }}
+            />
+            {/* Desktop logo */}
+            <img
+              src={logoLight}
+              alt="Yurdan Carpet"
+              className="hidden md:block object-contain transition-all duration-300"
               style={{
                 height: scrolled ? "58px" : "64px",
                 filter: isDark ? "brightness(0) invert(1)" : "brightness(0)",
