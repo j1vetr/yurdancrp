@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 
 const SERIF = "'Cormorant Garamond', serif";
@@ -8,483 +9,561 @@ const CREAM = "#F5EFE6";
 const MUTED = "#7A726A";
 const BG = "#FAFAF8";
 const CARD_BG = "#F5F0EB";
+const BORDER = "#E4DDD4";
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+/* ─── WORLD MAP ─────────────────────────────────────────── */
+function WorldMap() {
+  const istanbul = { x: 565, y: 152 };
+  const destinations = [
+    { x: 450, y: 118, label: "EUROPE" },
+    { x: 185, y: 168, label: "UNITED STATES" },
+    { x: 235, y: 298, label: "SOUTH AMERICA" },
+    { x: 475, y: 255, label: "AFRICA" },
+    { x: 620, y: 182, label: "ASIA" },
+    { x: 810, y: 330, label: "AUSTRALIA" },
+    { x: 155, y: 105, label: "CANADA" },
+  ];
+
+  const arc = (from: typeof istanbul, to: typeof destinations[0]) => {
+    const mx = (from.x + to.x) / 2;
+    const my = Math.min(from.y, to.y) - Math.abs(from.x - to.x) * 0.22;
+    return `M ${from.x} ${from.y} Q ${mx} ${my} ${to.x} ${to.y}`;
+  };
+
   return (
-    <p
-      className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-4"
-      style={{ color: BRONZE, fontFamily: SANS }}
-    >
-      {children}
-    </p>
+    <div className="relative w-full h-full">
+      <style>{`
+        @keyframes drawArc {
+          from { stroke-dashoffset: 600; opacity: 0; }
+          10%  { opacity: 1; }
+          to   { stroke-dashoffset: 0; opacity: 0.7; }
+        }
+        @keyframes pulse {
+          0%, 100% { r: 7; opacity: 0.9; }
+          50% { r: 11; opacity: 0.3; }
+        }
+        .arc-line { stroke-dasharray: 600; animation: drawArc 3.5s ease-in-out infinite; }
+        .arc-line:nth-child(1)  { animation-delay: 0s; }
+        .arc-line:nth-child(2)  { animation-delay: 0.5s; }
+        .arc-line:nth-child(3)  { animation-delay: 1s; }
+        .arc-line:nth-child(4)  { animation-delay: 1.5s; }
+        .arc-line:nth-child(5)  { animation-delay: 2s; }
+        .arc-line:nth-child(6)  { animation-delay: 2.5s; }
+        .arc-line:nth-child(7)  { animation-delay: 3s; }
+        .pulse-ring { animation: pulse 2.2s ease-in-out infinite; }
+      `}</style>
+
+      <svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+        <defs>
+          <pattern id="mapDots" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.9" fill={BRONZE} opacity="0.18" />
+          </pattern>
+        </defs>
+
+        {/* Dot grid background */}
+        <rect width="960" height="480" fill={BG} />
+        <rect width="960" height="480" fill="url(#mapDots)" />
+
+        {/* Continent fills — simplified polygons */}
+        {/* North America */}
+        <path d="M 95,68 L 270,52 L 310,85 L 305,115 L 280,155 L 270,195 L 245,218 L 205,225 L 170,208 L 140,180 L 105,175 L 80,155 L 78,120 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Greenland */}
+        <path d="M 290,30 L 335,22 L 350,45 L 330,65 L 295,58 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* South America */}
+        <path d="M 175,248 L 250,232 L 285,255 L 290,305 L 275,360 L 255,398 L 220,408 L 192,382 L 170,340 L 158,295 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Europe */}
+        <path d="M 410,72 L 500,62 L 525,82 L 520,108 L 498,128 L 472,138 L 445,130 L 418,112 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* UK */}
+        <path d="M 395,78 L 408,72 L 412,88 L 400,96 L 390,88 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Scandinavia */}
+        <path d="M 455,45 L 490,38 L 498,62 L 472,72 L 455,62 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Africa */}
+        <path d="M 412,148 L 508,138 L 540,165 L 545,215 L 535,275 L 510,348 L 475,372 L 435,358 L 408,305 L 400,248 L 400,195 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Middle East */}
+        <path d="M 522,138 L 600,132 L 628,158 L 622,198 L 585,212 L 545,205 L 522,178 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Turkey highlight */}
+        <path d="M 530,140 L 585,136 L 600,148 L 595,162 L 570,168 L 545,162 L 530,152 Z"
+          fill="#EDE5D8" stroke={BRONZE} strokeWidth="1" />
+        {/* Asia */}
+        <path d="M 595,72 L 820,58 L 855,88 L 845,128 L 810,155 L 770,168 L 730,175 L 695,185 L 665,195 L 635,182 L 610,158 L 600,128 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Indian subcontinent */}
+        <path d="M 660,195 L 700,188 L 720,215 L 710,258 L 680,268 L 655,248 L 648,218 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Southeast Asia */}
+        <path d="M 750,178 L 810,165 L 830,185 L 820,208 L 790,215 L 758,205 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Japan */}
+        <path d="M 848,115 L 868,108 L 875,128 L 862,142 L 848,132 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Australia */}
+        <path d="M 748,288 L 855,272 L 872,308 L 862,355 L 830,372 L 778,368 L 748,342 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* New Zealand */}
+        <path d="M 878,348 L 892,338 L 898,355 L 888,365 L 875,358 Z"
+          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+
+        {/* Animated arcs FROM Istanbul */}
+        {destinations.map((dest, i) => (
+          <path
+            key={i}
+            d={arc(istanbul, dest)}
+            fill="none"
+            stroke={BRONZE}
+            strokeWidth="1.4"
+            className="arc-line"
+          />
+        ))}
+
+        {/* Destination dots */}
+        {destinations.map((dest, i) => (
+          <circle key={i} cx={dest.x} cy={dest.y} r="4" fill={BRONZE} opacity="0.7" />
+        ))}
+
+        {/* Destination labels */}
+        {destinations.slice(0, 6).map((dest, i) => (
+          <text
+            key={i}
+            x={dest.x}
+            y={dest.y - 10}
+            textAnchor="middle"
+            fontSize="7"
+            fontFamily={SANS}
+            fontWeight="600"
+            letterSpacing="0.08em"
+            fill={BRONZE}
+            opacity="0.65"
+          >
+            {dest.label}
+          </text>
+        ))}
+
+        {/* Istanbul origin */}
+        <circle cx={istanbul.x} cy={istanbul.y} className="pulse-ring" r="7" fill={BRONZE} opacity="0.25" />
+        <circle cx={istanbul.x} cy={istanbul.y} r="5" fill={BRONZE} />
+        <rect x={istanbul.x + 8} y={istanbul.y - 10} width="60" height="16" rx="2" fill={DARK} />
+        <text
+          x={istanbul.x + 38}
+          y={istanbul.y + 1}
+          textAnchor="middle"
+          fontSize="7"
+          fontFamily={SANS}
+          fontWeight="700"
+          letterSpacing="0.1em"
+          fill={CREAM}
+        >
+          TÜRKİYE
+        </text>
+
+        {/* Compass rose bottom-right */}
+        <g transform="translate(920, 430)">
+          <circle cx="0" cy="0" r="14" fill="none" stroke={BORDER} strokeWidth="1" />
+          <path d="M 0,-10 L 2,-2 L 0,0 L -2,-2 Z" fill={BRONZE} opacity="0.5" />
+          <path d="M 0,10 L 2,2 L 0,0 L -2,2 Z" fill={MUTED} opacity="0.3" />
+          <path d="M -10,0 L -2,2 L 0,0 L -2,-2 Z" fill={MUTED} opacity="0.3" />
+          <path d="M 10,0 L 2,2 L 0,0 L 2,-2 Z" fill={MUTED} opacity="0.3" />
+          <text x="0" y="-15" textAnchor="middle" fontSize="6" fontFamily={SANS} fill={BRONZE} opacity="0.6">N</text>
+        </g>
+      </svg>
+    </div>
   );
 }
 
-function Divider() {
-  return <div style={{ height: "1px", background: "#E4DDD4" }} className="w-full" />;
+/* ─── FAQ ITEM ───────────────────────────────────────────── */
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ borderBottom: `1px solid ${BORDER}` }}>
+      <button
+        className="w-full flex items-center justify-between py-5 text-left gap-4"
+        onClick={() => setOpen(!open)}
+      >
+        <span style={{ fontFamily: SANS, fontSize: "0.85rem", color: DARK, fontWeight: 400 }}>{q}</span>
+        <span
+          style={{
+            flexShrink: 0,
+            width: "22px",
+            height: "22px",
+            border: `1px solid ${BORDER}`,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: BRONZE,
+            fontSize: "14px",
+            transition: "transform 0.2s",
+            transform: open ? "rotate(45deg)" : "none",
+          }}
+        >
+          +
+        </span>
+      </button>
+      {open && (
+        <p className="pb-5 text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS, maxWidth: "520px" }}>
+          {a}
+        </p>
+      )}
+    </div>
+  );
 }
 
-const STEPS = [
-  {
-    num: "01",
-    title: "Inquiry Confirmed",
-    body: "Once your private inquiry is received, our team reaches out within 24 hours to confirm availability and begin the reservation process.",
-  },
-  {
-    num: "02",
-    title: "Expert Inspection",
-    body: "Each carpet undergoes a thorough quality inspection by our specialists before packaging. Condition, dimensions, and authenticity are verified.",
-  },
-  {
-    num: "03",
-    title: "Museum-Grade Packaging",
-    body: "Your piece is rolled on an acid-free tube, wrapped in breathable archival tissue, and encased in a custom protective crate built to international shipping standards.",
-  },
-  {
-    num: "04",
-    title: "Insured Dispatch",
-    body: "Shipments leave our Istanbul atelier fully insured at declared value. You receive a tracking number and direct contact details for your logistics coordinator.",
-  },
-  {
-    num: "05",
-    title: "White-Glove Delivery",
-    body: "Our courier partners offer room-of-choice placement and unpacking assistance upon request. Your carpet arrives ready to be laid.",
-  },
-];
-
-const REGIONS = [
-  { region: "Turkey & Europe", time: "3 – 7 business days" },
-  { region: "United States & Canada", time: "5 – 10 business days" },
-  { region: "Middle East & Gulf", time: "4 – 8 business days" },
-  { region: "Asia Pacific", time: "7 – 14 business days" },
-  { region: "Rest of World", time: "10 – 18 business days" },
-];
-
-const GUARANTEES = [
-  {
-    icon: (
-      <svg width="28" height="28" fill="none" stroke={BRONZE} strokeWidth="1.4" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-      </svg>
-    ),
-    title: "Ships to 50+ Countries",
-    body: "From our Istanbul atelier to residences and collections worldwide.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" fill="none" stroke={BRONZE} strokeWidth="1.4" viewBox="0 0 24 24">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
-    title: "Fully Insured at Full Value",
-    body: "Every shipment is insured at the declared piece value. Zero risk, complete peace of mind.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" fill="none" stroke={BRONZE} strokeWidth="1.4" viewBox="0 0 24 24">
-        <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" />
-        <path d="M16.5 9.4 7.55 4.24M3.29 7 12 12l8.71-5" />
-        <path d="M12 22V12" />
-        <path d="M18.42 15.61a2.1 2.1 0 1 1 2.97 2.97L16 23l-4 1 1-4 5.42-4.39z" />
-      </svg>
-    ),
-    title: "Real-Time Tracking",
-    body: "Live shipment tracking shared directly with you throughout the journey.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" fill="none" stroke={BRONZE} strokeWidth="1.4" viewBox="0 0 24 24">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    ),
-    title: "Room-of-Choice Delivery",
-    body: "White-glove couriers carry your piece to the exact room of your choosing.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" fill="none" stroke={BRONZE} strokeWidth="1.4" viewBox="0 0 24 24">
-        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-        <polyline points="17 6 23 6 23 12" />
-      </svg>
-    ),
-    title: "No Import Surprise",
-    body: "Our team advises on duties and customs documentation before dispatch — no unexpected fees.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" fill="none" stroke={BRONZE} strokeWidth="1.4" viewBox="0 0 24 24">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-    ),
-    title: "Dedicated Coordinator",
-    body: "A personal logistics contact is assigned to every order. One number, always available.",
-  },
-];
-
+/* ─── PAGE ───────────────────────────────────────────────── */
 export default function Shipping() {
+  const features = [
+    { icon: "/shipping-icon-worldwide.png", title: "Worldwide Shipping", desc: "We deliver to over 120 countries with trusted international partners." },
+    { icon: "/shipping-icon-packaging.png", title: "Secure Packaging", desc: "Every rug is carefully wrapped and protected for a safe journey." },
+    { icon: "/shipping-icon-tracking.png", title: "Tracked Delivery", desc: "Real-time tracking updates from dispatch to your doorstep." },
+    { icon: "/shipping-icon-assistance.png", title: "Personal Assistance", desc: "Our team is here to help you every step of the way." },
+  ];
+
+  const steps = [
+    { num: "1", icon: "/shipping-step-1.png", title: "Rug Selection", desc: "Choose your perfect rug from our collection or create a custom piece." },
+    { num: "2", icon: "/shipping-step-2.png", title: "Final Inspection", desc: "Each rug is inspected meticulously to ensure quality and perfection." },
+    { num: "3", icon: "/shipping-step-3.png", title: "Professional Packaging", desc: "Hand-wrapped with premium materials for maximum protection." },
+    { num: "4", icon: "/shipping-step-4.png", title: "Courier Dispatch", desc: "Dispatched with trusted carriers for secure and timely delivery." },
+    { num: "5", icon: "/shipping-step-5.png", title: "Tracking & Delivery", desc: "Track your shipment in real time until it arrives safely to you." },
+  ];
+
+  const regions = [
+    { flag: "🇪🇺", name: "Europe", time: "4 – 7 Business Days", desc: "Fast and reliable delivery across all European countries." },
+    { flag: "🇺🇸", name: "United States & Canada", time: "6 – 10 Business Days", desc: "Carefully managed shipping to North America." },
+    { flag: "🌙", name: "Middle East", time: "3 – 6 Business Days", desc: "Quick delivery to GCC countries and beyond." },
+    { flag: "🌍", name: "Other Destinations", time: "7 – 14 Business Days", desc: "Delivery times may vary depending on location." },
+  ];
+
+  const faqs = [
+    { q: "Do you ship internationally?", a: "Yes, we ship to over 120 countries worldwide. Our logistics team handles all international freight with full insurance and real-time tracking." },
+    { q: "What if my rug is delayed?", a: "In the rare event of a delay, your dedicated logistics coordinator will contact you immediately and provide updated tracking information." },
+    { q: "How can I track my order?", a: "Once your rug is dispatched, you will receive a tracking number and direct contact details for your logistics coordinator who will assist you throughout." },
+    { q: "Are there any shipping fees?", a: "Yurdan Carpet offers complimentary shipping on all orders. There are no hidden shipping charges — your purchase price covers delivery to your door." },
+  ];
+
   return (
     <div className="w-full min-h-screen" style={{ background: BG }}>
 
       {/* ── HERO ── */}
-      <section
-        className="relative w-full flex flex-col justify-end overflow-hidden"
-        style={{ background: DARK, minHeight: "52vh" }}
-      >
-        {/* subtle texture overlay */}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(160deg, rgba(155,123,86,0.08) 0%, transparent 60%)" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(20,18,16,0.9) 0%, transparent 60%)" }}
-        />
+      <section className="pt-24 md:pt-28 pb-0" style={{ background: BG }}>
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
 
-        {/* Decorative line accent */}
-        <div
-          className="absolute top-0 left-0 right-0"
-          style={{ height: "1px", background: `linear-gradient(to right, transparent, ${BRONZE}, transparent)`, opacity: 0.35 }}
-        />
-
-        <div className="relative z-10 max-w-[1360px] mx-auto px-6 md:px-10 pb-16 md:pb-20 pt-28 md:pt-32 w-full">
-          <p
-            className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-5"
-            style={{ color: BRONZE, fontFamily: SANS }}
-          >
-            Logistics & Delivery
-          </p>
-          <h1
-            className="leading-[1.0] mb-6"
-            style={{
-              fontFamily: SERIF,
-              fontWeight: 400,
-              fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
-              color: CREAM,
-              letterSpacing: "-0.02em",
-              maxWidth: "720px",
-            }}
-          >
-            Shipped from Istanbul.<br />Delivered to the World.
-          </h1>
-          <p
-            className="text-sm md:text-base leading-relaxed"
-            style={{ color: "rgba(245,239,230,0.5)", fontFamily: SANS, fontWeight: 300, maxWidth: "480px" }}
-          >
-            Every carpet travels from our atelier in the heart of Istanbul, packaged with the same care given to museum acquisitions: insured, tracked, and handled by specialists.
-          </p>
-        </div>
-      </section>
-
-      {/* ── GUARANTEES GRID ── */}
-      <section className="py-16 md:py-24 px-6 md:px-10" style={{ background: BG }}>
-        <div className="max-w-[1360px] mx-auto">
-          <SectionLabel>Our Commitments</SectionLabel>
-          <h2
-            className="mb-12 md:mb-16"
-            style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", color: DARK }}
-          >
-            What Every Shipment Includes
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px" style={{ background: "#E4DDD4" }}>
-            {GUARANTEES.map(({ icon, title, body }) => (
-              <div
-                key={title}
-                className="flex flex-col gap-5 p-8 md:p-10"
-                style={{ background: BG }}
-              >
-                <div>{icon}</div>
-                <div>
-                  <p
-                    className="text-[11px] font-semibold tracking-[0.14em] uppercase mb-2"
-                    style={{ color: DARK, fontFamily: SANS }}
-                  >
-                    {title}
-                  </p>
-                  <p
-                    className="text-sm leading-relaxed"
-                    style={{ color: MUTED, fontFamily: SANS }}
-                  >
-                    {body}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── HOW IT WORKS ── */}
-      <section className="py-16 md:py-24 px-6 md:px-10" style={{ background: CARD_BG }}>
-        <div className="max-w-[1360px] mx-auto">
-          <SectionLabel>The Process</SectionLabel>
-          <h2
-            className="mb-12 md:mb-16"
-            style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", color: DARK }}
-          >
-            From Atelier to Your Door
-          </h2>
-
-          <div className="flex flex-col gap-0">
-            {STEPS.map((step, i) => (
-              <div key={step.num}>
-                <div className="flex gap-8 md:gap-16 items-start py-8 md:py-10">
-                  {/* Number */}
-                  <div className="flex-shrink-0 w-12 md:w-20 text-right">
-                    <span
-                      style={{
-                        fontFamily: SERIF,
-                        fontSize: "clamp(2rem, 4vw, 3rem)",
-                        fontWeight: 300,
-                        color: "rgba(20,18,16,0.12)",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {step.num}
-                    </span>
-                  </div>
-
-                  {/* Connector line */}
-                  <div className="flex flex-col items-center flex-shrink-0 pt-2" style={{ width: "1px" }}>
-                    <div style={{ width: "1px", flex: 1, background: "#E4DDD4" }} />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 pb-2">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div
-                        className="flex-shrink-0 rounded-full"
-                        style={{ width: "8px", height: "8px", background: BRONZE }}
-                      />
-                      <h3
-                        style={{
-                          fontFamily: SERIF,
-                          fontWeight: 500,
-                          fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)",
-                          color: DARK,
-                        }}
-                      >
-                        {step.title}
-                      </h3>
-                    </div>
-                    <p
-                      className="text-sm leading-relaxed"
-                      style={{ color: MUTED, fontFamily: SANS, maxWidth: "560px" }}
-                    >
-                      {step.body}
-                    </p>
-                  </div>
-                </div>
-                {i < STEPS.length - 1 && <Divider />}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── DELIVERY TIMES ── */}
-      <section className="py-16 md:py-24 px-6 md:px-10" style={{ background: BG }}>
-        <div className="max-w-[1360px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
-            <div>
-              <SectionLabel>Estimated Timelines</SectionLabel>
-              <h2
-                className="mb-6"
-                style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", color: DARK }}
-              >
-                Delivery Windows by Region
-              </h2>
+            {/* Left: text */}
+            <div className="pb-8 md:pb-16">
               <p
-                className="text-sm leading-relaxed mb-10"
-                style={{ color: MUTED, fontFamily: SANS, maxWidth: "420px" }}
+                className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-5 flex items-center gap-2"
+                style={{ color: BRONZE, fontFamily: SANS }}
               >
-                Timelines begin from the date of shipment confirmation. For time-sensitive requests, expedited options are available — please mention this in your inquiry.
+                <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
+                From Türkiye to the World
               </p>
-
-              <div className="flex flex-col gap-0" style={{ border: "1px solid #E4DDD4" }}>
-                {REGIONS.map(({ region, time }, i) => (
-                  <div
-                    key={region}
-                    className="flex items-center justify-between px-6 py-5"
-                    style={{
-                      borderTop: i > 0 ? "1px solid #E4DDD4" : undefined,
-                      background: i % 2 === 0 ? BG : CARD_BG,
-                    }}
-                  >
-                    <p
-                      className="text-sm font-medium"
-                      style={{ color: DARK, fontFamily: SANS }}
-                    >
-                      {region}
-                    </p>
-                    <p
-                      className="text-sm"
-                      style={{ color: BRONZE, fontFamily: SANS, fontWeight: 500 }}
-                    >
-                      {time}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Packaging note */}
-            <div>
-              <SectionLabel>Packaging Standards</SectionLabel>
-              <h2
-                className="mb-6"
-                style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", color: DARK }}
-              >
-                Packed for a Century
-              </h2>
-              <p
-                className="text-sm leading-relaxed mb-6"
-                style={{ color: MUTED, fontFamily: SANS }}
-              >
-                Handwoven rugs are among the most delicate of textile arts. Our packaging process was developed with conservators and logistics specialists to ensure your piece arrives in precisely the condition it left our atelier.
-              </p>
-              <ul className="flex flex-col gap-4">
-                {[
-                  "Rolled on acid-free archival tubes to prevent crease damage",
-                  "Wrapped in breathable cotton conservation tissue",
-                  "Sealed in moisture-resistant poly barrier layer",
-                  "Housed in custom timber crates for long-haul freight",
-                  "Shock-absorbent foam corners on all crated pieces",
-                  "Photographic condition report included with every shipment",
-                ].map(item => (
-                  <li key={item} className="flex items-start gap-3">
-                    <div
-                      className="flex-shrink-0 mt-1.5 rounded-full"
-                      style={{ width: "5px", height: "5px", background: BRONZE }}
-                    />
-                    <p
-                      className="text-sm leading-relaxed"
-                      style={{ color: MUTED, fontFamily: SANS }}
-                    >
-                      {item}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── RETURNS ── */}
-      <section className="py-16 md:py-20 px-6 md:px-10" style={{ background: CARD_BG }}>
-        <div className="max-w-[1360px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-            <div>
-              <SectionLabel>Returns Policy</SectionLabel>
-              <h2
-                className="mb-5"
-                style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", color: DARK }}
-              >
-                30-Day Worry-Free Returns
-              </h2>
-              <p
-                className="text-sm leading-relaxed mb-5"
-                style={{ color: MUTED, fontFamily: SANS }}
-              >
-                If a piece does not meet your expectations within 30 days of delivery, we arrange a full collection at no cost to you. Return shipping is covered by Yurdan Carpet, and your payment is refunded in full.
-              </p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: MUTED, fontFamily: SANS }}
-              >
-                Pieces must be returned in their original condition, uninstalled. Our team coordinates collection at a time that suits you, with the same white-glove standards as the original delivery.
-              </p>
-            </div>
-            <div
-              className="p-8 md:p-10"
-              style={{ background: DARK }}
-            >
-              <div
-                className="w-8 h-px mb-8"
-                style={{ background: BRONZE }}
-              />
-              <p
+              <h1
+                className="mb-6 leading-[1.0]"
                 style={{
                   fontFamily: SERIF,
                   fontWeight: 400,
-                  fontSize: "clamp(1.2rem, 2vw, 1.6rem)",
-                  color: CREAM,
-                  lineHeight: 1.5,
+                  fontSize: "clamp(2.8rem, 6vw, 5rem)",
+                  color: DARK,
+                  letterSpacing: "-0.02em",
                 }}
               >
-                "Every carpet we ship carries our name. We stand behind each piece unconditionally — before the sale, during transit, and after delivery."
-              </p>
+                Shipping &amp;<br />Delivery
+              </h1>
               <p
-                className="mt-8 text-[10px] font-semibold tracking-[0.18em] uppercase"
-                style={{ color: BRONZE, fontFamily: SANS }}
+                className="mb-8 text-sm leading-relaxed"
+                style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "400px" }}
               >
-                Yurdan Carpet, Istanbul
+                From our atelier in Türkiye to your home, every Yurdan Carpet is delivered with care, precision, and the highest standards of service.
               </p>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#delivery-times"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
+                  style={{ background: DARK, color: CREAM, fontFamily: SANS }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "#2a2520"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = DARK; }}
+                >
+                  See Shipping Times
+                  <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </a>
+                <a
+                  href="https://wa.me/905336781644"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
+                  style={{ border: `1px solid ${DARK}`, color: DARK, fontFamily: SANS }}
+                  onMouseEnter={e => { e.currentTarget.style.background = DARK; e.currentTarget.style.color = CREAM; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = DARK; }}
+                >
+                  Contact Our Team
+                  <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Right: world map */}
+            <div
+              className="relative rounded-sm overflow-hidden"
+              style={{ aspectRatio: "16/10", border: `1px solid ${BORDER}` }}
+            >
+              <WorldMap />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section
-        className="py-16 md:py-24 px-6 md:px-10 text-center"
-        style={{ background: BG, borderTop: "1px solid #E4DDD4" }}
-      >
-        <div className="max-w-[640px] mx-auto">
-          <SectionLabel>Begin Your Inquiry</SectionLabel>
-          <h2
-            className="mb-5"
-            style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: DARK }}
-          >
-            Ready to Acquire a Piece?
-          </h2>
-          <p
-            className="text-sm leading-relaxed mb-10 mx-auto"
-            style={{ color: MUTED, fontFamily: SANS, maxWidth: "380px" }}
-          >
-            Reach out via WhatsApp or email and our team will handle every detail of your shipment personally.
+      {/* ── FEATURE BAR ── */}
+      <section style={{ borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, background: BG }}>
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {features.map(({ icon, title, desc }, i) => (
+              <div
+                key={title}
+                className="flex flex-col sm:flex-row items-center sm:items-start gap-4 py-7 px-5 text-center sm:text-left"
+                style={{ borderLeft: i > 0 ? `1px solid ${BORDER}` : undefined }}
+              >
+                <div
+                  className="flex-shrink-0 rounded-full overflow-hidden flex items-center justify-center"
+                  style={{ width: "54px", height: "54px", background: DARK }}
+                >
+                  <img src={icon} alt={title} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-1" style={{ color: DARK, fontFamily: SANS }}>{title}</p>
+                  <p className="text-xs leading-relaxed" style={{ color: MUTED, fontFamily: SANS }}>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW WE DELIVER ── */}
+      <section className="py-16 md:py-24" style={{ background: BG }}>
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="text-center mb-12 md:mb-16">
+            <p className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-4 flex items-center justify-center gap-2" style={{ color: BRONZE, fontFamily: SANS }}>
+              <svg width="8" height="8" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
+              How We Deliver Your Rug
+            </p>
+          </div>
+
+          {/* Steps — horizontal on desktop, vertical on mobile */}
+          <div className="relative">
+            {/* Connecting line desktop */}
+            <div
+              className="hidden md:block absolute top-[52px] left-0 right-0"
+              style={{ height: "1px", background: BORDER, zIndex: 0, margin: "0 10%" }}
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-4 relative z-10">
+              {steps.map(({ num, icon, title, desc }) => (
+                <div key={num} className="flex flex-col items-center text-center">
+                  {/* Number circle */}
+                  <div
+                    className="flex items-center justify-center mb-4 relative"
+                    style={{
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "50%",
+                      border: `1px solid ${BORDER}`,
+                      background: BG,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span style={{ fontFamily: SERIF, fontSize: "1rem", color: BRONZE, fontWeight: 400 }}>{num}</span>
+                  </div>
+
+                  {/* Icon */}
+                  <div
+                    className="mb-4 rounded overflow-hidden flex items-center justify-center"
+                    style={{ width: "72px", height: "72px", background: DARK }}
+                  >
+                    <img src={icon} alt={title} className="w-full h-full object-cover" />
+                  </div>
+
+                  <p className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-2" style={{ color: DARK, fontFamily: SANS }}>{title}</p>
+                  <p className="text-xs leading-relaxed" style={{ color: MUTED, fontFamily: SANS, maxWidth: "160px" }}>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DELIVERY TIMES ── */}
+      <section id="delivery-times" className="py-16 md:py-20" style={{ background: CARD_BG, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="text-center mb-10 md:mb-14">
+            <p className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-4 flex items-center justify-center gap-2" style={{ color: BRONZE, fontFamily: SANS }}>
+              <svg width="8" height="8" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
+              Estimated Delivery Times
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {regions.map(({ flag, name, time, desc }) => (
+              <div
+                key={name}
+                className="flex flex-col gap-4 p-6"
+                style={{ background: BG, border: `1px solid ${BORDER}` }}
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: "44px", height: "44px", borderRadius: "50%", background: CARD_BG, border: `1px solid ${BORDER}`, fontSize: "22px" }}
+                  >
+                    {flag}
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold leading-tight" style={{ color: DARK, fontFamily: SANS }}>{name}</p>
+                    <p className="text-[11px] font-medium" style={{ color: BRONZE, fontFamily: SANS }}>{time}</p>
+                  </div>
+                </div>
+                <p className="text-xs leading-relaxed" style={{ color: MUTED, fontFamily: SANS }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-6 text-center text-xs" style={{ color: MUTED, fontFamily: SANS, opacity: 0.7 }}>
+            ⓘ Delivery times are estimated and may vary due to customs clearance or local conditions.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="https://wa.me/905336781644"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
-              style={{ background: DARK, color: CREAM, fontFamily: SANS }}
-              onMouseEnter={e => { e.currentTarget.style.background = "#2a2520"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = DARK; }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              WhatsApp Inquiry
-            </a>
-            <a
-              href="mailto:info@yurdancarpet.com"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
-              style={{ border: `1px solid ${DARK}`, color: DARK, fontFamily: SANS }}
-              onMouseEnter={e => { e.currentTarget.style.background = DARK; e.currentTarget.style.color = CREAM; }}
-              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = DARK; }}
-            >
-              Email Us
-            </a>
-            <Link
-              href="/collection"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
-              style={{ border: "1px solid #E4DDD4", color: MUTED, fontFamily: SANS }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "#C9BFB5"; e.currentTarget.style.color = DARK; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "#E4DDD4"; e.currentTarget.style.color = MUTED; }}
-            >
-              Browse Collection
-            </Link>
+        </div>
+      </section>
+
+      {/* ── CUSTOMS & PACKAGING ── */}
+      <section className="py-16 md:py-24" style={{ background: BG }}>
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+
+            {/* Customs */}
+            <div style={{ border: `1px solid ${BORDER}`, padding: "36px 40px" }}>
+              <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-4" style={{ color: BRONZE, fontFamily: SANS }}>Customs & Duties</p>
+              <p className="text-sm leading-relaxed mb-4" style={{ color: MUTED, fontFamily: SANS }}>
+                International orders may be subject to customs duties, taxes, or import fees imposed by the destination country. These charges are the responsibility of the recipient.
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS }}>
+                Yurdan Carpet is not liable for delays caused by customs procedures. Our team provides all necessary documentation to facilitate smooth clearance.
+              </p>
+            </div>
+
+            {/* Packaged with care */}
+            <div className="relative overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
+              <div className="grid grid-cols-2 h-full">
+                <div className="p-8 flex flex-col justify-between">
+                  <div>
+                    <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-4" style={{ color: BRONZE, fontFamily: SANS }}>Packaged with Care</p>
+                    <p className="text-sm leading-relaxed mb-5" style={{ color: MUTED, fontFamily: SANS }}>
+                      Your rug is more than a purchase — it is a piece of artistry. We use premium protective materials and time-honoured techniques to ensure it arrives in pristine condition.
+                    </p>
+                  </div>
+                  <a
+                    href="https://wa.me/905336781644"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-semibold tracking-[0.14em] uppercase flex items-center gap-2 transition-opacity duration-200 hover:opacity-70"
+                    style={{ color: BRONZE, fontFamily: SANS }}
+                  >
+                    Learn More About Our Packaging
+                    <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </a>
+                </div>
+                <div className="relative overflow-hidden" style={{ background: CARD_BG }}>
+                  <img
+                    src="/shipping-carpet-rolled.png"
+                    alt="Packaged carpet"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    style={{ mixBlendMode: "multiply" }}
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-16 md:py-20" style={{ background: CARD_BG, borderTop: `1px solid ${BORDER}` }}>
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="text-center mb-10">
+            <p className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-3 flex items-center justify-center gap-2" style={{ color: BRONZE, fontFamily: SANS }}>
+              <svg width="8" height="8" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
+              Frequently Asked Questions
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
+            <div>
+              {faqs.slice(0, 2).map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
+            </div>
+            <div>
+              {faqs.slice(2).map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BOTTOM CTA ── */}
+      <section
+        className="relative overflow-hidden py-16 md:py-20"
+        style={{ background: "#2A2520" }}
+      >
+        {/* Decorative carpet motif */}
+        <div
+          className="absolute right-0 top-0 bottom-0 w-1/3 pointer-events-none opacity-[0.06]"
+          style={{
+            backgroundImage: `url('/shipping-step-1.png')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "invert(1)",
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1360px] mx-auto px-6 md:px-10">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div>
+              <p className="text-sm mb-3" style={{ color: "rgba(245,239,230,0.55)", fontFamily: SANS }}>Have questions about shipping?</p>
+              <h2
+                style={{
+                  fontFamily: SERIF,
+                  fontWeight: 400,
+                  fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
+                  color: CREAM,
+                  lineHeight: 1.15,
+                }}
+              >
+                Our team is here to help<br />with personalised support.
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-3 flex-shrink-0">
+              <a
+                href="https://wa.me/905336781644"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
+                style={{ background: CREAM, color: DARK, fontFamily: SANS }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#fff"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = CREAM; }}
+              >
+                Contact Our Team
+                <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+              <Link
+                href="/collection"
+                className="inline-flex items-center gap-2 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
+                style={{ border: "1px solid rgba(245,239,230,0.25)", color: "rgba(245,239,230,0.7)", fontFamily: SANS }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.color = CREAM; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(245,239,230,0.25)"; e.currentTarget.style.color = "rgba(245,239,230,0.7)"; }}
+              >
+                Browse Collection
+              </Link>
+            </div>
           </div>
         </div>
       </section>
