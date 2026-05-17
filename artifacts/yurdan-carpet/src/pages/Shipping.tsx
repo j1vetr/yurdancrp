@@ -1,176 +1,191 @@
-import { useState } from "react";
-import { Link } from "wouter";
+import { useState, useEffect, useMemo } from "react";
+import { geoEqualEarth, geoPath, geoGraticule, GeoPermissibleObjects } from "d3-geo";
+import { feature, mesh } from "topojson-client";
+import type { Topology } from "topojson-specification";
 
 const SERIF = "'Cormorant Garamond', serif";
-const SANS = "'Inter', sans-serif";
-const BRONZE = "#9B7B56";
-const DARK = "#141210";
-const CREAM = "#F5EFE6";
-const MUTED = "#7A726A";
-const BG = "#FAFAF8";
+const SANS  = "'Inter', sans-serif";
+const BRONZE  = "#9B7B56";
+const DARK    = "#141210";
+const CREAM   = "#F5EFE6";
+const MUTED   = "#7A726A";
+const BG      = "#FAFAF8";
 const CARD_BG = "#F5F0EB";
-const BORDER = "#E4DDD4";
+const BORDER  = "#E4DDD4";
+
+const W = 960;
+const H = 500;
+
+const ISTANBUL: [number, number] = [29, 41];
+
+const DESTINATIONS: Array<{ coords: [number, number]; label: string; delay: number }> = [
+  { coords: [12,  50],  label: "EUROPE",        delay: 0   },
+  { coords: [-95, 38],  label: "UNITED STATES",  delay: 0.7 },
+  { coords: [-55, -15], label: "S. AMERICA",     delay: 1.4 },
+  { coords: [22,   2],  label: "AFRICA",         delay: 2.1 },
+  { coords: [105, 35],  label: "ASIA",           delay: 2.8 },
+  { coords: [134, -25], label: "AUSTRALIA",      delay: 3.5 },
+  { coords: [-80, 55],  label: "CANADA",         delay: 4.2 },
+];
 
 /* ─── WORLD MAP ─────────────────────────────────────────── */
 function WorldMap() {
-  const istanbul = { x: 565, y: 152 };
-  const destinations = [
-    { x: 450, y: 118, label: "EUROPE" },
-    { x: 185, y: 168, label: "UNITED STATES" },
-    { x: 235, y: 298, label: "SOUTH AMERICA" },
-    { x: 475, y: 255, label: "AFRICA" },
-    { x: 620, y: 182, label: "ASIA" },
-    { x: 810, y: 330, label: "AUSTRALIA" },
-    { x: 155, y: 105, label: "CANADA" },
-  ];
+  const [countryPaths, setCountryPaths] = useState<string[]>([]);
+  const [borderPath,   setBorderPath]   = useState<string>("");
+  const [arcPaths,     setArcPaths]     = useState<string[]>([]);
 
-  const arc = (from: typeof istanbul, to: typeof destinations[0]) => {
-    const mx = (from.x + to.x) / 2;
-    const my = Math.min(from.y, to.y) - Math.abs(from.x - to.x) * 0.22;
-    return `M ${from.x} ${from.y} Q ${mx} ${my} ${to.x} ${to.y}`;
-  };
+  const projection = useMemo(() =>
+    geoEqualEarth()
+      .scale(155)
+      .translate([W / 2, H / 2 + 30]),
+    []
+  );
+
+  const path = useMemo(() => geoPath(projection).digits(2), [projection]);
+
+  const graticule = useMemo(() => geoGraticule()(), []);
+  const graticulePath = useMemo(() => path(graticule) ?? "", [path, graticule]);
+
+  /* istanbul & destination screen positions */
+  const istPos  = useMemo(() => projection(ISTANBUL),                  [projection]);
+  const destPos = useMemo(() => DESTINATIONS.map(d => projection(d.coords)), [projection]);
+
+  useEffect(() => {
+    fetch("/world-110m.json")
+      .then(r => r.json())
+      .then((topo: Topology) => {
+        const countries = feature(topo, (topo.objects as any).countries);
+        const cPaths = (countries as any).features.map(
+          (f: GeoPermissibleObjects) => path(f) ?? ""
+        );
+        setCountryPaths(cPaths);
+
+        const borders = mesh(topo, (topo.objects as any).countries, (a: any, b: any) => a !== b);
+        setBorderPath(path(borders as any) ?? "");
+
+        /* great-circle arcs */
+        const arcs = DESTINATIONS.map(({ coords }) => {
+          const line: GeoPermissibleObjects = {
+            type: "Feature",
+            properties: {},
+            geometry: { type: "LineString", coordinates: [ISTANBUL, coords] },
+          } as any;
+          return path(line) ?? "";
+        });
+        setArcPaths(arcs);
+      });
+  }, [path]);
 
   return (
     <div className="relative w-full h-full">
       <style>{`
-        @keyframes drawArc {
-          from { stroke-dashoffset: 600; opacity: 0; }
-          10%  { opacity: 1; }
-          to   { stroke-dashoffset: 0; opacity: 0.7; }
+        @keyframes arcDraw {
+          0%   { stroke-dashoffset: 2000; opacity: 0; }
+          6%   { opacity: 0.9; }
+          80%  { opacity: 0.9; }
+          100% { stroke-dashoffset: 0; opacity: 0; }
         }
-        @keyframes pulse {
-          0%, 100% { r: 7; opacity: 0.9; }
-          50% { r: 11; opacity: 0.3; }
+        @keyframes originPulse {
+          0%, 100% { opacity: 0.15; }
+          50%       { opacity: 0.4;  }
         }
-        .arc-line { stroke-dasharray: 600; animation: drawArc 3.5s ease-in-out infinite; }
-        .arc-line:nth-child(1)  { animation-delay: 0s; }
-        .arc-line:nth-child(2)  { animation-delay: 0.5s; }
-        .arc-line:nth-child(3)  { animation-delay: 1s; }
-        .arc-line:nth-child(4)  { animation-delay: 1.5s; }
-        .arc-line:nth-child(5)  { animation-delay: 2s; }
-        .arc-line:nth-child(6)  { animation-delay: 2.5s; }
-        .arc-line:nth-child(7)  { animation-delay: 3s; }
-        .pulse-ring { animation: pulse 2.2s ease-in-out infinite; }
+        .arc-line {
+          stroke-dasharray: 2000;
+          animation: arcDraw 4.5s ease-in-out infinite;
+        }
+        .origin-pulse { animation: originPulse 2.4s ease-in-out infinite; }
       `}</style>
 
-      <svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <defs>
-          <pattern id="mapDots" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill={BRONZE} opacity="0.18" />
-          </pattern>
-        </defs>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ width: "100%", height: "100%", display: "block" }}
+      >
+        {/* Ocean */}
+        <rect width={W} height={H} fill={BG} />
 
-        {/* Dot grid background */}
-        <rect width="960" height="480" fill={BG} />
-        <rect width="960" height="480" fill="url(#mapDots)" />
+        {/* Graticule (lat/lon grid) */}
+        <path d={graticulePath} fill="none" stroke={BORDER} strokeWidth={0.3} opacity={0.5} />
 
-        {/* Continent fills — simplified polygons */}
-        {/* North America */}
-        <path d="M 95,68 L 270,52 L 310,85 L 305,115 L 280,155 L 270,195 L 245,218 L 205,225 L 170,208 L 140,180 L 105,175 L 80,155 L 78,120 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Greenland */}
-        <path d="M 290,30 L 335,22 L 350,45 L 330,65 L 295,58 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* South America */}
-        <path d="M 175,248 L 250,232 L 285,255 L 290,305 L 275,360 L 255,398 L 220,408 L 192,382 L 170,340 L 158,295 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Europe */}
-        <path d="M 410,72 L 500,62 L 525,82 L 520,108 L 498,128 L 472,138 L 445,130 L 418,112 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* UK */}
-        <path d="M 395,78 L 408,72 L 412,88 L 400,96 L 390,88 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Scandinavia */}
-        <path d="M 455,45 L 490,38 L 498,62 L 472,72 L 455,62 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Africa */}
-        <path d="M 412,148 L 508,138 L 540,165 L 545,215 L 535,275 L 510,348 L 475,372 L 435,358 L 408,305 L 400,248 L 400,195 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Middle East */}
-        <path d="M 522,138 L 600,132 L 628,158 L 622,198 L 585,212 L 545,205 L 522,178 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Turkey highlight */}
-        <path d="M 530,140 L 585,136 L 600,148 L 595,162 L 570,168 L 545,162 L 530,152 Z"
-          fill="#EDE5D8" stroke={BRONZE} strokeWidth="1" />
-        {/* Asia */}
-        <path d="M 595,72 L 820,58 L 855,88 L 845,128 L 810,155 L 770,168 L 730,175 L 695,185 L 665,195 L 635,182 L 610,158 L 600,128 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Indian subcontinent */}
-        <path d="M 660,195 L 700,188 L 720,215 L 710,258 L 680,268 L 655,248 L 648,218 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Southeast Asia */}
-        <path d="M 750,178 L 810,165 L 830,185 L 820,208 L 790,215 L 758,205 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Japan */}
-        <path d="M 848,115 L 868,108 L 875,128 L 862,142 L 848,132 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* Australia */}
-        <path d="M 748,288 L 855,272 L 872,308 L 862,355 L 830,372 L 778,368 L 748,342 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
-        {/* New Zealand */}
-        <path d="M 878,348 L 892,338 L 898,355 L 888,365 L 875,358 Z"
-          fill={CARD_BG} stroke={BORDER} strokeWidth="0.8" />
+        {/* Country fills */}
+        {countryPaths.map((d, i) => (
+          <path key={i} d={d} fill={CARD_BG} />
+        ))}
 
-        {/* Animated arcs FROM Istanbul */}
-        {destinations.map((dest, i) => (
+        {/* Country borders */}
+        <path d={borderPath} fill="none" stroke={BORDER} strokeWidth={0.5} />
+
+        {/* Animated great-circle arcs */}
+        {arcPaths.map((d, i) => (
           <path
             key={i}
-            d={arc(istanbul, dest)}
+            d={d}
             fill="none"
             stroke={BRONZE}
-            strokeWidth="1.4"
+            strokeWidth={1.3}
+            strokeLinecap="round"
             className="arc-line"
+            style={{ animationDelay: `${DESTINATIONS[i].delay}s` }}
           />
         ))}
 
-        {/* Destination dots */}
-        {destinations.map((dest, i) => (
-          <circle key={i} cx={dest.x} cy={dest.y} r="4" fill={BRONZE} opacity="0.7" />
-        ))}
-
-        {/* Destination labels */}
-        {destinations.slice(0, 6).map((dest, i) => (
-          <text
-            key={i}
-            x={dest.x}
-            y={dest.y - 10}
-            textAnchor="middle"
-            fontSize="7"
-            fontFamily={SANS}
-            fontWeight="600"
-            letterSpacing="0.08em"
-            fill={BRONZE}
-            opacity="0.65"
-          >
-            {dest.label}
-          </text>
-        ))}
+        {/* Destination dots + labels */}
+        {destPos.map((pos, i) => pos ? (
+          <g key={i}>
+            <circle cx={pos[0]} cy={pos[1]} r={3.5} fill={BRONZE} opacity={0.75} />
+            <text
+              x={pos[0]}
+              y={pos[1] - 8}
+              textAnchor="middle"
+              fontSize={5.5}
+              fontFamily={SANS}
+              fontWeight="700"
+              fill={BRONZE}
+              opacity={0.7}
+              letterSpacing="0.06em"
+            >
+              {DESTINATIONS[i].label}
+            </text>
+          </g>
+        ) : null)}
 
         {/* Istanbul origin */}
-        <circle cx={istanbul.x} cy={istanbul.y} className="pulse-ring" r="7" fill={BRONZE} opacity="0.25" />
-        <circle cx={istanbul.x} cy={istanbul.y} r="5" fill={BRONZE} />
-        <rect x={istanbul.x + 8} y={istanbul.y - 10} width="60" height="16" rx="2" fill={DARK} />
-        <text
-          x={istanbul.x + 38}
-          y={istanbul.y + 1}
-          textAnchor="middle"
-          fontSize="7"
-          fontFamily={SANS}
-          fontWeight="700"
-          letterSpacing="0.1em"
-          fill={CREAM}
-        >
-          TÜRKİYE
-        </text>
+        {istPos && (
+          <g>
+            <circle
+              cx={istPos[0]} cy={istPos[1]}
+              r={14}
+              fill={BRONZE}
+              className="origin-pulse"
+            />
+            <circle cx={istPos[0]} cy={istPos[1]} r={5} fill={BRONZE} />
+            <rect
+              x={istPos[0] + 9} y={istPos[1] - 10}
+              width={68} height={18} rx={3}
+              fill={DARK}
+            />
+            <text
+              x={istPos[0] + 43} y={istPos[1] + 3}
+              textAnchor="middle"
+              fontSize={7}
+              fontFamily={SANS}
+              fontWeight="700"
+              fill={CREAM}
+              letterSpacing="0.1em"
+            >
+              TÜRKİYE
+            </text>
+          </g>
+        )}
 
-        {/* Compass rose bottom-right */}
-        <g transform="translate(920, 430)">
-          <circle cx="0" cy="0" r="14" fill="none" stroke={BORDER} strokeWidth="1" />
-          <path d="M 0,-10 L 2,-2 L 0,0 L -2,-2 Z" fill={BRONZE} opacity="0.5" />
-          <path d="M 0,10 L 2,2 L 0,0 L -2,2 Z" fill={MUTED} opacity="0.3" />
-          <path d="M -10,0 L -2,2 L 0,0 L -2,-2 Z" fill={MUTED} opacity="0.3" />
-          <path d="M 10,0 L 2,2 L 0,0 L 2,-2 Z" fill={MUTED} opacity="0.3" />
-          <text x="0" y="-15" textAnchor="middle" fontSize="6" fontFamily={SANS} fill={BRONZE} opacity="0.6">N</text>
+        {/* Compass rose */}
+        <g transform="translate(920, 460)">
+          <circle cx={0} cy={0} r={14} fill="none" stroke={BORDER} strokeWidth={1} />
+          <path d="M 0,-10 L 2,-2 L 0,0 L -2,-2 Z" fill={BRONZE} opacity={0.6} />
+          <path d="M 0,10 L 2,2 L 0,0 L -2,2 Z"   fill={MUTED}  opacity={0.3} />
+          <path d="M -10,0 L -2,2 L 0,0 L -2,-2 Z" fill={MUTED}  opacity={0.3} />
+          <path d="M 10,0 L 2,2 L 0,0 L 2,-2 Z"    fill={MUTED}  opacity={0.3} />
+          <text x={0} y={-17} textAnchor="middle" fontSize={6} fontFamily={SANS} fill={BRONZE} opacity={0.7}>N</text>
         </g>
       </svg>
     </div>
@@ -189,22 +204,14 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <span style={{ fontFamily: SANS, fontSize: "0.85rem", color: DARK, fontWeight: 400 }}>{q}</span>
         <span
           style={{
-            flexShrink: 0,
-            width: "22px",
-            height: "22px",
-            border: `1px solid ${BORDER}`,
-            borderRadius: "50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: BRONZE,
-            fontSize: "14px",
+            flexShrink: 0, width: "22px", height: "22px",
+            border: `1px solid ${BORDER}`, borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: BRONZE, fontSize: "14px",
             transition: "transform 0.2s",
             transform: open ? "rotate(45deg)" : "none",
           }}
-        >
-          +
-        </span>
+        >+</span>
       </button>
       {open && (
         <p className="pb-5 text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS, maxWidth: "520px" }}>
@@ -215,35 +222,97 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+/* ─── FLAG CIRCLE ────────────────────────────────────────── */
+function FlagCircle({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div style={{
+      width: "44px", height: "44px", borderRadius: "50%",
+      overflow: "hidden", border: `1px solid ${BORDER}`,
+      flexShrink: 0, background: CARD_BG,
+    }}>
+      <img src={src} alt={alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </div>
+  );
+}
+
+function FlagDouble({ srcA, altA, srcB, altB }: { srcA: string; altA: string; srcB: string; altB: string }) {
+  return (
+    <div style={{
+      width: "44px", height: "44px", borderRadius: "50%",
+      overflow: "hidden", border: `1px solid ${BORDER}`,
+      flexShrink: 0, background: CARD_BG, display: "flex",
+    }}>
+      <img src={srcA} alt={altA} style={{ width: "50%", height: "100%", objectFit: "cover" }} />
+      <img src={srcB} alt={altB} style={{ width: "50%", height: "100%", objectFit: "cover" }} />
+    </div>
+  );
+}
+
+function GlobeCircle() {
+  return (
+    <div style={{
+      width: "44px", height: "44px", borderRadius: "50%",
+      border: `1px solid ${BORDER}`, flexShrink: 0, background: CARD_BG,
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BRONZE} strokeWidth="1.4">
+        <circle cx="12" cy="12" r="10" />
+        <ellipse cx="12" cy="12" rx="4" ry="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+      </svg>
+    </div>
+  );
+}
+
 /* ─── PAGE ───────────────────────────────────────────────── */
 export default function Shipping() {
   const features = [
-    { icon: "/shipping-icon-worldwide.png", title: "Worldwide Shipping", desc: "We deliver to over 120 countries with trusted international partners." },
-    { icon: "/shipping-icon-packaging.png", title: "Secure Packaging", desc: "Every rug is carefully wrapped and protected for a safe journey." },
-    { icon: "/shipping-icon-tracking.png", title: "Tracked Delivery", desc: "Real-time tracking updates from dispatch to your doorstep." },
-    { icon: "/shipping-icon-assistance.png", title: "Personal Assistance", desc: "Our team is here to help you every step of the way." },
+    { icon: "/shipping-icon-worldwide-t.png",  title: "Worldwide Shipping",  desc: "We deliver to over 120 countries with trusted international partners." },
+    { icon: "/shipping-icon-packaging-t.png",  title: "Secure Packaging",    desc: "Every rug is carefully wrapped and protected for a safe journey." },
+    { icon: "/shipping-icon-tracking-t.png",   title: "Tracked Delivery",    desc: "Real-time tracking updates from dispatch to your doorstep." },
+    { icon: "/shipping-icon-assistance-t.png", title: "Personal Assistance", desc: "Our team is here to help you every step of the way." },
   ];
 
   const steps = [
-    { num: "1", icon: "/shipping-step-1.png", title: "Rug Selection", desc: "Choose your perfect rug from our collection or create a custom piece." },
-    { num: "2", icon: "/shipping-step-2.png", title: "Final Inspection", desc: "Each rug is inspected meticulously to ensure quality and perfection." },
-    { num: "3", icon: "/shipping-step-3.png", title: "Professional Packaging", desc: "Hand-wrapped with premium materials for maximum protection." },
-    { num: "4", icon: "/shipping-step-4.png", title: "Courier Dispatch", desc: "Dispatched with trusted carriers for secure and timely delivery." },
-    { num: "5", icon: "/shipping-step-5.png", title: "Tracking & Delivery", desc: "Track your shipment in real time until it arrives safely to you." },
+    { num: "1", icon: "/shipping-step-1-t.png", title: "Rug Selection",          desc: "Choose your perfect rug from our collection or create a custom piece." },
+    { num: "2", icon: "/shipping-step-2-t.png", title: "Final Inspection",       desc: "Each rug is inspected meticulously to ensure quality and perfection." },
+    { num: "3", icon: "/shipping-step-3-t.png", title: "Professional Packaging", desc: "Hand-wrapped with premium materials for maximum protection." },
+    { num: "4", icon: "/shipping-step-4-t.png", title: "Courier Dispatch",       desc: "Dispatched with trusted carriers for secure and timely delivery." },
+    { num: "5", icon: "/shipping-step-5-t.png", title: "Tracking & Delivery",    desc: "Track your shipment in real time until it arrives safely to you." },
   ];
 
   const regions = [
-    { flag: "🇪🇺", name: "Europe", time: "4 – 7 Business Days", desc: "Fast and reliable delivery across all European countries." },
-    { flag: "🇺🇸", name: "United States & Canada", time: "6 – 10 Business Days", desc: "Carefully managed shipping to North America." },
-    { flag: "🌙", name: "Middle East", time: "3 – 6 Business Days", desc: "Quick delivery to GCC countries and beyond." },
-    { flag: "🌍", name: "Other Destinations", time: "7 – 14 Business Days", desc: "Delivery times may vary depending on location." },
+    {
+      flagEl: <FlagCircle src="/flag-eu.svg" alt="European Union" />,
+      name: "Europe",
+      time: "4 – 7 Business Days",
+      desc: "Fast and reliable delivery across all European countries.",
+    },
+    {
+      flagEl: <FlagDouble srcA="/flag-us.svg" altA="USA" srcB="/flag-ca.svg" altB="Canada" />,
+      name: "United States & Canada",
+      time: "6 – 10 Business Days",
+      desc: "Carefully managed shipping to North America.",
+    },
+    {
+      flagEl: <FlagCircle src="/flag-ae.svg" alt="UAE" />,
+      name: "Middle East",
+      time: "3 – 6 Business Days",
+      desc: "Quick delivery to GCC countries and beyond.",
+    },
+    {
+      flagEl: <GlobeCircle />,
+      name: "Other Destinations",
+      time: "7 – 14 Business Days",
+      desc: "Delivery times may vary depending on location.",
+    },
   ];
 
   const faqs = [
-    { q: "Do you ship internationally?", a: "Yes, we ship to over 120 countries worldwide. Our logistics team handles all international freight with full insurance and real-time tracking." },
-    { q: "What if my rug is delayed?", a: "In the rare event of a delay, your dedicated logistics coordinator will contact you immediately and provide updated tracking information." },
-    { q: "How can I track my order?", a: "Once your rug is dispatched, you will receive a tracking number and direct contact details for your logistics coordinator who will assist you throughout." },
-    { q: "Are there any shipping fees?", a: "Yurdan Carpet offers complimentary shipping on all orders. There are no hidden shipping charges — your purchase price covers delivery to your door." },
+    { q: "Do you ship internationally?",  a: "Yes, we ship to over 120 countries worldwide. Our logistics team handles all international freight with full insurance and real-time tracking." },
+    { q: "What if my rug is delayed?",    a: "In the rare event of a delay, your dedicated logistics coordinator will contact you immediately and provide updated tracking information." },
+    { q: "How can I track my order?",     a: "Once your rug is dispatched, you will receive a tracking number and direct contact details for your logistics coordinator who will assist you throughout." },
+    { q: "Are there any shipping fees?",  a: "Yurdan Carpet offers complimentary shipping on all orders. There are no hidden shipping charges — your purchase price covers delivery to your door." },
   ];
 
   return (
@@ -254,31 +323,15 @@ export default function Shipping() {
         <div className="max-w-[1360px] mx-auto px-6 md:px-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
 
-            {/* Left: text */}
             <div className="pb-8 md:pb-16">
-              <p
-                className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-5 flex items-center gap-2"
-                style={{ color: BRONZE, fontFamily: SANS }}
-              >
+              <p className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-5 flex items-center gap-2" style={{ color: BRONZE, fontFamily: SANS }}>
                 <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
                 From Türkiye to the World
               </p>
-              <h1
-                className="mb-6 leading-[1.0]"
-                style={{
-                  fontFamily: SERIF,
-                  fontWeight: 400,
-                  fontSize: "clamp(2.8rem, 6vw, 5rem)",
-                  color: DARK,
-                  letterSpacing: "-0.02em",
-                }}
-              >
+              <h1 className="mb-6 leading-[1.0]" style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.8rem, 6vw, 5rem)", color: DARK, letterSpacing: "-0.02em" }}>
                 Shipping &amp;<br />Delivery
               </h1>
-              <p
-                className="mb-8 text-sm leading-relaxed"
-                style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "400px" }}
-              >
+              <p className="mb-8 text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "400px" }}>
                 From our atelier in Türkiye to your home, every Yurdan Carpet is delivered with care, precision, and the highest standards of service.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -307,7 +360,6 @@ export default function Shipping() {
               </div>
             </div>
 
-            {/* Right: world map */}
             <div
               className="relative rounded-sm overflow-hidden"
               style={{ aspectRatio: "16/10", border: `1px solid ${BORDER}` }}
@@ -329,10 +381,10 @@ export default function Shipping() {
                 style={{ borderLeft: i > 0 ? `1px solid ${BORDER}` : undefined }}
               >
                 <div
-                  className="flex-shrink-0 rounded-full overflow-hidden flex items-center justify-center"
-                  style={{ width: "54px", height: "54px", background: DARK }}
+                  className="flex-shrink-0 flex items-center justify-center"
+                  style={{ width: "54px", height: "54px", borderRadius: "50%", background: CARD_BG, border: `1px solid ${BORDER}` }}
                 >
-                  <img src={icon} alt={title} className="w-full h-full object-cover" />
+                  <img src={icon} alt={title} style={{ width: "30px", height: "30px", objectFit: "contain" }} />
                 </div>
                 <div>
                   <p className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-1" style={{ color: DARK, fontFamily: SANS }}>{title}</p>
@@ -354,40 +406,26 @@ export default function Shipping() {
             </p>
           </div>
 
-          {/* Steps — horizontal on desktop, vertical on mobile */}
           <div className="relative">
-            {/* Connecting line desktop */}
             <div
-              className="hidden md:block absolute top-[52px] left-0 right-0"
+              className="hidden md:block absolute top-[38px] left-0 right-0"
               style={{ height: "1px", background: BORDER, zIndex: 0, margin: "0 10%" }}
             />
-
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-4 relative z-10">
               {steps.map(({ num, icon, title, desc }) => (
                 <div key={num} className="flex flex-col items-center text-center">
-                  {/* Number circle */}
                   <div
-                    className="flex items-center justify-center mb-4 relative"
-                    style={{
-                      width: "42px",
-                      height: "42px",
-                      borderRadius: "50%",
-                      border: `1px solid ${BORDER}`,
-                      background: BG,
-                      flexShrink: 0,
-                    }}
+                    className="flex items-center justify-center mb-5 relative"
+                    style={{ width: "38px", height: "38px", borderRadius: "50%", border: `1px solid ${BORDER}`, background: BG, flexShrink: 0 }}
                   >
                     <span style={{ fontFamily: SERIF, fontSize: "1rem", color: BRONZE, fontWeight: 400 }}>{num}</span>
                   </div>
-
-                  {/* Icon */}
                   <div
-                    className="mb-4 rounded overflow-hidden flex items-center justify-center"
-                    style={{ width: "72px", height: "72px", background: DARK }}
+                    className="mb-4 flex items-center justify-center"
+                    style={{ width: "80px", height: "80px", background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: "4px" }}
                   >
-                    <img src={icon} alt={title} className="w-full h-full object-cover" />
+                    <img src={icon} alt={title} style={{ width: "52px", height: "52px", objectFit: "contain" }} />
                   </div>
-
                   <p className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-2" style={{ color: DARK, fontFamily: SANS }}>{title}</p>
                   <p className="text-xs leading-relaxed" style={{ color: MUTED, fontFamily: SANS, maxWidth: "160px" }}>{desc}</p>
                 </div>
@@ -408,19 +446,10 @@ export default function Shipping() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {regions.map(({ flag, name, time, desc }) => (
-              <div
-                key={name}
-                className="flex flex-col gap-4 p-6"
-                style={{ background: BG, border: `1px solid ${BORDER}` }}
-              >
+            {regions.map(({ flagEl, name, time, desc }) => (
+              <div key={name} className="flex flex-col gap-4 p-6" style={{ background: BG, border: `1px solid ${BORDER}` }}>
                 <div className="flex items-center gap-3">
-                  <div
-                    className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: "44px", height: "44px", borderRadius: "50%", background: CARD_BG, border: `1px solid ${BORDER}`, fontSize: "22px" }}
-                  >
-                    {flag}
-                  </div>
+                  {flagEl}
                   <div>
                     <p className="text-[11px] font-semibold leading-tight" style={{ color: DARK, fontFamily: SANS }}>{name}</p>
                     <p className="text-[11px] font-medium" style={{ color: BRONZE, fontFamily: SANS }}>{time}</p>
@@ -432,7 +461,7 @@ export default function Shipping() {
           </div>
 
           <p className="mt-6 text-center text-xs" style={{ color: MUTED, fontFamily: SANS, opacity: 0.7 }}>
-            ⓘ Delivery times are estimated and may vary due to customs clearance or local conditions.
+            Delivery times are estimated and may vary due to customs clearance or local conditions.
           </p>
         </div>
       </section>
@@ -441,8 +470,6 @@ export default function Shipping() {
       <section className="py-16 md:py-24" style={{ background: BG }}>
         <div className="max-w-[1360px] mx-auto px-6 md:px-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
-
-            {/* Customs */}
             <div style={{ border: `1px solid ${BORDER}`, padding: "36px 40px" }}>
               <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-4" style={{ color: BRONZE, fontFamily: SANS }}>Customs & Duties</p>
               <p className="text-sm leading-relaxed mb-4" style={{ color: MUTED, fontFamily: SANS }}>
@@ -453,7 +480,6 @@ export default function Shipping() {
               </p>
             </div>
 
-            {/* Packaged with care */}
             <div className="relative overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
               <div className="grid grid-cols-2 h-full">
                 <div className="p-8 flex flex-col justify-between">
@@ -484,7 +510,6 @@ export default function Shipping() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -499,45 +524,23 @@ export default function Shipping() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
-            <div>
-              {faqs.slice(0, 2).map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
-            </div>
-            <div>
-              {faqs.slice(2).map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
-            </div>
+            <div>{faqs.slice(0, 2).map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}</div>
+            <div>{faqs.slice(2).map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}</div>
           </div>
         </div>
       </section>
 
       {/* ── BOTTOM CTA ── */}
-      <section
-        className="relative overflow-hidden py-16 md:py-20"
-        style={{ background: "#2A2520" }}
-      >
-        {/* Decorative carpet motif */}
+      <section className="relative overflow-hidden py-16 md:py-20" style={{ background: "#2A2520" }}>
         <div
           className="absolute right-0 top-0 bottom-0 w-1/3 pointer-events-none opacity-[0.06]"
-          style={{
-            backgroundImage: `url('/shipping-step-1.png')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "invert(1)",
-          }}
+          style={{ backgroundImage: `url('/shipping-step-1-t.png')`, backgroundSize: "cover", backgroundPosition: "center" }}
         />
-
         <div className="relative z-10 max-w-[1360px] mx-auto px-6 md:px-10">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div>
               <p className="text-sm mb-3" style={{ color: "rgba(245,239,230,0.55)", fontFamily: SANS }}>Have questions about shipping?</p>
-              <h2
-                style={{
-                  fontFamily: SERIF,
-                  fontWeight: 400,
-                  fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
-                  color: CREAM,
-                  lineHeight: 1.15,
-                }}
-              >
+              <h2 style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(1.5rem, 3vw, 2.5rem)", color: CREAM, lineHeight: 1.15 }}>
                 Our team is here to help<br />with personalised support.
               </h2>
             </div>
@@ -551,18 +554,19 @@ export default function Shipping() {
                 onMouseEnter={e => { e.currentTarget.style.background = "#fff"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = CREAM; }}
               >
-                Contact Our Team
+                WhatsApp Us
                 <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </a>
-              <Link
-                href="/collection"
+              <a
+                href="mailto:info@yurdancarpet.com"
                 className="inline-flex items-center gap-2 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
-                style={{ border: "1px solid rgba(245,239,230,0.25)", color: "rgba(245,239,230,0.7)", fontFamily: SANS }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.color = CREAM; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(245,239,230,0.25)"; e.currentTarget.style.color = "rgba(245,239,230,0.7)"; }}
+                style={{ border: "1px solid rgba(245,239,230,0.3)", color: CREAM, fontFamily: SANS }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = CREAM; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(245,239,230,0.3)"; }}
               >
-                Browse Collection
-              </Link>
+                Send an Email
+                <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
             </div>
           </div>
         </div>
