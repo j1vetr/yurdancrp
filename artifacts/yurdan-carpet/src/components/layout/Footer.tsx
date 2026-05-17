@@ -18,11 +18,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-14 mb-16">
 
           {/* Brand column */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
             <img
               src={logoLight}
               alt="Yurdan Carpet"
-              className="h-9 object-contain mb-7"
+              className="h-14 object-contain mb-7"
               style={{ filter: "brightness(0) invert(1)", opacity: 0.85 }}
             />
             <p
@@ -34,17 +34,17 @@ export function Footer() {
           </div>
 
           {/* Navigate column */}
-          <div className="md:col-span-2 md:col-start-6">
+          <div className="md:col-span-2 md:col-start-6 flex flex-col items-center md:items-start text-center md:text-left">
             <p
               className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-6"
               style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
             >
               Navigate
             </p>
-            <nav className="flex flex-col gap-3.5">
+            <nav className="flex flex-col gap-3.5 items-center md:items-start">
               <Link
                 href="/collection"
-                className="text-sm transition-colors duration-200 hover:text-white w-fit"
+                className="text-sm transition-colors duration-200 hover:text-white"
                 style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
                 data-testid="link-footer-collection"
               >
@@ -52,7 +52,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/about"
-                className="text-sm transition-colors duration-200 hover:text-white w-fit"
+                className="text-sm transition-colors duration-200 hover:text-white"
                 style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
                 data-testid="link-footer-about"
               >
@@ -60,7 +60,7 @@ export function Footer() {
               </Link>
               <a
                 href="mailto:info@yurdancarpet.com"
-                className="text-sm transition-colors duration-200 hover:text-white w-fit"
+                className="text-sm transition-colors duration-200 hover:text-white"
                 style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
                 data-testid="link-footer-contact"
               >
@@ -70,14 +70,14 @@ export function Footer() {
           </div>
 
           {/* Contact column */}
-          <div className="md:col-span-4 md:col-start-9">
+          <div className="md:col-span-4 md:col-start-9 flex flex-col items-center md:items-start text-center md:text-left">
             <p
               className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-6"
               style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
             >
               Contact
             </p>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 items-center md:items-start">
 
               {/* Address */}
               <a
@@ -91,7 +91,7 @@ export function Footer() {
                   <path d="M12 21s-8-7.5-8-12a8 8 0 1 1 16 0c0 4.5-8 12-8 12z"/><circle cx="12" cy="9" r="2.5"/>
                 </svg>
                 <span
-                  className="text-sm leading-relaxed group-hover:text-white transition-colors duration-200"
+                  className="text-sm leading-relaxed group-hover:text-white transition-colors duration-200 text-center md:text-left"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Sultan Ahmet, Alemdar,<br />
@@ -103,7 +103,7 @@ export function Footer() {
               {/* Email */}
               <a
                 href="mailto:info@yurdancarpet.com"
-                className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white w-fit"
+                className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white"
                 style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
                 data-testid="link-footer-email"
               >
@@ -118,7 +118,7 @@ export function Footer() {
                 href="https://wa.me/905336781644"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm transition-colors duration-200 w-fit"
+                className="flex items-center gap-3 text-sm transition-colors duration-200"
                 style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
                 onMouseEnter={e => {
                   e.currentTarget.style.color = "#25D366";
@@ -141,7 +141,7 @@ export function Footer() {
         <div style={{ height: "1px", background: "rgba(245,239,230,0.08)" }} />
 
         {/* Bottom bar */}
-        <div className="pt-7 pb-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div className="pt-7 pb-2 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
           <p
             className="text-xs"
             style={{ color: "rgba(245,239,230,0.25)", fontFamily: "'Inter', sans-serif" }}
