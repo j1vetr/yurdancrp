@@ -99,6 +99,7 @@ function WorldMap() {
       <svg
         viewBox={`0 0 ${W} ${H}`}
         xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice"
         style={{ width: "100%", height: "100%", display: "block" }}
       >
         {/* Ocean */}
@@ -132,17 +133,17 @@ function WorldMap() {
         {/* Destination dots + labels */}
         {destPos.map((pos, i) => pos ? (
           <g key={i}>
-            <circle cx={pos[0]} cy={pos[1]} r={3.5} fill={BRONZE} opacity={0.75} />
+            <circle cx={pos[0]} cy={pos[1]} r={5} fill={BRONZE} opacity={0.75} />
             <text
               x={pos[0]}
-              y={pos[1] - 8}
+              y={pos[1] - 12}
               textAnchor="middle"
-              fontSize={5.5}
+              fontSize={10}
               fontFamily={SANS}
               fontWeight="700"
               fill={BRONZE}
-              opacity={0.7}
-              letterSpacing="0.06em"
+              opacity={0.85}
+              letterSpacing="0.07em"
             >
               {DESTINATIONS[i].label}
             </text>
@@ -367,7 +368,7 @@ export default function Shipping() {
         {/* Full-width large map */}
         <div
           className="w-full overflow-hidden"
-          style={{ height: "clamp(380px, 55vw, 620px)", borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}
+          style={{ height: "clamp(300px, 65vw, 620px)", borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}
         >
           <WorldMap />
         </div>
