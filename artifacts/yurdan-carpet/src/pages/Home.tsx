@@ -189,6 +189,91 @@ function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
   );
 }
 
+const SHOWROOM_IMAGES = [
+  "/brand/showroom-1.webp",
+  "/brand/showroom-2.webp",
+  "/brand/showroom-3.webp",
+];
+
+function ShowroomSlider() {
+  const [active, setActive] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const go = (idx: number) => {
+    setVisible(false);
+    setTimeout(() => {
+      setActive(idx);
+      setVisible(true);
+    }, 180);
+  };
+
+  const prev = () => go((active - 1 + SHOWROOM_IMAGES.length) % SHOWROOM_IMAGES.length);
+  const next = () => go((active + 1) % SHOWROOM_IMAGES.length);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setActive(i => (i + 1) % SHOWROOM_IMAGES.length);
+        setVisible(true);
+      }, 180);
+    }, 4500);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <section className="relative w-full overflow-hidden" style={{ background: "#141210", aspectRatio: "16/7" }}>
+      <img
+        src={SHOWROOM_IMAGES[active]}
+        alt="Yurdan Carpet Showroom"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: visible ? 1 : 0, transition: "opacity 0.18s ease" }}
+      />
+
+      {/* Left arrow */}
+      <button
+        onClick={prev}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-opacity duration-200 hover:opacity-100"
+        style={{ width: "44px", height: "44px", background: "rgba(20,18,16,0.45)", opacity: 0.75 }}
+        aria-label="Previous"
+      >
+        <svg width="16" height="16" fill="none" stroke="#F5EFE6" strokeWidth="1.5" viewBox="0 0 24 24">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+
+      {/* Right arrow */}
+      <button
+        onClick={next}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-opacity duration-200 hover:opacity-100"
+        style={{ width: "44px", height: "44px", background: "rgba(20,18,16,0.45)", opacity: 0.75 }}
+        aria-label="Next"
+      >
+        <svg width="16" height="16" fill="none" stroke="#F5EFE6" strokeWidth="1.5" viewBox="0 0 24 24">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+
+      {/* Dot indicators */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {SHOWROOM_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => go(i)}
+            style={{
+              width: i === active ? "20px" : "6px",
+              height: "6px",
+              borderRadius: "3px",
+              background: i === active ? "#F5EFE6" : "rgba(245,239,230,0.35)",
+              transition: "all 0.25s",
+            }}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const featuredCarpets = carpets.slice(0, 6);
 
@@ -349,36 +434,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SHOWROOM ── */}
-      <section style={{ background: "#141210" }}>
-
-        {/* Image strip — 3 cols desktop, horizontal scroll mobile */}
-        <div className="hidden md:grid md:grid-cols-3">
-          {["/brand/showroom-1.webp", "/brand/showroom-2.webp", "/brand/showroom-3.webp"].map((src, i) => (
-            <div key={i} className="overflow-hidden" style={{ aspectRatio: "16/9" }}>
-              <img
-                src={src}
-                alt="Yurdan Carpet Showroom"
-                className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
-        <div className="flex md:hidden overflow-x-auto no-scrollbar">
-          {["/brand/showroom-1.webp", "/brand/showroom-2.webp", "/brand/showroom-3.webp"].map((src, i) => (
-            <div key={i} className="flex-shrink-0 overflow-hidden" style={{ width: "82vw", aspectRatio: "4/3" }}>
-              <img
-                src={src}
-                alt="Yurdan Carpet Showroom"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
-
-      </section>
+      {/* ── SHOWROOM SLIDER ── */}
+      <ShowroomSlider />
     </div>
   );
 }
