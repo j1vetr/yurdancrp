@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { TrustBar } from "@/components/layout/TrustBar";
 import Home from "@/pages/Home";
 import Collection from "@/pages/Collection";
 import CarpetDetail from "@/pages/CarpetDetail";
@@ -34,6 +35,7 @@ function App() {
             <main className="flex-1">
               <Router />
             </main>
+            <TrustBar />
             <Footer />
           </div>
         </WouterRouter>
