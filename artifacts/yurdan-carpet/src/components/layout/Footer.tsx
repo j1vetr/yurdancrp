@@ -156,7 +156,7 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Yurdan Carpet. All Rights Reserved.
           </p>
           <a
-            href="https://toov.dev"
+            href="https://toov.com.tr"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2.5 group"
