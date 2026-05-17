@@ -329,8 +329,8 @@ export default function Shipping() {
       <section className="pt-24 md:pt-28 pb-0" style={{ background: BG }}>
         {/* Text row */}
         <div className="max-w-[1360px] mx-auto px-6 md:px-10 pb-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
+          <div className="flex flex-col items-center text-center gap-6">
+            <div className="flex flex-col items-center">
               <p className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-5 flex items-center gap-2" style={{ color: BRONZE, fontFamily: SANS }}>
                 <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
                 From Türkiye to the World
@@ -339,11 +339,11 @@ export default function Shipping() {
                 Shipping &amp; Delivery
               </h1>
             </div>
-            <div className="flex flex-col gap-5 items-center md:items-end md:pb-1">
-              <p className="text-sm leading-relaxed text-center md:text-right" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "360px" }}>
+            <div className="flex flex-col gap-5 items-center">
+              <p className="text-sm leading-relaxed text-center" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "360px" }}>
                 From our atelier in Türkiye to your home, every Yurdan Carpet is delivered with care, precision, and the highest standards of service.
               </p>
-              <div className="flex flex-wrap gap-3 justify-center md:justify-end">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <a
                   href="#delivery-times"
                   className="inline-flex items-center gap-2 px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"

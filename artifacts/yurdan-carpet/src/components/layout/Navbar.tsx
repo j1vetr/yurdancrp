@@ -53,16 +53,6 @@ export function Navbar() {
           >
             About
           </Link>
-          <Link
-            href="/shipping"
-            className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
-            style={{ color: isDark ? "rgba(245,239,230,0.7)" : "#7A726A", fontFamily: "'Inter', sans-serif" }}
-            onMouseEnter={e => (e.currentTarget.style.color = isDark ? "#F5EFE6" : "#1C1916")}
-            onMouseLeave={e => (e.currentTarget.style.color = isDark ? "rgba(245,239,230,0.7)" : "#7A726A")}
-            data-testid="link-shipping-nav"
-          >
-            Shipping
-          </Link>
         </div>
 
         <div className="flex justify-center flex-1">
@@ -91,6 +81,16 @@ export function Navbar() {
         </div>
 
         <div className="flex justify-end items-center gap-6 w-10 md:w-1/3">
+          <Link
+            href="/shipping"
+            className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
+            style={{ color: isDark ? "rgba(245,239,230,0.7)" : "#7A726A", fontFamily: "'Inter', sans-serif" }}
+            onMouseEnter={e => (e.currentTarget.style.color = isDark ? "#F5EFE6" : "#1C1916")}
+            onMouseLeave={e => (e.currentTarget.style.color = isDark ? "rgba(245,239,230,0.7)" : "#7A726A")}
+            data-testid="link-shipping-nav"
+          >
+            Shipping
+          </Link>
           <a
             href="mailto:info@yurdancarpet.com"
             className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
