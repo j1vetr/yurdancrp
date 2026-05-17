@@ -220,8 +220,7 @@ export default function About() {
                     className="text-[15px] leading-[1.7]"
                     style={{ color: "rgba(245,239,230,0.65)", fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                   >
-                    Monday – Saturday, 10:00 – 19:00<br />
-                    <span style={{ color: "rgba(245,239,230,0.3)", fontSize: "13px" }}>Private viewings by appointment</span>
+                    Every day, 08:00 – 00:00
                   </p>
                 </div>
               </div>
