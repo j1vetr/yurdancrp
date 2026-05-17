@@ -20,7 +20,7 @@ export function Navbar() {
     <nav
       className="fixed top-0 w-full z-[100] transition-all duration-400"
       style={{
-        padding: scrolled ? "12px 0" : "20px 0",
+        padding: scrolled ? "8px 0" : "14px 0",
         background: scrolled
           ? "rgba(250,250,248,0.96)"
           : isHome
@@ -32,7 +32,7 @@ export function Navbar() {
       data-testid="navbar"
     >
       <div className="max-w-[1360px] mx-auto px-6 md:px-10 flex items-center justify-between">
-        <div className="flex items-center gap-8 w-1/3">
+        <div className="flex items-center gap-8 w-10 md:w-1/3">
           <Link
             href="/collection"
             className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
@@ -55,7 +55,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <div className="flex justify-center w-1/3">
+        <div className="flex justify-center flex-1">
           <Link href="/" data-testid="link-home-logo">
             {/* Mobile logo */}
             <img
@@ -63,7 +63,7 @@ export function Navbar() {
               alt="Yurdan Carpet"
               className="md:hidden object-contain transition-all duration-300"
               style={{
-                height: scrolled ? "70px" : "78px",
+                height: scrolled ? "110px" : "124px",
                 filter: isDark ? "brightness(0) invert(1)" : "brightness(0)",
               }}
             />
@@ -80,7 +80,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        <div className="flex justify-end items-center gap-6 w-1/3">
+        <div className="flex justify-end items-center gap-6 w-10 md:w-1/3">
           <a
             href="mailto:info@yurdancarpet.com"
             className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
