@@ -326,7 +326,7 @@ export default function Shipping() {
     <div className="w-full min-h-screen" style={{ background: BG }}>
 
       {/* ── HERO ── */}
-      <section className="pt-24 md:pt-28 pb-0" style={{ background: BG }}>
+      <section className="pt-36 md:pt-28 pb-0" style={{ background: BG }}>
         {/* Text row */}
         <div className="max-w-[1360px] mx-auto px-6 md:px-10 pb-10">
           <div className="flex flex-col items-center text-center gap-6">

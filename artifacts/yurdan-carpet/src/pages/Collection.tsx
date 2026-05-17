@@ -26,7 +26,7 @@ export default function Collection() {
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(14,12,10,0.95) 100%)" }} />
 
         {/* Text — centered vertically by flex items-center on parent */}
-        <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10" style={{ paddingTop: "72px" }}>
+        <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 md:px-10 pt-36 md:pt-[72px]">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

@@ -39,7 +39,7 @@ export default function About() {
 
       {/* ── HERO ── */}
       <div style={{ background: "#141210" }}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-32 pb-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-36 md:pt-32 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
