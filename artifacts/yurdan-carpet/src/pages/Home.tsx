@@ -217,12 +217,12 @@ function ShowroomSlider() {
         setActive(i => (i + 1) % SHOWROOM_IMAGES.length);
         setVisible(true);
       }, 180);
-    }, 4500);
+    }, 7000);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ background: "#141210", aspectRatio: "16/7" }}>
+    <section className="relative w-full overflow-hidden aspect-[4/3] md:aspect-[16/7]" style={{ background: "#141210" }}>
       <img
         src={SHOWROOM_IMAGES[active]}
         alt="Yurdan Carpet Showroom"
