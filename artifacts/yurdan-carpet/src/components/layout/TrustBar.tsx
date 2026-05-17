@@ -27,7 +27,6 @@ export function TrustBar() {
                 src={icon}
                 alt={title}
                 className="w-14 h-14 object-contain"
-                style={{ filter: "brightness(0) opacity(0.75)" }}
               />
               <div>
                 <p
