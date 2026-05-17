@@ -53,7 +53,7 @@ function HeroVideo() {
             opacity: opacity[i],
             transition: "opacity 1.1s ease",
             willChange: "opacity",
-            transform: "scale(1.15)",
+            transform: "scale(1.28)",
             transformOrigin: "center center",
           }}
         />
