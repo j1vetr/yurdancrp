@@ -5,7 +5,7 @@ const pillars = [
   {
     num: "01",
     title: "The Philosophy",
-    body: "We believe that a masterwork carpet is a living document. It records the landscape it was born in, the cultural memory of its weavers, and the slow, deliberate passage of time. In an era of instant gratification and mass production, we source pieces that demand patience — a true carpet cannot be rushed; it can only unfold knot by knot.",
+    body: "We believe that a masterwork carpet is a living document. It records the landscape it was born in, the cultural memory of its weavers, and the slow, deliberate passage of time. In an era of instant gratification and mass production, we source pieces that demand patience. A true carpet cannot be rushed; it can only unfold knot by knot.",
   },
   {
     num: "02",

@@ -312,7 +312,7 @@ export default function Shipping() {
     { q: "Do you ship internationally?",  a: "Yes, we ship to over 120 countries worldwide. Our logistics team handles all international freight with full insurance and real-time tracking." },
     { q: "What if my rug is delayed?",    a: "In the rare event of a delay, your dedicated logistics coordinator will contact you immediately and provide updated tracking information." },
     { q: "How can I track my order?",     a: "Once your rug is dispatched, you will receive a tracking number and direct contact details for your logistics coordinator who will assist you throughout." },
-    { q: "Are there any shipping fees?",  a: "Yurdan Carpet offers complimentary shipping on all orders. There are no hidden shipping charges — your purchase price covers delivery to your door." },
+    { q: "Are there any shipping fees?",  a: "Yurdan Carpet offers complimentary shipping on all orders. There are no hidden shipping charges. Your purchase price covers delivery to your door." },
   ];
 
   return (
@@ -320,18 +320,20 @@ export default function Shipping() {
 
       {/* ── HERO ── */}
       <section className="pt-24 md:pt-28 pb-0" style={{ background: BG }}>
-        <div className="max-w-[1360px] mx-auto px-6 md:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-
-            <div className="pb-8 md:pb-16">
+        {/* Text row */}
+        <div className="max-w-[1360px] mx-auto px-6 md:px-10 pb-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
               <p className="text-[10px] font-semibold tracking-[0.26em] uppercase mb-5 flex items-center gap-2" style={{ color: BRONZE, fontFamily: SANS }}>
                 <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0L6.12 3.88H10L6.94 6.28L8.06 10L5 7.6L1.94 10L3.06 6.28L0 3.88H3.88Z" fill={BRONZE} /></svg>
                 From Türkiye to the World
               </p>
-              <h1 className="mb-6 leading-[1.0]" style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.8rem, 6vw, 5rem)", color: DARK, letterSpacing: "-0.02em" }}>
-                Shipping &amp;<br />Delivery
+              <h1 className="leading-[1.0]" style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.8rem, 6vw, 5rem)", color: DARK, letterSpacing: "-0.02em" }}>
+                Shipping &amp; Delivery
               </h1>
-              <p className="mb-8 text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "400px" }}>
+            </div>
+            <div className="flex flex-col gap-5 md:items-end md:pb-1">
+              <p className="text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "360px" }}>
                 From our atelier in Türkiye to your home, every Yurdan Carpet is delivered with care, precision, and the highest standards of service.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -359,14 +361,15 @@ export default function Shipping() {
                 </a>
               </div>
             </div>
-
-            <div
-              className="relative rounded-sm overflow-hidden"
-              style={{ aspectRatio: "16/10", border: `1px solid ${BORDER}` }}
-            >
-              <WorldMap />
-            </div>
           </div>
+        </div>
+
+        {/* Full-width large map */}
+        <div
+          className="w-full overflow-hidden"
+          style={{ height: "clamp(380px, 55vw, 620px)", borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}
+        >
+          <WorldMap />
         </div>
       </section>
 
@@ -486,7 +489,7 @@ export default function Shipping() {
                   <div>
                     <p className="text-[10px] font-semibold tracking-[0.18em] uppercase mb-4" style={{ color: BRONZE, fontFamily: SANS }}>Packaged with Care</p>
                     <p className="text-sm leading-relaxed mb-5" style={{ color: MUTED, fontFamily: SANS }}>
-                      Your rug is more than a purchase — it is a piece of artistry. We use premium protective materials and time-honoured techniques to ensure it arrives in pristine condition.
+                      Your rug is more than a purchase. It is a piece of artistry. We use premium protective materials and time-honoured techniques to ensure it arrives in pristine condition.
                     </p>
                   </div>
                   <a
