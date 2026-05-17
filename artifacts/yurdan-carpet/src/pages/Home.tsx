@@ -269,7 +269,9 @@ export default function Home() {
               View Collection
             </Link>
             <a
-              href="mailto:info@yurdancarpet.com"
+              href="https://wa.me/905336781644"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
               style={{ border: "1px solid rgba(245,239,230,0.45)", color: "rgba(245,239,230,0.85)", fontFamily: "'Inter', sans-serif" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(245,239,230,0.9)"; e.currentTarget.style.color = "#F5EFE6"; }}
