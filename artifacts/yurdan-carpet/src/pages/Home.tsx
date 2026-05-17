@@ -352,22 +352,26 @@ export default function Home() {
       {/* ── SHOWROOM ── */}
       <section style={{ background: "#141210" }}>
 
-        {/* Image strip — 3 cols desktop, single image mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          {([
-            { src: "/brand/showroom-1.webp", cls: "block" },
-            { src: "/brand/showroom-2.webp", cls: "hidden md:block" },
-            { src: "/brand/showroom-3.webp", cls: "hidden md:block" },
-          ] as { src: string; cls: string }[]).map(({ src, cls }, i) => (
-            <div
-              key={i}
-              className={`overflow-hidden ${cls}`}
-              style={{ aspectRatio: "16/9" }}
-            >
+        {/* Image strip — 3 cols desktop, horizontal scroll mobile */}
+        <div className="hidden md:grid md:grid-cols-3">
+          {["/brand/showroom-1.webp", "/brand/showroom-2.webp", "/brand/showroom-3.webp"].map((src, i) => (
+            <div key={i} className="overflow-hidden" style={{ aspectRatio: "16/9" }}>
               <img
                 src={src}
                 alt="Yurdan Carpet Showroom"
                 className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="flex md:hidden overflow-x-auto no-scrollbar">
+          {["/brand/showroom-1.webp", "/brand/showroom-2.webp", "/brand/showroom-3.webp"].map((src, i) => (
+            <div key={i} className="flex-shrink-0 overflow-hidden" style={{ width: "82vw", aspectRatio: "4/3" }}>
+              <img
+                src={src}
+                alt="Yurdan Carpet Showroom"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
