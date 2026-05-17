@@ -167,6 +167,7 @@ export default function CarpetDetail() {
   const [lightboxStart, setLightboxStart] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -216,7 +217,7 @@ export default function CarpetDetail() {
     <div className="w-full min-h-[100dvh] pb-[120px] md:pb-0" style={{ background: "#FAFAF8" }}>
 
       {/* ── BREADCRUMB ── */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-28 pb-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-36 md:pt-28 pb-6">
         <nav className="flex items-center gap-2 text-[10px] font-medium tracking-[0.14em] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: "#B0A89E" }}>
           <Link href="/collection" style={{ color: "#B0A89E" }}
             onMouseEnter={e => (e.currentTarget.style.color = "#1C1916")}
@@ -243,6 +244,15 @@ export default function CarpetDetail() {
                 className="w-full relative overflow-hidden"
                 style={{ aspectRatio: "3/4", background: "#F2EDE7" }}
                 onClick={() => openLightbox(activeImg)}
+                onTouchStart={e => { touchStartX.current = e.touches[0].clientX; }}
+                onTouchEnd={e => {
+                  if (touchStartX.current === null) return;
+                  const delta = e.changedTouches[0].clientX - touchStartX.current;
+                  touchStartX.current = null;
+                  if (Math.abs(delta) < 40) return;
+                  if (delta < 0) setActiveImg(i => Math.min(i + 1, imageIndices.length - 1));
+                  else setActiveImg(i => Math.max(i - 1, 0));
+                }}
               >
                 <AnimatePresence mode="wait">
                   <motion.img
