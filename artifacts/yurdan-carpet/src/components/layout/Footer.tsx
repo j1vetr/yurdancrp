@@ -148,13 +148,33 @@ export function Footer() {
         <div style={{ height: "1px", background: "rgba(245,239,230,0.08)" }} />
 
         {/* Bottom bar */}
-        <div className="pt-7 pb-2 flex justify-center items-center">
+        <div className="pt-7 pb-2 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p
             className="text-xs"
             style={{ color: "rgba(245,239,230,0.25)", fontFamily: "'Inter', sans-serif" }}
           >
             &copy; {new Date().getFullYear()} Yurdan Carpet. All Rights Reserved.
           </p>
+          <a
+            href="https://toov.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 group"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              className="text-[10px] tracking-[0.12em] uppercase"
+              style={{ color: "rgba(245,239,230,0.2)", fontFamily: "'Inter', sans-serif", fontWeight: 400 }}
+            >
+              Developed by
+            </span>
+            <img
+              src="/toov-logo.png"
+              alt="TOOV"
+              className="h-5 object-contain transition-opacity duration-200 group-hover:opacity-80"
+              style={{ opacity: 0.55 }}
+            />
+          </a>
         </div>
 
       </div>
