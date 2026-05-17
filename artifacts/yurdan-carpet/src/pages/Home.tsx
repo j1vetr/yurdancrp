@@ -222,7 +222,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: "easeOut", delay: 0.25 }}
-          className="w-full max-w-[1360px] mx-auto px-6 md:px-10 md:pt-32 text-center md:text-left"
+          className="w-full max-w-[1360px] mx-auto px-6 md:px-10 text-center flex flex-col items-center"
         >
           <p
             className="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase"
@@ -246,7 +246,7 @@ export default function Home() {
             Masterworks
           </h1>
           <p
-            className="mb-8 md:mb-7 text-sm md:text-base leading-relaxed mx-auto md:mx-0"
+            className="mb-8 text-sm md:text-base leading-relaxed mx-auto"
             style={{
               color: "rgba(245,239,230,0.62)",
               fontFamily: "'Inter', sans-serif",
@@ -257,7 +257,7 @@ export default function Home() {
           >
             Discover a legacy of timeless artistry and craft from the world's finest traditions.
           </p>
-          <div className="flex flex-row flex-wrap items-center justify-center md:justify-start gap-3">
+          <div className="flex flex-row flex-wrap items-center justify-center gap-3">
             <Link
               href="/collection"
               className="inline-flex items-center px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-300"
