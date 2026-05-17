@@ -53,6 +53,16 @@ export function Navbar() {
           >
             About
           </Link>
+          <Link
+            href="/shipping"
+            className="hidden md:block transition-colors duration-200 text-[11px] font-medium tracking-[0.1em] uppercase"
+            style={{ color: isDark ? "rgba(245,239,230,0.7)" : "#7A726A", fontFamily: "'Inter', sans-serif" }}
+            onMouseEnter={e => (e.currentTarget.style.color = isDark ? "#F5EFE6" : "#1C1916")}
+            onMouseLeave={e => (e.currentTarget.style.color = isDark ? "rgba(245,239,230,0.7)" : "#7A726A")}
+            data-testid="link-shipping-nav"
+          >
+            Shipping
+          </Link>
         </div>
 
         <div className="flex justify-center flex-1">
@@ -127,6 +137,7 @@ export function Navbar() {
         >
           <Link href="/collection" onClick={() => setMenuOpen(false)} className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }} data-testid="link-collection-mobile">Collection</Link>
           <Link href="/about" onClick={() => setMenuOpen(false)} className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }} data-testid="link-about-mobile">About</Link>
+          <Link href="/shipping" onClick={() => setMenuOpen(false)} className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }} data-testid="link-shipping-mobile">Shipping</Link>
           <a href="mailto:info@yurdancarpet.com" className="text-[11px] font-medium tracking-[0.1em] uppercase" style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif" }} data-testid="link-contact-mobile">Contact</a>
         </div>
       )}

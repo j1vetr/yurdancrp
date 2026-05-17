@@ -94,6 +94,10 @@ function WorldMap() {
           animation: arcDraw 4.5s ease-in-out infinite;
         }
         .origin-pulse { animation: originPulse 2.4s ease-in-out infinite; }
+        .map-label { font-size: 10px; }
+        @media (max-width: 767px) {
+          .map-label { font-size: 17px; }
+        }
       `}</style>
 
       <svg
@@ -138,7 +142,7 @@ function WorldMap() {
               x={pos[0]}
               y={pos[1] - 12}
               textAnchor="middle"
-              fontSize={10}
+              className="map-label"
               fontFamily={SANS}
               fontWeight="700"
               fill={BRONZE}
@@ -333,11 +337,11 @@ export default function Shipping() {
                 Shipping &amp; Delivery
               </h1>
             </div>
-            <div className="flex flex-col gap-5 md:items-end md:pb-1">
-              <p className="text-sm leading-relaxed" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "360px" }}>
+            <div className="flex flex-col gap-5 items-center md:items-end md:pb-1">
+              <p className="text-sm leading-relaxed text-center md:text-right" style={{ color: MUTED, fontFamily: SANS, fontWeight: 300, maxWidth: "360px" }}>
                 From our atelier in Türkiye to your home, every Yurdan Carpet is delivered with care, precision, and the highest standards of service.
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 justify-center md:justify-end">
                 <a
                   href="#delivery-times"
                   className="inline-flex items-center gap-2 px-6 py-3 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
@@ -381,8 +385,8 @@ export default function Shipping() {
             {features.map(({ icon, title, desc }, i) => (
               <div
                 key={title}
-                className="flex flex-col sm:flex-row items-center sm:items-start gap-4 py-7 px-5 text-center sm:text-left"
-                style={{ borderLeft: i > 0 ? `1px solid ${BORDER}` : undefined }}
+                className={`flex flex-col sm:flex-row items-center sm:items-start gap-4 py-7 px-5 text-center sm:text-left ${i % 2 !== 0 ? "border-l" : ""} ${i > 1 ? "md:border-l" : i === 1 ? "md:border-l" : ""}`}
+                style={{ borderColor: BORDER }}
               >
                 <div
                   className="flex-shrink-0 flex items-center justify-center"
