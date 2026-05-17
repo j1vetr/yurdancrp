@@ -375,7 +375,7 @@ export default function CarpetDetail() {
                 >
                   Specifications
                 </p>
-                <dl className="space-y-3">
+                <dl className="grid grid-cols-2 gap-x-6 gap-y-5">
                   {[
                     { label: "Dimensions", value: carpet.dimensions },
                     { label: "Total Area", value: carpet.totalArea },
@@ -383,17 +383,16 @@ export default function CarpetDetail() {
                     { label: "Style", value: carpet.style },
                     { label: "Origin", value: carpet.origin },
                   ].map(({ label, value }) => (
-                    <div key={label} className="flex justify-between items-baseline gap-3">
+                    <div key={label}>
                       <dt
-                        className="text-[11px] flex-shrink-0"
-                        style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif", letterSpacing: "0.03em" }}
+                        className="text-[9px] font-semibold tracking-[0.14em] uppercase mb-1"
+                        style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif" }}
                       >
                         {label}
                       </dt>
-                      <div style={{ flex: 1, height: "1px", background: "#EDE7DF", alignSelf: "center" }} />
                       <dd
-                        className="text-[12px] text-right font-medium"
-                        style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
+                        className="text-[13px] font-medium"
+                        style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif", letterSpacing: "0.01em" }}
                         data-testid={`spec-${label.toLowerCase().replace(" ", "-")}`}
                       >
                         {value}
