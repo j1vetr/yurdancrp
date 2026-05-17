@@ -10,6 +10,7 @@ import Home from "@/pages/Home";
 import Collection from "@/pages/Collection";
 import CarpetDetail from "@/pages/CarpetDetail";
 import About from "@/pages/About";
+import Shipping from "@/pages/Shipping";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/collection" component={Collection} />
       <Route path="/carpet/:id" component={CarpetDetail} />
       <Route path="/about" component={About} />
+      <Route path="/shipping" component={Shipping} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -58,6 +58,13 @@ export function Footer() {
               >
                 About
               </Link>
+              <Link
+                href="/shipping"
+                className="text-sm transition-colors duration-200 hover:text-white"
+                style={{ color: "rgba(245,239,230,0.45)", fontFamily: "'Inter', sans-serif" }}
+              >
+                Shipping & Delivery
+              </Link>
               <a
                 href="mailto:info@yurdancarpet.com"
                 className="text-sm transition-colors duration-200 hover:text-white"
