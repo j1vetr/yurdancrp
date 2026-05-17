@@ -106,28 +106,6 @@ export default function Collection() {
           ))}
         </div>
 
-        {/* ── BOTTOM CTA ── */}
-        <div
-          className="mt-20 md:mt-28 pt-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
-          style={{ borderTop: "1px solid #E4DDD4" }}
-        >
-          <p
-            className="text-sm"
-            style={{ color: "#7A726A", fontFamily: "'Inter', sans-serif", maxWidth: "380px" }}
-          >
-            All pieces are available by private inquiry only. No prices are publicly displayed.
-          </p>
-          <a
-            href="mailto:info@yurdancarpet.com"
-            className="flex-shrink-0 px-7 py-3.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-all duration-200"
-            style={{ background: "#141210", color: "#F5EFE6", fontFamily: "'Inter', sans-serif" }}
-            onMouseEnter={e => (e.currentTarget.style.background = "#2A2725")}
-            onMouseLeave={e => (e.currentTarget.style.background = "#141210")}
-            data-testid="link-collection-contact"
-          >
-            Private Inquiry
-          </a>
-        </div>
       </div>
     </div>
   );
