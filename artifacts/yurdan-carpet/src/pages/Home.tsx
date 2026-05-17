@@ -222,11 +222,11 @@ function ShowroomSlider() {
   }, []);
 
   return (
-    <section className="relative w-full overflow-hidden aspect-[4/3] md:aspect-[16/7]" style={{ background: "#141210" }}>
+    <section className="relative w-full" style={{ background: "#141210" }}>
       <img
         src={SHOWROOM_IMAGES[active]}
         alt="Yurdan Carpet Showroom"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="w-full block h-auto"
         style={{ opacity: visible ? 1 : 0, transition: "opacity 0.18s ease" }}
       />
 
