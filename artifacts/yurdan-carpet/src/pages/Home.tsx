@@ -200,20 +200,15 @@ export default function Home() {
       >
         <HeroVideo />
 
-        {/* Base dark tint — always-on overlay for video legibility */}
+        {/* Base dark tint */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "rgba(14,12,10,0.78)" }}
+          style={{ background: "rgba(14,12,10,0.55)" }}
         />
-        {/* Strong bottom-to-top gradient */}
+        {/* Bottom-to-top gradient for content legibility */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(14,12,10,1.0) 0%, rgba(14,12,10,0.88) 28%, rgba(14,12,10,0.0) 60%)" }}
-        />
-        {/* Top gradient for navbar */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, rgba(14,12,10,0.65) 0%, transparent 22%)" }}
+          style={{ background: "linear-gradient(to top, rgba(14,12,10,0.95) 0%, rgba(14,12,10,0.6) 28%, rgba(14,12,10,0.0) 55%)" }}
         />
 
         {/* Upper content — flex-1 centers it between navbar and marquee */}
