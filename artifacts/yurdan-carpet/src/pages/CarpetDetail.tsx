@@ -210,6 +210,7 @@ export default function CarpetDetail() {
   const waMessage = encodeURIComponent(`Hello, I'd like to inquire about "${carpet.name}".`);
   const waHref = `https://wa.me/905336781644?text=${waMessage}`;
   const emailHref = `mailto:info@yurdancarpet.com?subject=${encodeURIComponent(`Inquiry – ${carpet.name}`)}`;
+  const otherCarpets = carpets.filter(c => c.id !== carpet.id).slice(0, 4);
 
   return (
     <div className="w-full min-h-[100dvh] pb-[120px] md:pb-0" style={{ background: "#FAFAF8" }}>
@@ -566,6 +567,72 @@ export default function CarpetDetail() {
           </div>
         </div>
       </motion.div>
+
+      {/* ── MORE FROM THE COLLECTION ── */}
+      <section style={{ borderTop: "1px solid #E4DDD4", background: "#FAFAF8" }}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-20">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <p className="text-[9px] font-semibold tracking-[0.22em] uppercase mb-3" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>
+                The Archive
+              </p>
+              <h2 className="leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", color: "#1C1916", letterSpacing: "-0.01em" }}>
+                More from the Collection
+              </h2>
+            </div>
+            <Link
+              href="/collection"
+              className="hidden sm:inline-flex items-center gap-2 text-[10px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
+              style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#1C1916")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#9B7B56")}
+            >
+              View All
+              <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 md:gap-x-7 gap-y-10">
+            {otherCarpets.map((c, i) => (
+              <motion.div
+                key={c.id}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+              >
+                <Link href={`/carpet/${c.id}`} className="block group">
+                  <div className="overflow-hidden mb-3" style={{ aspectRatio: "4/3", background: "#EDE8E2" }}>
+                    <img
+                      src={`/carpets/${c.folderNum}/1.webp`}
+                      alt={c.name}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  </div>
+                  <p className="text-[9px] font-medium tracking-[0.14em] uppercase mb-1" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>
+                    {c.origin}
+                  </p>
+                  <h3 className="leading-tight mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: "clamp(0.95rem, 1.8vw, 1.2rem)", color: "#1C1916" }}>
+                    {c.name}
+                  </h3>
+                  <p className="text-[10px]" style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif" }}>
+                    {c.dimensions}
+                  </p>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-10 sm:hidden">
+            <Link
+              href="/collection"
+              className="inline-flex items-center gap-2 text-[10px] font-medium tracking-[0.1em] uppercase"
+              style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}
+            >
+              View All Pieces
+              <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ── MOBILE STICKY BAR ── */}
       <div
