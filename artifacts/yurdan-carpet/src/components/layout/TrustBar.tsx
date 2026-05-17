@@ -20,27 +20,42 @@ export function TrustBar() {
   return (
     <div style={{ background: "#F5F0EB", borderTop: "1px solid #E4DDD4" }}>
       <div className="max-w-[1360px] mx-auto px-6 md:px-10 py-10 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
-          {items.map(({ icon, title, desc }) => (
-            <div key={title} className="flex flex-col items-center text-center gap-4">
-              <img
-                src={icon}
-                alt={title}
-                className="w-14 h-14 object-contain"
-              />
-              <div>
-                <p
-                  className="text-[11px] font-semibold tracking-[0.14em] uppercase mb-1.5"
-                  style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
-                >
-                  {title}
-                </p>
-                <p
-                  className="text-[11px] leading-relaxed"
-                  style={{ color: "#9B8E84", fontFamily: "'Inter', sans-serif", maxWidth: "220px", margin: "0 auto" }}
-                >
-                  {desc}
-                </p>
+        <div className="flex flex-col md:flex-row">
+          {items.map(({ icon, title, desc }, idx) => (
+            <div key={title} className="flex flex-col md:flex-row flex-1">
+              {/* Horizontal divider on mobile, vertical on desktop */}
+              {idx > 0 && (
+                <>
+                  <div
+                    className="block md:hidden w-full"
+                    style={{ height: "1px", background: "#E4DDD4" }}
+                  />
+                  <div
+                    className="hidden md:block flex-shrink-0"
+                    style={{ width: "1px", background: "#E4DDD4", margin: "0 4px" }}
+                  />
+                </>
+              )}
+              <div className="flex flex-col items-center text-center gap-4 flex-1 py-8 md:py-0 md:px-6">
+                <img
+                  src={icon}
+                  alt={title}
+                  className="w-20 h-20 object-contain"
+                />
+                <div>
+                  <p
+                    className="text-[11px] font-semibold tracking-[0.14em] uppercase mb-1.5"
+                    style={{ color: "#1C1916", fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {title}
+                  </p>
+                  <p
+                    className="text-[11px] leading-relaxed"
+                    style={{ color: "#9B8E84", fontFamily: "'Inter', sans-serif", maxWidth: "220px", margin: "0 auto" }}
+                  >
+                    {desc}
+                  </p>
+                </div>
               </div>
             </div>
           ))}

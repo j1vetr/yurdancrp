@@ -226,12 +226,11 @@ function ShowroomSlider() {
       {/* Desktop: 3 images side by side */}
       <div className="hidden md:flex w-full">
         {SHOWROOM_IMAGES.map((src, i) => (
-          <div key={i} className="flex-1 overflow-hidden">
+          <div key={i} className="flex-1 overflow-hidden" style={{ aspectRatio: "4/3" }}>
             <img
               src={src}
               alt={`Yurdan Carpet Showroom ${i + 1}`}
               className="w-full h-full object-cover block"
-              style={{ aspectRatio: "4/3" }}
             />
           </div>
         ))}
