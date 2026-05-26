@@ -99,7 +99,7 @@ export const carpets: Carpet[] = [
   {
     id: "hereke-ipek-no-6",
     folderNum: 6,
-    imageCount: 8,
+    imageCount: 13,
     name: "Hereke Silk",
     tagline: "A dark ground, infinite detail",
     origin: "Hereke, Turkey",
