@@ -179,7 +179,7 @@ export const carpets: Carpet[] = [
   {
     id: "ogul-ipegi-no-12",
     folderNum: 12,
-    imageCount: 7,
+    imageCount: 12,
     name: "Cocoon Silk - Antique",
     tagline: "Whatever time does to it, it only improves",
     origin: "Antique - Turkish Tradition",
