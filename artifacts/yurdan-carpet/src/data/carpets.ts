@@ -19,7 +19,7 @@ export const carpets: Carpet[] = [
   {
     id: "isfahan-no-1",
     folderNum: 1,
-    imageCount: 8,
+    imageCount: 13,
     name: "Isfahan No. I",
     tagline: "A blue hidden inside the red",
     origin: "Isfahan Tradition",
@@ -35,7 +35,7 @@ export const carpets: Carpet[] = [
   {
     id: "turkish-silk-no-2",
     folderNum: 2,
-    imageCount: 8,
+    imageCount: 13,
     name: "Turkish Silk No. II",
     tagline: "From deep to pale, like a single breath",
     origin: "Turkish Silk Tradition",
@@ -51,7 +51,7 @@ export const carpets: Carpet[] = [
   {
     id: "turk-ipek-no-3",
     folderNum: 3,
-    imageCount: 8,
+    imageCount: 13,
     name: "Turkish Silk No. III",
     tagline: "The colour of night, with the brightness of day",
     origin: "Turkish Silk Tradition",
@@ -67,7 +67,7 @@ export const carpets: Carpet[] = [
   {
     id: "iran-ipek-no-4",
     folderNum: 4,
-    imageCount: 8,
+    imageCount: 13,
     name: "Persian Silk No. IV",
     tagline: "A garden recorded in thread",
     origin: "Persian Silk Tradition",
@@ -83,7 +83,7 @@ export const carpets: Carpet[] = [
   {
     id: "turkish-carpet-no-5",
     folderNum: 5,
-    imageCount: 8,
+    imageCount: 13,
     name: "Turkish Silk No. V",
     tagline: "Each niche, its own world",
     origin: "Turkish Carpet Tradition",
@@ -115,7 +115,7 @@ export const carpets: Carpet[] = [
   {
     id: "turk-ipek-no-7",
     folderNum: 7,
-    imageCount: 7,
+    imageCount: 12,
     name: "Turkish Silk No. VII",
     tagline: "Worn gold, fresh navy",
     origin: "Turkish Silk Tradition",
@@ -131,7 +131,7 @@ export const carpets: Carpet[] = [
   {
     id: "isfahan-no-8",
     folderNum: 8,
-    imageCount: 8,
+    imageCount: 13,
     name: "Isfahan No. VIII",
     tagline: "The same loom, a different season",
     origin: "Isfahan Tradition",
@@ -147,7 +147,7 @@ export const carpets: Carpet[] = [
   {
     id: "sultani-no-10",
     folderNum: 10,
-    imageCount: 8,
+    imageCount: 13,
     name: "Sultani",
     tagline: "Every flower on the field carries a story",
     origin: "Ottoman Tradition",
@@ -163,7 +163,7 @@ export const carpets: Carpet[] = [
   {
     id: "sal-hali-no-11",
     folderNum: 11,
-    imageCount: 8,
+    imageCount: 13,
     name: "Shawl Carpet",
     tagline: "A colour history hidden in the stripes",
     origin: "Shawl Carpet Tradition",
@@ -195,7 +195,7 @@ export const carpets: Carpet[] = [
   {
     id: "turk-ipek-no-13",
     folderNum: 13,
-    imageCount: 8,
+    imageCount: 13,
     name: "Turkish Silk No. XIII",
     tagline: "Ivory flowing between crimson and black",
     origin: "Turkish Silk Tradition",
