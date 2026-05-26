@@ -97,12 +97,6 @@ export default function Collection() {
                 >
                   {carpet.name}
                 </h2>
-                <p
-                  className="text-[11px]"
-                  style={{ color: "#B0A89E", fontFamily: "'Inter', sans-serif" }}
-                >
-                  {carpet.dimensions}
-                </p>
               </Link>
             </motion.div>
           ))}
