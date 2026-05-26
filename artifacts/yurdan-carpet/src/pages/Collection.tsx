@@ -71,13 +71,13 @@ export default function Collection() {
                 data-testid={`link-carpet-${carpet.id}`}
               >
                 <div
-                  className="overflow-hidden mb-3"
-                  style={{ aspectRatio: "4/3", background: "#EDE8E2" }}
+                  className="overflow-hidden mb-3 flex items-center justify-center"
+                  style={{ aspectRatio: "3/4", background: "#EDE8E2" }}
                 >
                   <img
                     src={`/carpets/${carpet.folderNum}/1.webp`}
                     alt={carpet.name}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 </div>
                 <p

@@ -611,11 +611,11 @@ export default function CarpetDetail() {
                 transition={{ duration: 0.5, delay: i * 0.07 }}
               >
                 <Link href={`/carpet/${c.id}`} className="block group">
-                  <div className="overflow-hidden mb-3" style={{ aspectRatio: "4/3", background: "#EDE8E2" }}>
+                  <div className="overflow-hidden mb-3 flex items-center justify-center" style={{ aspectRatio: "3/4", background: "#EDE8E2" }}>
                     <img
                       src={`/carpets/${c.folderNum}/1.webp`}
                       alt={c.name}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   </div>
                   <p className="text-[9px] font-medium tracking-[0.14em] uppercase mb-1" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>
