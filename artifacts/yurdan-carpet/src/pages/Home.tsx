@@ -76,16 +76,16 @@ function HeroMarquee() {
             style={{ width: "44vw" }}
           >
             <div
-              className="overflow-hidden mb-2"
+              className="overflow-hidden mb-2 flex items-center justify-center"
               style={{
-                aspectRatio: "4/3",
+                aspectRatio: "3/4",
                 outline: "1px solid rgba(245,239,230,0.12)",
               }}
             >
               <img
                 src={`/carpets/${carpet.folderNum}/1.webp`}
                 alt={carpet.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 loading="lazy"
               />
             </div>
@@ -133,9 +133,9 @@ function HeroCardStrip() {
             style={{ scrollSnapAlign: "start", width: "clamp(130px, 16vw, 200px)" }}
           >
             <div
-              className="overflow-hidden mb-2"
+              className="overflow-hidden mb-2 flex items-center justify-center"
               style={{
-                aspectRatio: "4/3",
+                aspectRatio: "3/4",
                 background: "rgba(20,18,16,0.6)",
                 outline: "1px solid rgba(245,239,230,0.1)",
               }}
@@ -143,7 +143,7 @@ function HeroCardStrip() {
               <img
                 src={`/carpets/${carpet.folderNum}/1.webp`}
                 alt={carpet.name}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
                 loading="lazy"
               />
             </div>
@@ -170,11 +170,11 @@ function CarpetCard({ carpet }: { carpet: typeof carpets[0] }) {
   return (
     <div>
       <Link href={`/carpet/${carpet.id}`} className="block group" data-testid={`link-carpet-${carpet.id}`}>
-        <div className="overflow-hidden mb-4" style={{ aspectRatio: "4/3" }}>
+        <div className="overflow-hidden mb-4 flex items-center justify-center" style={{ aspectRatio: "3/4", background: "#EDE8E2" }}>
           <img
             src={`/carpets/${carpet.folderNum}/1.webp`}
             alt={carpet.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
           />
         </div>
         <p className="text-[10px] font-medium tracking-[0.12em] uppercase mb-1.5" style={{ color: "#9B7B56", fontFamily: "'Inter', sans-serif" }}>{carpet.origin}</p>
