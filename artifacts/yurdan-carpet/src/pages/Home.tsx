@@ -130,7 +130,7 @@ function HeroCardStrip() {
             key={carpet.id}
             href={`/carpet/${carpet.id}`}
             className="flex-shrink-0 group block"
-            style={{ scrollSnapAlign: "start", width: "clamp(130px, 16vw, 200px)" }}
+            style={{ scrollSnapAlign: "start", width: "clamp(90px, 10vw, 130px)" }}
           >
             <div
               className="overflow-hidden mb-2 flex items-center justify-center"
