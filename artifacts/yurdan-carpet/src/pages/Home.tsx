@@ -73,7 +73,7 @@ function HeroMarquee() {
             key={`${carpet.id}-${i}`}
             href={`/carpet/${carpet.id}`}
             className="flex-shrink-0 block"
-            style={{ width: "44vw" }}
+            style={{ width: "22vw" }}
           >
             <div
               className="overflow-hidden mb-2 flex items-center justify-center"
